@@ -1,0 +1,134 @@
+<svg width="800" height="1400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .card { fill: #FFFFFF; stroke: #2563EB; stroke-width: 2; rx: 12; }
+      .card-teacher { fill: #F0FDF4; stroke: #059669; stroke-width: 2; rx: 12; }
+      .card-student { fill: #FFF7ED; stroke: #EA580C; stroke-width: 2; rx: 12; }
+      .title { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 16px; font-weight: 600; }
+      .subtitle { fill: #6B7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; }
+      .arrow { stroke: #2563EB; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-branch { stroke: #059669; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
+      .arrow-merge { stroke: #EA580C; stroke-width: 2; fill: none; marker-end: url(#arrowhead-orange); }
+      .label { fill: #6B7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 11px; }
+      .badge { fill: #2563EB; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 12px; font-weight: 600; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2563EB" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#059669" />
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#EA580C" />
+    </marker>
+  </defs>
+
+  <!-- Step 1: 图像预处理 -->
+  <rect class="card" x="250" y="30" width="300" height="70"/>
+  <text class="badge" x="270" y="58">01</text>
+  <text class="title" x="310" y="58">图像预处理</text>
+  <text class="subtitle" x="270" y="82">页面归一化 1654×2338 | 透视校正</text>
+
+  <path class="arrow" d="M 400 100 L 400 130"/>
+
+  <!-- Step 2: OCR 识别 -->
+  <rect class="card" x="250" y="130" width="300" height="70"/>
+  <text class="badge" x="270" y="158">02</text>
+  <text class="title" x="310" y="158">OCR 识别</text>
+  <text class="subtitle" x="270" y="182">PP-OCRv5 整页识别 | 定位文本</text>
+
+  <path class="arrow" d="M 400 200 L 400 230"/>
+
+  <!-- Step 3: 结构分析 -->
+  <rect class="card" x="250" y="230" width="300" height="70"/>
+  <text class="badge" x="270" y="258">03</text>
+  <text class="title" x="310" y="258">结构分析</text>
+  <text class="subtitle" x="270" y="282">识别题号 | 题干 | 答题区域</text>
+
+  <path class="arrow" d="M 400 300 L 400 330"/>
+
+  <!-- Step 4: Cohort Consensus -->
+  <rect class="card" x="250" y="330" width="300" height="70"/>
+  <text class="badge" x="270" y="358">04</text>
+  <text class="title" x="310" y="358">Cohort Consensus</text>
+  <text class="subtitle" x="270" y="382">多卷对齐投票 | 生成印刷模板</text>
+
+  <path class="arrow" d="M 400 400 L 400 430"/>
+
+  <!-- Step 5: 墨迹分离 -->
+  <rect class="card" x="250" y="430" width="300" height="70"/>
+  <text class="badge" x="270" y="458">05</text>
+  <text class="title" x="310" y="458">墨迹分离</text>
+  <text class="subtitle" x="270" y="482">分离印刷内容和手写内容</text>
+
+  <!-- Branch point -->
+  <path class="arrow" d="M 400 500 L 400 540"/>
+  <circle cx="400" cy="540" r="6" fill="#2563EB"/>
+
+  <!-- Branch to Teacher -->
+  <path class="arrow-branch" d="M 400 540 L 180 540 L 180 610"/>
+  <text class="label" x="190" y="560">教师卷</text>
+
+  <!-- Branch to Student -->
+  <path class="arrow-branch" d="M 400 540 L 620 540 L 620 610"/>
+  <text class="label" x="550" y="560">学生卷</text>
+
+  <!-- Step 6: 教师答案提取 -->
+  <rect class="card-teacher" x="30" y="610" width="300" height="70"/>
+  <text class="badge" x="50" y="638">06</text>
+  <text class="title" x="90" y="638">教师答案提取</text>
+  <text class="subtitle" x="50" y="662">提取标准答案</text>
+
+  <path class="arrow-branch" d="M 180 680 L 180 730"/>
+
+  <!-- Step 7: 题目树生成 -->
+  <rect class="card-teacher" x="30" y="730" width="300" height="70"/>
+  <text class="badge" x="50" y="758">07</text>
+  <text class="title" x="90" y="758">题目树生成</text>
+  <text class="subtitle" x="50" y="782">编译 | 校验 | 锁定 Exam Tree</text>
+
+  <!-- Merge point -->
+  <path class="arrow-branch" d="M 180 800 L 180 900 L 400 900"/>
+
+  <!-- Step 8: 学生答案提取 -->
+  <rect class="card-student" x="470" y="610" width="300" height="70"/>
+  <text class="badge" x="490" y="638">08</text>
+  <text class="title" x="530" y="638">学生答案提取</text>
+  <text class="subtitle" x="490" y="662">基于题目树提取答案</text>
+
+  <path class="arrow-merge" d="M 620 680 L 620 900 L 400 900"/>
+
+  <circle cx="400" cy="900" r="6" fill="#EA580C"/>
+  <path class="arrow-merge" d="M 400 900 L 400 950"/>
+
+  <!-- Step 9: 迭代验证 -->
+  <rect class="card" x="250" y="950" width="300" height="90"/>
+  <text class="badge" x="270" y="980">09</text>
+  <text class="title" x="310" y="980">迭代验证</text>
+  <text class="subtitle" x="270" y="1004">墨迹中心定位 | 笔画安全边距</text>
+  <text class="subtitle" x="270" y="1024">最多三轮动量收敛 | IOU > 0.9</text>
+
+  <path class="arrow" d="M 400 1040 L 400 1080"/>
+
+  <!-- Step 10: 质量评估 -->
+  <rect class="card" x="250" y="1080" width="300" height="70"/>
+  <text class="badge" x="270" y="1108">10</text>
+  <text class="title" x="310" y="1108">质量评估</text>
+  <text class="subtitle" x="270" y="1132">生成审计日志和质量报告</text>
+
+  <!-- Output -->
+  <path class="arrow" d="M 400 1150 L 400 1200"/>
+  <rect x="320" y="1200" width="160" height="50" rx="999" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
+  <text class="title" x="360" y="1230" fill="#2563EB">JSON 输出</text>
+
+  <!-- Legend -->
+  <text class="label" x="30" y="1320">流程说明：</text>
+  <line x1="30" y1="1340" x2="80" y2="1340" stroke="#2563EB" stroke-width="2"/>
+  <text class="label" x="90" y="1345">主流程</text>
+
+  <line x1="30" y1="1360" x2="80" y2="1360" stroke="#059669" stroke-width="2"/>
+  <text class="label" x="90" y="1365">教师卷分支</text>
+
+  <line x1="30" y1="1380" x2="80" y2="1380" stroke="#EA580C" stroke-width="2"/>
+  <text class="label" x="90" y="1385">学生卷分支</text>
+</svg>

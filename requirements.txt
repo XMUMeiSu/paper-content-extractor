@@ -1,0 +1,7 @@
+# Core production runtime. Paddle is kept separate because CPU/GPU wheels vary.
+numpy>=1.24,<2
+opencv-python-headless>=4.8,<5
+Pillow>=10,<11
+
+# Install a platform-compatible PaddlePaddle wheel, then:
+paddleocr>=3,<4

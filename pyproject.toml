@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intelligent-grading-system"
+version = "1.0.0"
+description = "Teacher-Golden constrained exam structuring and conservative grading pipeline"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "numpy>=1.24,<2",
+  "opencv-python-headless>=4.8,<5",
+  "Pillow>=10,<11",
+]
+
+[project.optional-dependencies]
+paddle = ["paddleocr>=3,<4"]
+dev = ["pytest>=7,<9", "ruff>=0.6,<1"]
+
+[project.scripts]
+exam-extract = "homework_extractor:main"
+exam-hitl-export = "hitl_exporter:main"
+exam-doctor = "exam_pipeline.doctor:main"
+
+[tool.setuptools]
+py-modules = ["homework_extractor", "hitl_exporter", "run_hitl_workbench"]
+
+[tool.setuptools.packages.find]
+include = ["exam_pipeline*"]
+exclude = ["paper_exam_structuring_full_delivery*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 120

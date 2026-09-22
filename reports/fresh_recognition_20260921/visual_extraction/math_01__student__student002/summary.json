@@ -1,10 +1,10 @@
 {
-  "page_calls": 8,
-  "page_retries": 6,
+  "page_calls": 9,
+  "page_retries": 7,
   "failed_pages": 0,
   "items": 20,
   "slots": 24,
-  "regions": 23,
+  "regions": 19,
   "accepted_items": 20,
   "partial_items": 0,
   "coordinate_authority": "vlm_original_page_pixels",

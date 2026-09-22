@@ -98,6 +98,10 @@ def _intersection(left, right):
         0, min(left[3], right[3]) - max(left[1], right[1]))
 
 
+def _overlap_over_smaller(left, right):
+    return _intersection(left, right) / max(1, min(_area(left), _area(right)))
+
+
 def _union(boxes):
     return [min(box[0] for box in boxes), min(box[1] for box in boxes),
             max(box[2] for box in boxes), max(box[3] for box in boxes)]
@@ -199,6 +203,149 @@ class VisualExamExtractionService:
         }
 
     @staticmethod
+    def _template_box(item, page_index, slot_index=None):
+        geometry = item.quality.get('template_geometry') or {}
+        key = 'question_regions' if slot_index is None else 'slots'
+        candidates = [
+            record for record in geometry.get(key, [])
+            if record.get('page_index') == page_index
+            and (slot_index is None or record.get('slot_idx') == slot_index)
+            and isinstance(record.get('bbox'), list)
+            and len(record['bbox']) == 4
+        ]
+        return copy.deepcopy(candidates[0]['bbox']) if candidates else None
+
+    def _recover_coordinate_frame(self, page, page_items, accepted, student):
+        """Recover a whole page when VLM boxes use a visibly wrong frame.
+
+        The teacher layout is used only after a page-wide mismatch is proven.
+        This avoids replacing legitimate student-local handwriting geometry for
+        an isolated answer that was written outside the printed blank.
+        """
+        if not student or not accepted:
+            return accepted
+        compared = aligned = 0
+        by_id = {item.item_id: item for item in page_items}
+        for item_id, entry in accepted.items():
+            item = by_id.get(item_id)
+            if item is None:
+                continue
+            for slot_data in entry.get('slots', []):
+                reference = self._template_box(
+                    item, page.index, int(slot_data.get('index') or 0))
+                if not reference:
+                    continue
+                regions = slot_data.get('regions') or []
+                if not regions:
+                    continue
+                compared += 1
+                if any(_overlap_over_smaller(region['answer_bbox'], reference) >= .15
+                       for region in regions):
+                    aligned += 1
+        # A template page must preserve printed item order before it can be a
+        # coordinate authority. This rejects a VLM teacher response that has,
+        # for example, placed q8 above q7. Isolated student mismatches remain
+        # reviewable VLM evidence; teacher geometry is used only for a proven
+        # page-wide frame failure.
+        template_centers = []
+        for item in page_items:
+            reference = self._template_box(item, page.index)
+            if reference:
+                template_centers.append((reference[1] + reference[3]) / 2)
+        template_ordered = all(
+            current + 15 >= previous
+            for previous, current in zip(template_centers, template_centers[1:])
+        )
+        template_complete = len(template_centers) >= max(1, math.ceil(len(page_items) * .80))
+        if not template_ordered or not template_complete:
+            unverified = copy.deepcopy(accepted)
+            reason = ('INVALID_TEACHER_TEMPLATE_ORDER' if not template_ordered
+                      else 'INCOMPLETE_TEACHER_TEMPLATE_GEOMETRY')
+            for entry in unverified.values():
+                entry['_coordinate_validation'] = {
+                    'status': 'UNVERIFIED', 'reason': reason,
+                    'template_items': len(template_centers),
+                    'page_items': len(page_items),
+                }
+            return unverified
+        page_wide_mismatch = (
+            compared >= 4 and aligned / compared < .40 and template_ordered)
+        recover_ids = set(accepted) if page_wide_mismatch else set()
+        if template_ordered and not page_wide_mismatch:
+            # Recover an isolated stale frame only when two independent
+            # geometry signals disagree: its printed question region and all
+            # visible answer regions. Handwriting placed outside a printed
+            # blank therefore keeps its student-local coordinates.
+            for item_id, entry in accepted.items():
+                item = by_id.get(item_id)
+                if item is None:
+                    continue
+                question_reference = self._template_box(item, page.index)
+                question = entry.get('question_region')
+                if (not question_reference or not question
+                        or _overlap_over_smaller(question, question_reference) >= .15):
+                    continue
+                item_compared = item_aligned = 0
+                for slot_data in entry.get('slots', []):
+                    reference = self._template_box(
+                        item, page.index, int(slot_data.get('index') or 0))
+                    if not reference:
+                        continue
+                    for region in slot_data.get('regions') or []:
+                        item_compared += 1
+                        if _overlap_over_smaller(region['answer_bbox'], reference) >= .15:
+                            item_aligned += 1
+                if item_compared and not item_aligned:
+                    recover_ids.add(item_id)
+        if not recover_ids:
+            return accepted
+
+        recovered = copy.deepcopy(accepted)
+        for item_id, entry in recovered.items():
+            if item_id not in recover_ids:
+                continue
+            item = by_id.get(item_id)
+            if item is None:
+                continue
+            original_question = copy.deepcopy(entry.get('question_region'))
+            question_reference = self._template_box(item, page.index)
+            if question_reference:
+                entry['question_region'] = question_reference
+            replacements = []
+            for slot_data in entry.get('slots', []):
+                reference = self._template_box(
+                    item, page.index, int(slot_data.get('index') or 0))
+                if not reference:
+                    continue
+                original_regions = copy.deepcopy(slot_data.get('regions') or [])
+                if original_regions:
+                    for region in slot_data['regions']:
+                        region['answer_bbox'] = copy.deepcopy(reference)
+                else:
+                    slot_data['regions'] = [{
+                        'answer_bbox': copy.deepcopy(reference),
+                        'transcription': '',
+                        'legible': True,
+                        'content_kind': 'blank',
+                        'confidence': float(slot_data.get('confidence') or 0),
+                    }]
+                replacements.append({
+                    'slot_index': slot_data.get('index'),
+                    'original_regions': original_regions,
+                    'recovered_bbox': copy.deepcopy(reference),
+                })
+            entry['_coordinate_recovery'] = {
+                'reason': ('PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH'
+                           if page_wide_mismatch
+                           else 'ITEM_VLM_COORDINATE_FRAME_MISMATCH'),
+                'compared_slots': compared,
+                'aligned_slots': aligned,
+                'original_question_region': original_question,
+                'replacements': replacements,
+            }
+        return recovered
+
+    @staticmethod
     def _validate(raw, page, page_items, student, sibling_groups=()):
         if not isinstance(raw, dict) or set(raw) != {'items'} or not isinstance(raw['items'], list):
             raise ValueError('INVALID_VISUAL_EXTRACTION_RESPONSE')
@@ -282,6 +429,20 @@ class VisualExamExtractionService:
             found[item_id] = copy.deepcopy(entry)
         if set(found) != set(expected):
             raise ValueError('MISSING_VISUAL_ITEMS')
+
+        # Teacher geometry becomes the reference for every student page. A
+        # response that moves a later printed item above an earlier one is not
+        # safe merely because all numbers fall inside 0..1000. Reject it here
+        # so the normal page retry runs before it can become a Golden template.
+        if not student:
+            centers = [
+                (found[item.item_id]['question_region'][1]
+                 + found[item.item_id]['question_region'][3]) / 2
+                for item in page_items
+            ]
+            if any(current + 15 < previous
+                   for previous, current in zip(centers, centers[1:])):
+                raise ValueError('TEACHER_QUESTION_ORDER_CONFLICT')
 
         # Keep sibling overlap as diagnostic evidence.  A full-page VLM can
         # place adjacent long-answer strokes on a shared baseline; rejecting
@@ -548,6 +709,27 @@ class VisualExamExtractionService:
                             error_type=type(focused_exc).__name__,
                         )
                     attempts.append(focused_record)
+            # Item-by-item fallback calls cannot enforce global reading order
+            # inside `_validate`. Recheck the combined teacher page here so a
+            # set of individually valid but mutually inconsistent coordinates
+            # never becomes student geometry authority.
+            if accepted and package.document_type == 'teacher':
+                ordered_entries = [accepted[item.item_id] for item in page_items
+                                   if item.item_id in accepted]
+                centers = [(entry['question_region'][1] + entry['question_region'][3]) / 2
+                           for entry in ordered_entries]
+                if any(current + 15 < previous
+                       for previous, current in zip(centers, centers[1:])):
+                    attempts.append({
+                        'mode': 'combined_teacher_geometry_gate',
+                        'status': 'FAILED',
+                        'reason': 'TEACHER_QUESTION_ORDER_CONFLICT',
+                    })
+                    accepted = None
+            accepted = self._recover_coordinate_frame(
+                page, page_items, accepted,
+                package.document_type == 'student',
+            )
             page_results[page.index] = {'status': 'ACCEPTED' if accepted else 'UNRESOLVED',
                                         'attempts': attempts, 'items': accepted or {}}
             if accepted is None:
@@ -592,25 +774,36 @@ class VisualExamExtractionService:
                 item.slot_semantics_audit['status'] = 'PARTIAL'
                 continue
             entry = accepted[item.item_id]
+            coordinate_recovery = entry.get('_coordinate_recovery') or {}
+            recovered_coordinates = bool(coordinate_recovery)
+            coordinate_validation = entry.get('_coordinate_validation') or {}
+            unverified_coordinates = coordinate_validation.get('status') == 'UNVERIFIED'
             item.confidence = float(entry['confidence'])
             question_box = _physical(entry['question_region'], page)
             item.stem_region = PageRegion(
                 page.index, page.path, question_box, entry['confidence'],
-                item.question_text, coordinate_role='vlm_question_region')
+                item.question_text,
+                coordinate_role=('teacher_template_recovered_question_region'
+                                 if recovered_coordinates else 'vlm_question_region'))
             localization = item.quality.setdefault('localization', {
                 'status': 'VLM_LOCALIZED', 'contexts': [], 'evidence': [],
                 'coordinate_source': 'vlm_original_page',
             })
             localization['status'] = 'VLM_LOCALIZED'
-            localization['coordinate_source'] = 'vlm_original_page'
+            localization['coordinate_source'] = (
+                'teacher_template_coordinate_recovery'
+                if recovered_coordinates else 'vlm_original_page')
             localization['contexts'] = [context for context in localization.get('contexts', [])
                                         if context.get('page_index') != page.index]
             localization['contexts'].append({
                 'page_index': page.index, 'bbox': question_box,
                 'question_context': question_box,
                 'answer_search_domain': question_box,
-                'status': 'VLM_FINAL_LOCALIZATION',
-                'coordinate_role': 'vlm_final_question_region',
+                'status': ('TEMPLATE_RECOVERED_LOCALIZATION'
+                           if recovered_coordinates else 'VLM_FINAL_LOCALIZATION'),
+                'coordinate_role': ('teacher_template_recovered_question_region'
+                                    if recovered_coordinates
+                                    else 'vlm_final_question_region'),
                 'layout_axis': entry['answer_layout'],
             })
             localization['evidence'] = [evidence for evidence in localization.get('evidence', [])
@@ -621,6 +814,9 @@ class VisualExamExtractionService:
             item.slot_semantics_audit['attempts'].extend(copy.deepcopy(attempts))
             item.slot_semantics_audit['answer_layout'] = entry['answer_layout']
             item.slot_semantics_audit.setdefault('proposals', []).append(copy.deepcopy(entry))
+            if recovered_coordinates:
+                item.slot_semantics_audit['coordinate_recovery'] = copy.deepcopy(
+                    coordinate_recovery)
 
             if not student and not item.semantic_slot_plan:
                 item.semantic_slot_plan = [{
@@ -684,6 +880,11 @@ class VisualExamExtractionService:
                     page_answer_boxes.append(box)
                     confidence = min(float(slot_data['confidence']), float(region['confidence']))
                     warnings = []
+                    if recovered_coordinates:
+                        warnings.append('VLM_COORDINATE_FRAME_MISMATCH_TEMPLATE_RECOVERY')
+                    if unverified_coordinates:
+                        warnings.append(str(coordinate_validation.get('reason')
+                                            or 'UNVERIFIED_COORDINATE_GEOMETRY'))
                     if confidence < .60:
                         warnings.append('LOW_VLM_GEOMETRY_CONFIDENCE')
                     if region['content_kind'] in {'mixed', 'uncertain'}:
@@ -693,7 +894,8 @@ class VisualExamExtractionService:
                     blank = region['content_kind'] == 'blank' and not text
                     content_status = ('BLANK' if blank else 'RECOGNIZED'
                                       if legible and text else 'VLM_UNCERTAIN')
-                    geometry_status = 'ALIGNED_WITH_WARNING' if warnings else 'ALIGNED'
+                    geometry_status = ('UNCERTAIN' if unverified_coordinates
+                                       else 'ALIGNED_WITH_WARNING' if warnings else 'ALIGNED')
                     slot = Slot(
                         slot_index, 'semantic_region', item.item_id,
                         xyxy_to_yxyx(box), page.index,
@@ -729,8 +931,12 @@ class VisualExamExtractionService:
                     }]
                     slot.geometry_evidence = {
                         'status': geometry_status,
-                        'reason': 'VLM_ORIGINAL_PAGE_REGION',
-                        'coordinate_authority': 'vlm_original_page_pixels',
+                        'reason': ('TEACHER_TEMPLATE_COORDINATE_RECOVERY'
+                                   if recovered_coordinates
+                                   else 'VLM_ORIGINAL_PAGE_REGION'),
+                        'coordinate_authority': (
+                            'teacher_template_coordinate_recovery'
+                            if recovered_coordinates else 'vlm_original_page_pixels'),
                         'confidence': confidence,
                         'warnings': warnings,
                     }
@@ -751,13 +957,21 @@ class VisualExamExtractionService:
                     slot.audit = {
                         'semantic_source': 'vlm_direct',
                         'semantic_label': slot_data['label'],
-                        'coordinate_authority': 'vlm_original_page_pixels',
+                        'coordinate_authority': (
+                            'teacher_template_coordinate_recovery'
+                            if recovered_coordinates else 'vlm_original_page_pixels'),
                         'topology_source': 'student_self' if student else 'teacher_vlm',
                         'geometry_mode': 'vlm_original_page',
                         'geometry_evidence': copy.deepcopy(slot.geometry_evidence),
                         'recognition': recognition,
                         'visual_region_index': region_index,
                     }
+                    if recovered_coordinates:
+                        slot.audit['coordinate_recovery'] = copy.deepcopy(
+                            coordinate_recovery)
+                    if unverified_coordinates:
+                        slot.audit['coordinate_validation'] = copy.deepcopy(
+                            coordinate_validation)
                     item.slots.append(slot)
 
             if page_answer_boxes:

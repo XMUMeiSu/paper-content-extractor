@@ -4,6 +4,18 @@
     {
       "attempt": 1,
       "failures_in": [],
+      "status": "FAILED",
+      "reason": "VISUAL_EXTRACTION_BACKEND_ERROR",
+      "error_type": "timeout"
+    },
+    {
+      "attempt": 2,
+      "failures_in": [
+        {
+          "reason": "VISUAL_EXTRACTION_BACKEND_ERROR",
+          "page_index": 1
+        }
+      ],
       "status": "ACCEPTED",
       "response": {
         "items": [
@@ -12,47 +24,47 @@
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              85,
-              660,
-              110
+              100,
+              195,
+              665,
+              305
             ],
             "answer_layout": "single",
             "slots": [
               {
                 "index": 1,
                 "label": "choice_response",
-                "anchor_before": "",
-                "anchor_after": "",
+                "anchor_before": "In plane rectangular coordinate system, the graph of quadratic function $y=(x+1)^2$ may be (",
+                "anchor_after": ")",
                 "regions": [
                   {
                     "answer_bbox": [
                       605,
-                      88,
+                      185,
                       640,
-                      122
+                      225
                     ],
                     "transcription": "D",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q2",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              150,
-              910,
-              180
+              100,
+              320,
+              920,
+              390
             ],
             "answer_layout": "single",
             "slots": [
@@ -65,165 +77,165 @@
                   {
                     "answer_bbox": [
                       870,
-                      155,
-                      900,
-                      175
+                      322,
+                      905,
+                      348
                     ],
                     "transcription": "C",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q3",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              190,
+              100,
+              395,
               940,
-              230
+              455
             ],
             "answer_layout": "single",
             "slots": [
               {
                 "index": 1,
                 "label": "choice_response",
-                "anchor_before": "",
+                "anchor_before": "由题意列方程应为",
                 "anchor_after": "",
                 "regions": [
                   {
                     "answer_bbox": [
-                      580,
-                      210,
-                      610,
-                      230
+                      585,
+                      410,
+                      620,
+                      435
                     ],
                     "transcription": "C",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q4",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              245,
-              930,
-              265
+              100,
+              458,
+              935,
+              480
             ],
             "answer_layout": "single",
             "slots": [
               {
                 "index": 1,
                 "label": "blank_response",
-                "anchor_before": "值为",
-                "anchor_after": "",
+                "anchor_before": "则代数式$x_1^2-24x_1+x_2$的值为",
+                "anchor_after": ".",
                 "regions": [
                   {
                     "answer_bbox": [
-                      875,
-                      245,
+                      880,
+                      450,
                       920,
-                      268
+                      475
                     ],
                     "transcription": "26",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q5",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              270,
-              940,
-              305
+              100,
+              482,
+              935,
+              515
             ],
             "answer_layout": "single",
             "slots": [
               {
                 "index": 1,
                 "label": "blank_response",
-                "anchor_before": "个数是",
-                "anchor_after": "",
+                "anchor_before": "则这种植物每个支干长出的小分支个数是",
+                "anchor_after": ".",
                 "regions": [
                   {
                     "answer_bbox": [
-                      850,
-                      285,
-                      875,
-                      305
+                      855,
+                      492,
+                      885,
+                      518
                     ],
                     "transcription": "5",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q6",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              315,
-              940,
-              365
+              100,
+              520,
+              945,
+              575
             ],
             "answer_layout": "horizontal",
             "slots": [
               {
                 "index": 1,
                 "label": "blank_response",
-                "anchor_before": "开口方向是向",
+                "anchor_before": "抛物线$y=(x+1)^2$的开口方向是向",
                 "anchor_after": "，对称轴是直线",
                 "regions": [
                   {
                     "answer_bbox": [
-                      415,
-                      318,
-                      450,
-                      340
+                      420,
+                      522,
+                      460,
+                      548
                     ],
                     "transcription": "上",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               },
               {
                 "index": 2,
@@ -234,94 +246,94 @@
                   {
                     "answer_bbox": [
                       600,
-                      318,
-                      640,
-                      340
+                      520,
+                      655,
+                      545
                     ],
                     "transcription": "x=-1",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               },
               {
                 "index": 3,
-                "label": "blank_response",
+                "label": "formula_response",
                 "anchor_before": "顶点坐标是",
                 "anchor_after": "，它是由抛物线",
                 "regions": [
                   {
                     "answer_bbox": [
-                      770,
-                      318,
-                      825,
-                      340
+                      780,
+                      520,
+                      835,
+                      548
                     ],
                     "transcription": "(-1, 0)",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               },
               {
                 "index": 4,
                 "label": "blank_response",
-                "anchor_before": "它是由抛物线y=x^2向",
+                "anchor_before": "它是由抛物线$y=x^2$向",
                 "anchor_after": "平移",
                 "regions": [
                   {
                     "answer_bbox": [
-                      220,
-                      348,
-                      250,
-                      368
+                      225,
+                      552,
+                      260,
+                      578
                     ],
                     "transcription": "左",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               },
               {
                 "index": 5,
                 "label": "blank_response",
                 "anchor_before": "平移",
-                "anchor_after": "个单位得到的",
+                "anchor_after": "个单位得到的.",
                 "regions": [
                   {
                     "answer_bbox": [
-                      325,
-                      348,
-                      350,
-                      368
+                      330,
+                      550,
+                      360,
+                      575
                     ],
                     "transcription": "1",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q7",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              375,
+              100,
+              580,
               940,
-              395
+              605
             ],
             "answer_layout": "single",
             "slots": [
@@ -329,131 +341,138 @@
                 "index": 1,
                 "label": "formula_response",
                 "anchor_before": "写出一个函数",
-                "anchor_after": "使得该函数",
+                "anchor_after": "使得该函数在$x<-1$时，$y$随$x$的增大而增大，当$x>-1$时，$y$随$x$的增大而减小",
                 "regions": [
                   {
                     "answer_bbox": [
                       245,
-                      375,
-                      330,
-                      398
+                      578,
+                      340,
+                      610
                     ],
                     "transcription": "y=-(x+1)^2",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q8",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              405,
-              940,
-              428
+              100,
+              612,
+              935,
+              638
             ],
             "answer_layout": "single",
             "slots": [
               {
                 "index": 1,
-                "label": "short_response",
-                "anchor_before": "则a，b，c的大小关系是",
-                "anchor_after": "",
+                "label": "blank_response",
+                "anchor_before": "则$a$，$b$，$c$的大小关系是",
+                "anchor_after": ".",
                 "regions": [
                   {
                     "answer_bbox": [
-                      865,
-                      408,
-                      920,
-                      428
+                      860,
+                      610,
+                      925,
+                      635
                     ],
                     "transcription": "b<c<a",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 1.0
+                    "confidence": 0.95
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.98
               }
             ],
             "diagram_regions": [],
-            "confidence": 1.0
+            "confidence": 0.98
           },
           {
             "item_id": "q9_1",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              438,
-              940,
-              505
+              100,
+              648,
+              935,
+              720
             ],
-            "answer_layout": "single",
+            "answer_layout": "vertical",
             "slots": [
               {
                 "index": 1,
                 "label": "working_response",
-                "anchor_before": "(1)求该抛物线的解析式",
-                "anchor_after": "",
+                "anchor_before": "(1)求该抛物线的解析式;",
+                "anchor_after": "(2)求点D的坐标及",
                 "regions": [
                   {
                     "answer_bbox": [
-                      185,
-                      520,
-                      430,
-                      830
+                      180,
+                      735,
+                      435,
+                      835
                     ],
-                    "transcription": "y=(x-h)^2 为B(2,0)\\y=(x-2)^2",
+                    "transcription": "(1) $y=(x-h)^2$ 为 $B(2,0)$  $y=(x-2)^2$",
                     "legible": true,
                     "content_kind": "handwriting",
-                    "confidence": 0.98
+                    "confidence": 0.9
                   }
                 ],
-                "confidence": 1.0
+                "confidence": 0.95
               }
             ],
-            "diagram_regions": [],
-            "confidence": 1.0
+            "diagram_regions": [
+              [
+                765,
+                700,
+                960,
+                830
+              ]
+            ],
+            "confidence": 0.95
           },
           {
             "item_id": "q9_2",
             "physical_page_id": "math_01__student__student002:p1",
             "page_index": 1,
             "question_region": [
-              60,
-              490,
-              940,
-              515
+              100,
+              648,
+              935,
+              720
             ],
-            "answer_layout": "single",
+            "answer_layout": "vertical",
             "slots": [
               {
                 "index": 1,
                 "label": "working_response",
-                "anchor_before": "(2)求点D的坐标及面积",
+                "anchor_before": "(2)求点$D$的坐标及$\\square ACBD$的面积.",
                 "anchor_after": "",
                 "regions": [],
-                "confidence": 1.0
+                "confidence": 0.95
               }
             ],
             "diagram_regions": [
               [
-                760,
-                500,
-                955,
-                825
+                765,
+                700,
+                960,
+                830
               ]
             ],
-            "confidence": 1.0
+            "confidence": 0.95
           }
         ]
       }
@@ -462,7 +481,55 @@
       "attempt": 3,
       "item_id": "q9_2",
       "mode": "empty_region_focus_retry",
-      "status": "EMPTY"
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q9_2",
+            "physical_page_id": "math_01__student__student002:p1",
+            "page_index": 1,
+            "question_region": [
+              90,
+              640,
+              950,
+              730
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2)求点D的坐标及$\\square ACBD$的面积.",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      165,
+                      725,
+                      445,
+                      845
+                    ],
+                    "transcription": "(1) y=(x-h)^2 为 B(2,0)\ny=(x-2)^2",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                765,
+                710,
+                960,
+                855
+              ]
+            ],
+            "confidence": 0.95
+          }
+        ]
+      }
     }
   ],
   "items": {
@@ -471,47 +538,47 @@
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        85,
-        660,
-        110
+        100,
+        195,
+        665,
+        305
       ],
       "answer_layout": "single",
       "slots": [
         {
           "index": 1,
           "label": "choice_response",
-          "anchor_before": "",
-          "anchor_after": "",
+          "anchor_before": "In plane rectangular coordinate system, the graph of quadratic function $y=(x+1)^2$ may be (",
+          "anchor_after": ")",
           "regions": [
             {
               "answer_bbox": [
                 605,
-                88,
+                185,
                 640,
-                122
+                225
               ],
               "transcription": "D",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q2": {
       "item_id": "q2",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        150,
-        910,
-        180
+        100,
+        320,
+        920,
+        390
       ],
       "answer_layout": "single",
       "slots": [
@@ -524,165 +591,165 @@
             {
               "answer_bbox": [
                 870,
-                155,
-                900,
-                175
+                322,
+                905,
+                348
               ],
               "transcription": "C",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q3": {
       "item_id": "q3",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        190,
+        100,
+        395,
         940,
-        230
+        455
       ],
       "answer_layout": "single",
       "slots": [
         {
           "index": 1,
           "label": "choice_response",
-          "anchor_before": "",
+          "anchor_before": "由题意列方程应为",
           "anchor_after": "",
           "regions": [
             {
               "answer_bbox": [
-                580,
-                210,
-                610,
-                230
+                585,
+                410,
+                620,
+                435
               ],
               "transcription": "C",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q4": {
       "item_id": "q4",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        245,
-        930,
-        265
+        100,
+        458,
+        935,
+        480
       ],
       "answer_layout": "single",
       "slots": [
         {
           "index": 1,
           "label": "blank_response",
-          "anchor_before": "值为",
-          "anchor_after": "",
+          "anchor_before": "则代数式$x_1^2-24x_1+x_2$的值为",
+          "anchor_after": ".",
           "regions": [
             {
               "answer_bbox": [
-                875,
-                245,
+                880,
+                450,
                 920,
-                268
+                475
               ],
               "transcription": "26",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q5": {
       "item_id": "q5",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        270,
-        940,
-        305
+        100,
+        482,
+        935,
+        515
       ],
       "answer_layout": "single",
       "slots": [
         {
           "index": 1,
           "label": "blank_response",
-          "anchor_before": "个数是",
-          "anchor_after": "",
+          "anchor_before": "则这种植物每个支干长出的小分支个数是",
+          "anchor_after": ".",
           "regions": [
             {
               "answer_bbox": [
-                850,
-                285,
-                875,
-                305
+                855,
+                492,
+                885,
+                518
               ],
               "transcription": "5",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q6": {
       "item_id": "q6",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        315,
-        940,
-        365
+        100,
+        520,
+        945,
+        575
       ],
       "answer_layout": "horizontal",
       "slots": [
         {
           "index": 1,
           "label": "blank_response",
-          "anchor_before": "开口方向是向",
+          "anchor_before": "抛物线$y=(x+1)^2$的开口方向是向",
           "anchor_after": "，对称轴是直线",
           "regions": [
             {
               "answer_bbox": [
-                415,
-                318,
-                450,
-                340
+                420,
+                522,
+                460,
+                548
               ],
               "transcription": "上",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         },
         {
           "index": 2,
@@ -693,94 +760,94 @@
             {
               "answer_bbox": [
                 600,
-                318,
-                640,
-                340
+                520,
+                655,
+                545
               ],
               "transcription": "x=-1",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         },
         {
           "index": 3,
-          "label": "blank_response",
+          "label": "formula_response",
           "anchor_before": "顶点坐标是",
           "anchor_after": "，它是由抛物线",
           "regions": [
             {
               "answer_bbox": [
-                770,
-                318,
-                825,
-                340
+                780,
+                520,
+                835,
+                548
               ],
               "transcription": "(-1, 0)",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         },
         {
           "index": 4,
           "label": "blank_response",
-          "anchor_before": "它是由抛物线y=x^2向",
+          "anchor_before": "它是由抛物线$y=x^2$向",
           "anchor_after": "平移",
           "regions": [
             {
               "answer_bbox": [
-                220,
-                348,
-                250,
-                368
+                225,
+                552,
+                260,
+                578
               ],
               "transcription": "左",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         },
         {
           "index": 5,
           "label": "blank_response",
           "anchor_before": "平移",
-          "anchor_after": "个单位得到的",
+          "anchor_after": "个单位得到的.",
           "regions": [
             {
               "answer_bbox": [
-                325,
-                348,
-                350,
-                368
+                330,
+                550,
+                360,
+                575
               ],
               "transcription": "1",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q7": {
       "item_id": "q7",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        375,
+        100,
+        580,
         940,
-        395
+        605
       ],
       "answer_layout": "single",
       "slots": [
@@ -788,131 +855,151 @@
           "index": 1,
           "label": "formula_response",
           "anchor_before": "写出一个函数",
-          "anchor_after": "使得该函数",
+          "anchor_after": "使得该函数在$x<-1$时，$y$随$x$的增大而增大，当$x>-1$时，$y$随$x$的增大而减小",
           "regions": [
             {
               "answer_bbox": [
                 245,
-                375,
-                330,
-                398
+                578,
+                340,
+                610
               ],
               "transcription": "y=-(x+1)^2",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q8": {
       "item_id": "q8",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        405,
-        940,
-        428
+        100,
+        612,
+        935,
+        638
       ],
       "answer_layout": "single",
       "slots": [
         {
           "index": 1,
-          "label": "short_response",
-          "anchor_before": "则a，b，c的大小关系是",
-          "anchor_after": "",
+          "label": "blank_response",
+          "anchor_before": "则$a$，$b$，$c$的大小关系是",
+          "anchor_after": ".",
           "regions": [
             {
               "answer_bbox": [
-                865,
-                408,
-                920,
-                428
+                860,
+                610,
+                925,
+                635
               ],
               "transcription": "b<c<a",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 1.0
+              "confidence": 0.95
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.98
         }
       ],
       "diagram_regions": [],
-      "confidence": 1.0
+      "confidence": 0.98
     },
     "q9_1": {
       "item_id": "q9_1",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        438,
-        940,
-        505
+        100,
+        648,
+        935,
+        720
       ],
-      "answer_layout": "single",
+      "answer_layout": "vertical",
       "slots": [
         {
           "index": 1,
           "label": "working_response",
-          "anchor_before": "(1)求该抛物线的解析式",
-          "anchor_after": "",
+          "anchor_before": "(1)求该抛物线的解析式;",
+          "anchor_after": "(2)求点D的坐标及",
           "regions": [
             {
               "answer_bbox": [
-                185,
-                520,
-                430,
-                830
+                180,
+                735,
+                435,
+                835
               ],
-              "transcription": "y=(x-h)^2 为B(2,0)\\y=(x-2)^2",
+              "transcription": "(1) $y=(x-h)^2$ 为 $B(2,0)$  $y=(x-2)^2$",
               "legible": true,
               "content_kind": "handwriting",
-              "confidence": 0.98
+              "confidence": 0.9
             }
           ],
-          "confidence": 1.0
+          "confidence": 0.95
         }
       ],
-      "diagram_regions": [],
-      "confidence": 1.0
+      "diagram_regions": [
+        [
+          765,
+          700,
+          960,
+          830
+        ]
+      ],
+      "confidence": 0.95
     },
     "q9_2": {
       "item_id": "q9_2",
       "physical_page_id": "math_01__student__student002:p1",
       "page_index": 1,
       "question_region": [
-        60,
-        490,
-        940,
-        515
+        90,
+        640,
+        950,
+        730
       ],
-      "answer_layout": "single",
+      "answer_layout": "vertical",
       "slots": [
         {
           "index": 1,
           "label": "working_response",
-          "anchor_before": "(2)求点D的坐标及面积",
+          "anchor_before": "(2)求点D的坐标及$\\square ACBD$的面积.",
           "anchor_after": "",
-          "regions": [],
-          "confidence": 1.0
+          "regions": [
+            {
+              "answer_bbox": [
+                165,
+                725,
+                445,
+                845
+              ],
+              "transcription": "(1) y=(x-h)^2 为 B(2,0)\ny=(x-2)^2",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
         }
       ],
       "diagram_regions": [
         [
-          760,
-          500,
-          955,
-          825
+          765,
+          710,
+          960,
+          855
         ]
       ],
-      "confidence": 1.0
+      "confidence": 0.95
     }
   }
 }

@@ -9,6 +9,24 @@ from .contracts import ExamPackage, Page
 from .io_utils import atomic_write_json
 
 
+def _normalized_xyxy(box, width: int, height: int, *, runtime_yxyx: bool = False):
+    """Persist teacher geometry without tying it to one raster size."""
+    if not isinstance(box, (list, tuple)) or len(box) != 4 or width <= 0 or height <= 0:
+        return []
+    if runtime_yxyx:
+        top, left, bottom, right = box
+    else:
+        left, top, right, bottom = box
+    if right <= left or bottom <= top:
+        return []
+    return [
+        float(left) * 1000 / width,
+        float(top) * 1000 / height,
+        float(right) * 1000 / width,
+        float(bottom) * 1000 / height,
+    ]
+
+
 class GoldenTemplateService:
     """Reuse teacher-owned identities while clearing document-local evidence."""
 
@@ -16,7 +34,7 @@ class GoldenTemplateService:
             self, teacher: ExamPackage, candidate: ExamPackage,
             teacher_pages: Sequence[Page], student_pages: Sequence[Page],
             exam_id: str, student_id: str) -> ExamPackage:
-        del teacher_pages
+        teacher_page_map = {page.index: page for page in teacher_pages}
         result = copy.deepcopy(teacher)
         result.exam_id = exam_id
         result.document_type = "student"
@@ -32,6 +50,46 @@ class GoldenTemplateService:
             for question in section.questions:
                 question.diagrams = []
                 for item in question.items:
+                    # Student answers are still read from the student's own page.
+                    # Keep the teacher's printed-layout geometry only as a guard
+                    # against a VLM returning coordinates in the wrong frame.
+                    template_questions = []
+                    if item.stem_region:
+                        template_page = teacher_page_map.get(item.stem_region.page_index)
+                        if template_page:
+                            box = _normalized_xyxy(
+                                item.stem_region.bbox,
+                                int(template_page.width or 0),
+                                int(template_page.height or 0),
+                            )
+                            if box:
+                                template_questions.append({
+                                    "page_index": item.stem_region.page_index,
+                                    "bbox": box,
+                                })
+                    template_slots = []
+                    for slot in item.slots:
+                        template_page = teacher_page_map.get(slot.page_index)
+                        if not template_page:
+                            continue
+                        box = _normalized_xyxy(
+                            slot.expected_bbox,
+                            int(template_page.width or 0),
+                            int(template_page.height or 0),
+                            runtime_yxyx=True,
+                        )
+                        if box:
+                            template_slots.append({
+                                "page_index": slot.page_index,
+                                "slot_idx": slot.slot_idx,
+                                "semantic_id": slot.semantic_id,
+                                "bbox": box,
+                            })
+                    item.quality["template_geometry"] = {
+                        "coordinate_format": "normalized_xyxy_0_1000",
+                        "question_regions": template_questions,
+                        "slots": template_slots,
+                    }
                     item.student_answer = None
                     item.student_score = None
                     item.is_correct = None

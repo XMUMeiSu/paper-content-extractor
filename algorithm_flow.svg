@@ -1,96 +1,88 @@
-<svg width="800" height="1320" xmlns="http://www.w3.org/2000/svg">
+<svg width="1000" height="1080" viewBox="0 0 1000 1080" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .card { fill: #FFFFFF; stroke: #2563EB; stroke-width: 2; rx: 12; }
-      .card-teacher { fill: #F0FDF4; stroke: #059669; stroke-width: 2; rx: 12; }
-      .card-student { fill: #FFF7ED; stroke: #EA580C; stroke-width: 2; rx: 12; }
-      .title { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 16px; font-weight: 600; }
-      .subtitle { fill: #6B7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; }
-      .arrow { stroke: #2563EB; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-      .arrow-branch { stroke: #059669; stroke-width: 2; fill: none; marker-end: url(#arrowhead-green); }
-      .arrow-merge { stroke: #EA580C; stroke-width: 2; fill: none; marker-end: url(#arrowhead-orange); }
-      .label { fill: #6B7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 11px; }
-      .badge { fill: #2563EB; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 12px; font-weight: 600; }
+      .bg { fill:#f8fafc }
+      .card { fill:#ffffff; stroke:#2563eb; stroke-width:2 }
+      .teacher { fill:#ecfdf5; stroke:#059669; stroke-width:2 }
+      .student { fill:#fff7ed; stroke:#ea580c; stroke-width:2 }
+      .check { fill:#f5f3ff; stroke:#7c3aed; stroke-width:2 }
+      .output { fill:#eff6ff; stroke:#1d4ed8; stroke-width:2 }
+      .badge { fill:#111827 }
+      .title { font:700 24px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#0f172a }
+      .heading { font:600 17px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#111827 }
+      .text { font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#475569 }
+      .small { font:13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#64748b }
+      .badge-text { font:600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; fill:#ffffff }
+      .arrow { stroke:#2563eb; stroke-width:2.2; fill:none; marker-end:url(#arrow) }
+      .teacher-arrow { stroke:#059669; stroke-width:2.2; fill:none; marker-end:url(#teacher-arrow) }
+      .student-arrow { stroke:#ea580c; stroke-width:2.2; fill:none; marker-end:url(#student-arrow) }
+      .dash { stroke-dasharray:7 5 }
     </style>
-    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#2563EB" />
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0,10 3,0 6" fill="#2563eb"/>
     </marker>
-    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#059669" />
+    <marker id="teacher-arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0,10 3,0 6" fill="#059669"/>
     </marker>
-    <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#EA580C" />
+    <marker id="student-arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0,10 3,0 6" fill="#ea580c"/>
     </marker>
   </defs>
 
-  <rect class="card" x="190" y="25" width="420" height="70"/>
-  <text class="badge" x="215" y="53">01</text>
-  <text class="title" x="260" y="53">发现试卷</text>
-  <text class="subtitle" x="215" y="78">教师卷与学生卷分组 | 稳定页序</text>
-  <path class="arrow" d="M 400 95 L 400 120"/>
+  <rect class="bg" width="1000" height="1080" rx="20"/>
+  <text x="500" y="42" text-anchor="middle" class="title">Paper Content Extractor · 当前豆包 VLM 流程</text>
+  <rect class="badge" x="402" y="58" width="196" height="28" rx="14"/>
+  <text x="500" y="77" text-anchor="middle" class="badge-text">Doubao Responses API</text>
 
-  <rect class="card" x="190" y="120" width="420" height="70"/>
-  <text class="badge" x="215" y="148">02</text>
-  <text class="title" x="260" y="148">图像预处理</text>
-  <text class="subtitle" x="215" y="173">归一化 | 透视校正 | 学生页自动配准</text>
-  <path class="arrow" d="M 400 190 L 400 215"/>
+  <rect class="card" x="270" y="110" width="460" height="82" rx="12"/>
+  <text x="500" y="141" text-anchor="middle" class="heading">1. 文档发现</text>
+  <text x="500" y="166" text-anchor="middle" class="text">识别学科、教师卷、学生卷和物理页顺序</text>
+  <path class="arrow" d="M500 192 V226"/>
 
-  <rect class="card-teacher" x="190" y="215" width="420" height="70"/>
-  <text class="badge" x="215" y="243">03</text>
-  <text class="title" x="260" y="243">题目树生成</text>
-  <text class="subtitle" x="215" y="268">VLM 读取预处理原图 | 不读取 OCR | 不输出坐标</text>
-  <path class="arrow" d="M 400 285 L 400 310"/>
+  <rect class="card" x="270" y="230" width="460" height="88" rx="12"/>
+  <text x="500" y="262" text-anchor="middle" class="heading">2. 图片预处理</text>
+  <text x="500" y="287" text-anchor="middle" class="text">方向校正 · 透视矫正 · 光照归一 · 文件指纹</text>
+  <text x="500" y="307" text-anchor="middle" class="small">证据始终绑定当前文档原页</text>
+  <path class="arrow" d="M500 318 V352"/>
 
-  <rect class="card" x="190" y="310" width="420" height="70"/>
-  <text class="badge" x="215" y="338">04</text>
-  <text class="title" x="260" y="338">题目局部定位</text>
-  <text class="subtitle" x="215" y="363">按树中页码和题干锚点建立局部搜索上下文</text>
-  <path class="arrow" d="M 400 380 L 400 405"/>
+  <rect class="teacher" x="220" y="356" width="560" height="108" rx="12"/>
+  <text x="500" y="388" text-anchor="middle" class="heading">3. 教师卷全卷视觉构树</text>
+  <text x="500" y="414" text-anchor="middle" class="text">豆包联合读取全部页面，生成章节、题目、小问和页归属</text>
+  <text x="500" y="438" text-anchor="middle" class="small">Schema 校验 · 页覆盖校验 · 本地确定性 ID</text>
+  <text x="500" y="457" text-anchor="middle" class="small">有效 ExamTree 按教师图片指纹缓存</text>
 
-  <rect class="card" x="190" y="405" width="420" height="70"/>
-  <text class="badge" x="215" y="433">05</text>
-  <text class="title" x="260" y="433">槽位语义提议</text>
-  <text class="subtitle" x="215" y="458">VLM 判断槽位归属、顺序和粗搜索区域</text>
-  <path class="arrow" d="M 400 475 L 400 500"/>
+  <path class="teacher-arrow" d="M390 464 V506"/>
+  <path class="student-arrow" d="M610 464 V506"/>
 
-  <rect class="card" x="190" y="500" width="420" height="70"/>
-  <text class="badge" x="215" y="528">06</text>
-  <text class="title" x="260" y="528">OCR 与 VLM 交叉验证</text>
-  <text class="subtitle" x="215" y="553">题号 | 页码 | 阅读顺序 | 选项与小问 | 有界重试</text>
-  <path class="arrow" d="M 400 570 L 400 595"/>
+  <rect class="teacher" x="80" y="510" width="400" height="98" rx="12"/>
+  <text x="280" y="542" text-anchor="middle" class="heading">4A. 教师卷保留题目拓扑</text>
+  <text x="280" y="568" text-anchor="middle" class="text">提取教师答案和标准槽位</text>
+  <text x="280" y="591" text-anchor="middle" class="small">写入可复用 ExamTree</text>
 
-  <rect class="card" x="190" y="595" width="420" height="70"/>
-  <text class="badge" x="215" y="623">07</text>
-  <text class="title" x="260" y="623">OCR 坐标落地</text>
-  <text class="subtitle" x="215" y="648">VLM 搜索提示由当前卷 OCR 框确定最终坐标</text>
-  <path class="arrow" d="M 400 665 L 400 690"/>
+  <rect class="student" x="520" y="510" width="400" height="98" rx="12"/>
+  <text x="720" y="542" text-anchor="middle" class="heading">4B. 学生卷继承逻辑题目树</text>
+  <text x="720" y="568" text-anchor="middle" class="text">仅复用题目身份和槽位拓扑</text>
+  <text x="720" y="591" text-anchor="middle" class="small">清除教师坐标、答案区域和识别证据</text>
 
-  <rect class="card-student" x="190" y="690" width="420" height="70"/>
-  <text class="badge" x="215" y="718">08</text>
-  <text class="title" x="260" y="718">答案识别</text>
-  <text class="subtitle" x="215" y="743">教师与学生独立转写 | 选择标记与公式专用路径</text>
-  <path class="arrow" d="M 400 760 L 400 785"/>
+  <path class="teacher-arrow" d="M280 608 V648 H500"/>
+  <path class="student-arrow" d="M720 608 V648 H500"/>
 
-  <rect class="card" x="190" y="785" width="420" height="70"/>
-  <text class="badge" x="215" y="813">09</text>
-  <text class="title" x="260" y="813">自动修复</text>
-  <text class="subtitle" x="215" y="838">按失败类型扩域、重定位、复读 | 重试次数有上限</text>
-  <path class="arrow" d="M 400 855 L 400 880"/>
+  <rect class="card" x="190" y="652" width="620" height="112" rx="12"/>
+  <text x="500" y="685" text-anchor="middle" class="heading">5. 当前试卷原页联合视觉提取</text>
+  <text x="500" y="712" text-anchor="middle" class="text">题目区域 · 逻辑槽位 · 最终像素坐标 · 答案文本 · 图示区域</text>
+  <text x="500" y="738" text-anchor="middle" class="small">教师卷和每份学生卷都从各自页面独立提取</text>
+  <path class="arrow" d="M500 764 V798"/>
 
-  <rect class="card" x="190" y="880" width="420" height="70"/>
-  <text class="badge" x="215" y="908">10</text>
-  <text class="title" x="260" y="908">结果输出</text>
-  <text class="subtitle" x="215" y="933">JSON | 阶段轨迹 | 错误状态 | 槽位可视化</text>
+  <rect class="check" x="190" y="802" width="620" height="102" rx="12"/>
+  <text x="500" y="834" text-anchor="middle" class="heading">6. 有界重试与质量门</text>
+  <text x="500" y="860" text-anchor="middle" class="text">缺失页/题重试 · 坐标边界 · 区域冲突 · 槽位完整性</text>
+  <text x="500" y="884" text-anchor="middle" class="small">未解决内容进入 NEED_REVIEW，不使用其他识别后端降级</text>
+  <path class="arrow dash" d="M810 850 H870 V708 H814"/>
+  <text x="881" y="782" text-anchor="middle" class="small" transform="rotate(90 881 782)">最多限定次数</text>
+  <path class="arrow" d="M500 904 V938"/>
 
-  <path class="arrow" d="M 400 950 L 400 990"/>
-  <rect x="300" y="990" width="200" height="50" rx="8" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
-  <text class="title" x="344" y="1021" fill="#2563EB">ExamPackage v5</text>
-
-  <text class="title" x="190" y="1100">坐标权限</text>
-  <text class="subtitle" x="190" y="1128">VLM：题目树、槽位语义、粗搜索提示</text>
-  <text class="subtitle" x="190" y="1153">OCR：文字框、文字内容与题干锚点证据</text>
-  <text class="subtitle" x="190" y="1178">本地图像算法：最终像素坐标与几何状态</text>
-
-  <line x1="190" y1="1230" x2="245" y2="1230" stroke="#2563EB" stroke-width="2"/>
-  <text class="label" x="260" y="1235">自动主流程，无需人工调框或修订题目树</text>
+  <rect class="output" x="150" y="942" width="700" height="100" rx="12"/>
+  <text x="500" y="974" text-anchor="middle" class="heading">7. 结果收敛与导出</text>
+  <text x="500" y="1000" text-anchor="middle" class="text">文档 JSON · manifest · ExamTree · ROI · 图示资源 · 槽位可视化</text>
+  <text x="500" y="1025" text-anchor="middle" class="small">recognition_mode=vlm_only · ocr_used=false · 坐标来自原页 VLM</text>
 </svg>

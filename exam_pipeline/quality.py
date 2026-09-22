@@ -39,14 +39,8 @@ def validate_item_regions(package: ExamPackage, pages: Sequence[Page], overlap_t
                     check = validate_region(region, page); checks.append(check); region_count += 1
                     item_reasons.extend(check["reasons"])
                 if item.confidence is not None and float(item.confidence) < .70:
-                    authority = {
-                        (slot.audit or {}).get("coordinate_authority")
-                        for slot in item.slots
-                    }
-                    source = ("VLM" if "vlm_original_page_pixels" in authority
-                              else "OCR")
                     item_warnings.append(
-                        f"{source} confidence below threshold: {float(item.confidence):.2f}"
+                        f"VLM confidence below threshold: {float(item.confidence):.2f}"
                     )
                 for slot in item.slots:
                     from .roi import yxyx_to_xyxy
@@ -112,9 +106,7 @@ def validate_item_regions(package: ExamPackage, pages: Sequence[Page], overlap_t
                         )
                     elif slot.status == "ANOMALY_ESCALATED":
                         item_reasons.append(f"slot {slot.slot_idx} exceeded iterative verification limit")
-                    if slot.content_status == "OCR_UNCERTAIN":
-                        item_warnings.append(f"slot {slot.slot_idx} OCR content is uncertain")
-                    elif slot.content_status == "VLM_UNCERTAIN":
+                    if slot.content_status == "VLM_UNCERTAIN":
                         item_warnings.append(f"slot {slot.slot_idx} VLM content is uncertain")
                 item.quality = {**item.quality, "status": "NEED_REVIEW" if item_reasons else "OK",
                                 "reasons": item_reasons,
@@ -122,25 +114,11 @@ def validate_item_regions(package: ExamPackage, pages: Sequence[Page], overlap_t
                                     list(item.quality.get("warnings") or []) + item_warnings)),
                                 "regions": checks}
                 reasons.extend(f"{item.item_id}: {reason}" for reason in item_reasons)
-    slots = [slot for section in package.sections for question in section.questions
-             for item in question.items for slot in item.slots]
-    registration_required = package.document_type == "student" and any(
-        (slot.audit or {}).get("coordinate_authority") not in {
-            "ocr_boxes_only", "vlm_original_page_pixels",
-        }
-        and (slot.audit or {}).get("topology_source") != "student_self"
-        for slot in slots
-    )
-    if (registration_required
-            and any(str(meta.get("status")) != "REGISTERED"
-                    for meta in package.registration or [])):
-        reasons.append("registration confidence below threshold")
     if package.structure_audit and package.structure_audit.get("status") != "COMPLETE":
         reasons.append("structure coverage unresolved")
     package.quality = {**package.quality, "status": "NEED_REVIEW" if reasons else "OK",
                        "reasons": list(dict.fromkeys(reasons)), "region_count": region_count,
-                       "overlap_count": overlap_count,
-                       "registration_required_for_coordinates": registration_required}
+                       "overlap_count": overlap_count}
     return package.quality
 
 

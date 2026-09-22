@@ -7,9 +7,14 @@ Truth schema: {"questions": [{"id": "q1", "items": [{"id": "q1",
 """
 import argparse
 import json
+import re
 from pathlib import Path
 from collections import defaultdict
-from .answer_recognition import normalize_text
+
+
+def normalize_text(text):
+    return (re.sub(r"\s+", "", str(text or ""))
+            .replace("−", "-").replace("（", "(").replace("）", ")"))
 
 
 def iou(a,b):

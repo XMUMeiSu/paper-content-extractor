@@ -32,8 +32,8 @@ def _expand_slots(result, role, page_names):
             for item in question.get("items", []):
                 slots = item.get("slots") or []
                 if not slots:
-                    # ``answer_regions`` and ``tri_target.answer_box`` are
-                    # question search corridors, not final answer geometry.
+                    # ``answer_regions`` are question search corridors, not
+                    # final answer geometry.
                     # Preserve them as diagnostics but never let the protected
                     # workbench render them as a slot-sized editable target.
                     item["search_regions"] = copy.deepcopy(
@@ -96,19 +96,11 @@ def _convert_package(package: Dict[str, Any], role: str, page_names: Sequence[st
                     if 1 <= index <= len(page_names): stem["page_file"] = page_names[index-1]
                 for diagram in item.get("diagrams", []) or []:
                     if convert: diagram["bbox"] = _yxyx(diagram.get("bbox"))
-                tri = item.get("tri_target")
-                if isinstance(tri, dict):
-                    if convert:
-                        for key in ("stem_box", "answer_box"): tri[key] = _yxyx(tri.get(key))
-                        tri["answer_boxes"] = [_yxyx(box) for box in tri.get("answer_boxes", [])]
-                        tri["diagram_boxes"] = [_yxyx(box) for box in tri.get("diagram_boxes", [])]
-                    item["stem_bbox"] = tri.get("stem_box", []); item["answer_bbox"] = tri.get("answer_box", [])
                 regions = item.get("student_regions") or item.get("answer_regions") or []
                 if not item.get("answer_bbox") and regions: item["answer_bbox"] = regions[0].get("bbox", [])
                 item["answer_boxes"] = [r.get("bbox", []) for r in regions if r.get("bbox")]
     result["metadata"] = {**(result.get("metadata") or {}), "is_teacher_golden": role == "teacher",
-                          "total_pages": len(page_names), "quality": result.get("quality", {}),
-                          "registration": result.get("registration", [])}
+                          "total_pages": len(page_names), "quality": result.get("quality", {})}
     result["page_files"] = list(page_names); result["workbench_slot_items"] = _expand_slots(result, role, page_names)
     result["source_bbox_format"] = result.get("bbox_format", "xyxy"); result["bbox_format"] = "yxyx"
     result["hitl_adapter_version"] = "2.1"

@@ -10,8 +10,11 @@ def main(argv=None):
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
-    checks = {"dataset": args.dataset.is_dir(), "opencv": importlib.util.find_spec("cv2") is not None,
-              "paddleocr": importlib.util.find_spec("paddleocr") is not None}
+    checks = {
+        "dataset": args.dataset.is_dir(),
+        "opencv": importlib.util.find_spec("cv2") is not None,
+        "pillow": importlib.util.find_spec("PIL") is not None,
+    }
     print(json.dumps(checks, ensure_ascii=False))
     return 0 if checks["dataset"] and checks["opencv"] else 1
 

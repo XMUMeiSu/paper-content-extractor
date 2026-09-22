@@ -11,7 +11,7 @@ def stage_diagnostics(package):
                 stages['items'] += 1
                 loc = item.quality.get('localization', {})
                 stages['items_with_context'] += bool(loc.get('contexts'))
-                stages['items_with_ocr_anchor'] += loc.get('status') == 'GROUNDED'
+                stages['items_with_vlm_region'] += bool(item.stem_region)
                 stages['items_with_verified_region'] += any(s.expected_bbox for s in item.slots)
                 stages['items_complete'] += item.answer_status == 'COMPLETE'
                 stages['items_partial'] += item.answer_status == 'PARTIAL'

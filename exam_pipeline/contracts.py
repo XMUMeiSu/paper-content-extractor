@@ -24,14 +24,11 @@ class Page:
     width: Optional[int]
     height: Optional[int]
     ocr: List[OCRBlock]
-    # Identity is assigned at ingestion and must survive every stage.  The
-    # defaults keep legacy constructors/source fixtures valid.
+    # Identity is assigned at ingestion and must survive every stage.
     document_id: str = ""
     physical_page_id: str = ""
     file_fingerprint: str = ""
-    # Fingerprint of the exact image from which ``ocr`` was produced. It may
-    # differ from ``file_fingerprint`` only while a transformed page is waiting
-    # for fresh OCR; such coordinates must not be used for grounding.
+    # Kept as an empty compatibility field in VLM-only results.
     ocr_source_fingerprint: str = ""
     page_index: Optional[int] = None
     schema_status: str = "VALID"
@@ -61,15 +58,6 @@ class DiagramRef:
 
 
 @dataclass
-class TriTargetGrounding:
-    stem_box: List[float] = field(default_factory=list)
-    diagram_boxes: List[List[float]] = field(default_factory=list)
-    answer_box: List[float] = field(default_factory=list)
-    answer_boxes: List[List[float]] = field(default_factory=list)
-    audit: Dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
 class Slot:
     slot_idx: int
     slot_type: str
@@ -78,9 +66,7 @@ class Slot:
     page_index: int = 1
     expected_text: Optional[str] = None
     handwriting_bbox: Optional[List[int]] = None
-    # Physical ink evidence and the wider crop used for OCR/VLM are kept
-    # separate. ``handwriting_bbox`` remains the canonical final evidence box
-    # for backwards-compatible consumers.
+    # Physical evidence and the wider VLM crop remain separate.
     evidence_bbox: Optional[List[int]] = None
     recognition_bbox: Optional[List[int]] = None
     recognized_text: str = ""
@@ -91,8 +77,7 @@ class Slot:
     shrink_rate: str = "0.0%"
     history: List[Dict[str, Any]] = field(default_factory=list)
     audit: Dict[str, Any] = field(default_factory=dict)
-    # Keep the legacy ``status`` for workbench compatibility, while exposing
-    # independent production decisions for localization, OCR and review.
+    # Geometry, content, and review decisions remain independently auditable.
     geometry_status: str = "PENDING"
     content_status: str = "PENDING"
     review_status: str = "PENDING"
@@ -129,7 +114,6 @@ class ExamItem:
     student_regions: List[PageRegion] = field(default_factory=list)
     is_cross_page: bool = False
     diagrams: List[DiagramRef] = field(default_factory=list)
-    tri_target: Optional[TriTargetGrounding] = None
     eval_status: str = "pending"
     eval_feedback: str = ""
     confidence: float = 1.0
@@ -193,11 +177,9 @@ class ExamPackage:
     warnings: List[str] = field(default_factory=list)
     golden_source: str = ""
     topology_locked: bool = False
-    registration: List[Dict[str, Any]] = field(default_factory=list)
     quality: Dict[str, Any] = field(default_factory=dict)
     declared_total_score: Optional[float] = None
     score_audit: Dict[str, Any] = field(default_factory=dict)
-    grounding_knowledge: Dict[str, Any] = field(default_factory=dict)
     exam_tree_id: str = ""
     exam_tree_revision: int = 0
     exam_tree_fingerprint: str = ""
@@ -243,7 +225,6 @@ class ExamPackage:
             "created_at": self.created_at,
             "golden_source": self.golden_source,
             "topology_locked": self.topology_locked,
-            "grounding_knowledge": self.grounding_knowledge,
             "exam_tree_id": self.exam_tree_id,
             "exam_tree_revision": self.exam_tree_revision,
             "exam_tree_fingerprint": self.exam_tree_fingerprint,

@@ -13,7 +13,6 @@ from .contracts import (
     ExamItem, ExamPackage, ExamQuestion, ExamSection, PageRegion, Slot,
 )
 from .io_utils import atomic_write_json
-from .slots import infer_item_type
 
 
 SCHEMA_VERSION = "exam_tree.v1"
@@ -21,6 +20,25 @@ ALLOWED_ITEM_TYPES = {
     "choice", "fill", "grid", "large_writing", "calculation", "proof",
     "drawing", "reading", "essay", "solve", "other",
 }
+
+
+def infer_item_type(text: str, declared: str = "") -> str:
+    """Normalize the VLM-declared type for the reusable logical tree."""
+    raw = str(text or "")
+    kind = str(declared or "").casefold()
+    if any(token in kind for token in ("choice", "single", "multiple", "mcq", "选择", "判断")):
+        return "choice"
+    if any(token in kind for token in ("fill", "blank", "cloze", "填空")):
+        return "fill"
+    if any(token in kind for token in ("grid", "tianzige", "田字格", "答题卡")):
+        return "grid"
+    if any(token in kind for token in ("essay", "drawing", "proof", "作文", "作图", "证明", "solve")):
+        return "large_writing"
+    if re.search(r"(?:^|\s)[A-HＡ-Ｈ]\s*[.、．:)）]", raw, re.IGNORECASE):
+        return "choice"
+    if re.search(r"_{2,}|\.{4,}|…{2,}", raw):
+        return "fill"
+    return kind if kind in ALLOWED_ITEM_TYPES else "other"
 
 
 def _now() -> str:

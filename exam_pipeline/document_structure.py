@@ -1,4 +1,4 @@
-"""Whole-document visual topology with independent, non-mutating OCR validation."""
+"""Whole-document visual topology with VLM schema and page validation."""
 import copy
 import hashlib
 import json
@@ -10,8 +10,6 @@ from pathlib import Path
 
 from .contracts import ExamItem, ExamQuestion, ExamSection, PageRegion
 from .io_utils import atomic_write_json
-from .reading_order import column_groups
-from .structure_recovery import anchors, build_sections
 
 LOGGER = logging.getLogger(__name__)
 
@@ -531,9 +529,9 @@ class DocumentStructureService:
                 records.append(accepted)
         return (self._merge_page_topologies(records) if records else None), failures, attempts
 
-    def validate_and_convert(self, raw, pages, templates=(), validate_ocr=True):
-        # Keep hand-authored/legacy proposals readable while requiring the
-        # source field from new model responses.
+    def validate_and_convert(self, raw, pages, templates=(), validate_ocr=False):
+        if validate_ocr:
+            raise ValueError("本项目只支持 VLM Schema 与页覆盖校验")
         raw = copy.deepcopy(raw)
         for record in raw.get('non_question_pages', []):
             record.setdefault('source', 'original')
@@ -541,11 +539,8 @@ class DocumentStructureService:
         page_map = {p.index: p for p in pages}
         template_map = {p.index: p for p in templates}
 
-        # The first pass intentionally runs before OCR.  It still creates the
-        # complete logical tree and page ownership, but leaves physical
-        # anchors unresolved until the later OCR validation pass.  Keeping
-        # this conversion here means the model cannot invent final pixel
-        # coordinates while the pipeline is waiting for OCR evidence.
+        # This pass creates the logical tree and page ownership. Final pixel
+        # coordinates are supplied by the later page-level VLM extraction.
         if not validate_ocr:
             sections = []
             used = {'section': set(), 'question': set(), 'item': set()}
@@ -578,8 +573,7 @@ class DocumentStructureService:
                         for page_index in ipages:
                             page = page_map[page_index]
                             width, height = page.width or 1654, page.height or 2338
-                            # Full-page regions are search contexts only. They
-                            # are replaced by grounded OCR regions later.
+                            # Full-page regions are temporary search contexts.
                             region = PageRegion(page_index, page.path, [0, 0, width, height], None,
                                                 'deferred_ocr_search_context')
                             item.answer_regions.append(region)
@@ -682,7 +676,6 @@ class DocumentStructureService:
                             issue('ITEM_ANCHOR_UNRESOLVED', owner=iid, page_index=ref['page_index'])
                             continue
                         page, blocks, bottom = domain
-                        from .localization import match_lines
                         multiline = match_lines(ref['anchor'], blocks)
                         ranked = sorted(((similarity(ref['anchor'], b), i, b) for i, b in enumerate(blocks)),
                                         key=lambda v: v[0], reverse=True)
@@ -803,17 +796,17 @@ class DocumentStructureService:
                                  'non_question_warnings': non_question_warnings}
 
     def generate(self, package, original_pages, validation_pages, templates=(), output_dir=None,
-                 validate_ocr=True, vlm_only=False):
+                 validate_ocr=False, vlm_only=True):
         paths = [Path(page.path) for page in original_pages] + [Path(page.path) for page in templates]
         views = [{'page_index': page.index, 'source': source, 'path': page.path}
                  for source, pages in [('original', original_pages),
                                        ('supplementary_template', templates)]
                  for page in pages]
         audit = {
-            'mode': 'vlm_lightweight_topology_then_page_text_then_ocr_validation',
+            'mode': 'vlm_lightweight_topology_then_page_text_validation',
             'provider': self.provider, 'status': 'UNRESOLVED',
-            'topology_source': 'ocr_fallback_draft', 'coordinate_authority': 'local_ocr',
-            'coverage_scope': 'whole_document_topology_and_ocr_evidence',
+            'topology_source': 'vlm', 'coordinate_authority': 'vlm_original_page_pixels',
+            'coverage_scope': 'whole_document_vlm_schema_and_page_coverage',
             'id_authority': 'local_deterministic', 'views': views, 'attempts': [],
         }
         failures, best = [], None
@@ -839,7 +832,7 @@ class DocumentStructureService:
                 if best:
                     context['previous_topology'] = best[5]
                 if validate_ocr:
-                    context['ocr_validation_evidence'] = [
+                    context['unsupported_validation_evidence'] = [
                         {'page_index': page.index, 'lines': [block.text for block in page.ocr]}
                         for page in validation_pages]
             record = {'attempt': attempt_index, 'kind': 'whole_document_topology'}
@@ -973,13 +966,11 @@ class DocumentStructureService:
                 status=(('COMPLETE' if not failures else 'UNRESOLVED')
                         if validate_ocr or vlm_only else 'PROPOSED'),
                 failures=failures, selected_attempt=selected,
-                ocr_validation_deferred=not validate_ocr and not vlm_only,
+                page_validation_deferred=False,
                 ocr_used=False if vlm_only else bool(validate_ocr),
             )
         else:
-            package.sections = build_sections(validation_pages, package.document_type)
-            from .subitems import FineGrainedItemSplitter
-            FineGrainedItemSplitter().enrich_package(package, validation_pages)
+            package.sections = []
             audit['failures'] = failures or [{'code': 'STRUCTURE_BACKEND_UNAVAILABLE'}]
         package.structure_audit.update(audit)
         package.topology_locked = False
@@ -987,14 +978,15 @@ class DocumentStructureService:
             package.warnings.append(
                 '全卷视觉题目树验证未通过，保留草稿及失败原因；不会自动锁定为可靠模板')
         elif audit['status'] == 'PROPOSED':
-            package.warnings.append('全卷视觉题目树已生成，等待当前试卷 OCR 与规则交叉验证')
+            package.warnings.append('全卷视觉题目树已生成，等待页级 VLM 提取')
         if output_dir:
             atomic_write_json(Path(output_dir) / 'document_structure.json', audit)
         return audit
 
     def revalidate(self, package, validation_pages, output_dir=None,
                    request=None, original_pages=()):
-        """Validate a visual topology and repair only evidence-conflicting pages."""
+        raise RuntimeError("VLM-only 流程不支持 OCR 二次校验")
+        """Removed OCR revalidation implementation retained below for schema migration."""
         audit = package.structure_audit or {}
         pending_proposals = {
             item.item_id: copy.deepcopy(item.quality.get('_pending_slot_proposal'))
@@ -1007,8 +999,8 @@ class DocumentStructureService:
                                 if entry.get('attempt') == selected), None)
         raw = selected_record.get('proposal') if selected_record else None
         if not isinstance(raw, dict):
-            audit.update({'status': 'UNRESOLVED', 'topology_source': 'ocr_fallback_draft',
-                          'ocr_validation': {'status': 'UNRESOLVED',
+            audit.update({'status': 'UNRESOLVED', 'topology_source': 'vlm_unresolved',
+                          'retired_validation': {'status': 'UNRESOLVED',
                                              'failures': [{'code': 'MISSING_VLM_PROPOSAL'}]}})
             package.structure_audit = audit
             return audit
@@ -1038,7 +1030,7 @@ class DocumentStructureService:
             context = {
                 'subject': package.subject, 'image_order': views,
                 'validation_failures': failures, 'previous_topology': compact,
-                'ocr_validation_evidence': [
+                'unsupported_validation_evidence': [
                     {'page_index': page.index, 'lines': [block.text for block in page.ocr]}
                     for page in validation_pages],
                 'schema': DOCUMENT_TOPOLOGY_SCHEMA,
@@ -1139,14 +1131,14 @@ class DocumentStructureService:
                         pending = pending_proposals.get(item.item_id)
                         if pending:
                             item.quality['_pending_slot_proposal'] = pending
-        audit['ocr_validation'] = {
+        audit['retired_validation'] = {
             'status': 'COMPLETE' if not failures else 'UNRESOLVED',
             'failures': failures, 'retry_count': len(retry_records), **coverage,
         }
         audit.update(coverage, failures=failures, selected_attempt=selected,
                      status='COMPLETE' if not failures else 'UNRESOLVED',
                      topology_source='vlm' if not failures else 'vlm_proposal',
-                     ocr_validation_deferred=False)
+                     page_validation_deferred=False)
         package.structure_audit = audit
         package.topology_locked = False
         if output_dir:

@@ -1,4 +1,4 @@
-"""Run-local performance telemetry for OCR and model requests."""
+"""Run-local performance telemetry for visual model requests."""
 from __future__ import annotations
 
 import copy
@@ -106,7 +106,7 @@ class PerformanceCollector:
             aggregates[name] = bucket
         response = {
             "request_count": len(events),
-            # This is a sum of operation durations. Nested OCR page/crop calls
+            # This is a sum of operation durations. Nested model calls
             # can overlap, so document wall time remains authoritative in the
             # manifest and phase trace.
             "cumulative_operation_seconds": round(

@@ -9,12 +9,13 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 from .contracts import ExamItem, ExamPackage, OCRBlock, Page, PageRegion, Slot
 from .layout import QuestionLayoutService
 from .roi import xyxy_to_yxyx
+from .reading_order import ordered_slots
 
 
 _CHOICE_TYPES = ("choice", "single", "multiple", "mcq", "judgment", "true_false", "选择", "判断")
 _FILL_TYPES = ("fill", "blank", "cloze", "completion", "填空")
 _GRID_TYPES = ("grid", "tianzige", "田字格", "答题卡")
-_LARGE_TYPES = ("composition", "essay", "drawing", "proof", "作文", "作图", "证明")
+_LARGE_TYPES = ("composition", "essay", "drawing", "proof", "作文", "作图", "证明", "solve", "large_writing")
 _OPTION_LABEL = re.compile(r"(?:^|\s)[A-HＡ-Ｈ]\s*[.、．:)）]", re.IGNORECASE)
 _BRACKET = re.compile(r"[\(（\[【]([^\)）\]】]{0,24})[\)）\]】]")
 _SCORE = re.compile(
@@ -58,8 +59,8 @@ def _answer_parts(item: ExamItem) -> List[str]:
     elif answer is None:
         values = []
     else:
-        values = [part for part in re.split(r"[,，、;；|\n]+", str(answer)) if part.strip()]
-    return [str(value).strip() for value in values if str(value).strip()]
+        values = str(answer).split("；")
+    return [str(value).strip() if value is not None else None for value in values]
 
 
 def _expected_text(item: ExamItem, index: int) -> Optional[str]:
@@ -501,6 +502,10 @@ class MultiSlotTopologyEngine:
         if explicit > 0:
             return explicit, item.slot_count_source or "vlm"
 
+        if cls._effective_kind(item) == "large_writing":
+            return 1, "logical_free_response"
+        if cls._effective_kind(item) == "choice":
+            return 1, "logical_choice_response"
         answer_count = _teacher_answer_count(item)
         if answer_count:
             return answer_count, "teacher_standard_answer"
@@ -786,20 +791,26 @@ class MultiSlotTopologyEngine:
         page = page_map.get(candidate.page_index)
         height = float((page.height if page else None) or 2338)
         width = float((page.width if page else None) or 1654)
+        if len(candidate.expected_bbox or []) != 4 or len(reference.expected_bbox or []) != 4:
+            return 1.0 - confidence
         cy = (candidate.expected_bbox[0] + candidate.expected_bbox[2]) / 2.0
         cx = (candidate.expected_bbox[1] + candidate.expected_bbox[3]) / 2.0
         ry = (reference.expected_bbox[0] + reference.expected_bbox[2]) / 2.0
         rx = (reference.expected_bbox[1] + reference.expected_bbox[3]) / 2.0
         geometry = abs(cy-ry) / max(1.0, height) + abs(cx-rx) / max(1.0, width)
-        return geometry + 0.30 * (1.0 - confidence)
+        before = [b for b in (page.ocr if page else []) if len(b.bbox) == 4
+                  and b.bbox[2] <= candidate.expected_bbox[1]+8
+                  and abs((b.bbox[1]+b.bbox[3])/2-cy) <= max(18,candidate.expected_bbox[2]-candidate.expected_bbox[0])]
+        observed = max(before,key=lambda b:b.bbox[2]).text[-48:] if before else ""
+        semantic = (1-SequenceMatcher(None,_normalized(observed),_normalized(reference.anchor_before)).ratio()
+                    if observed and reference.anchor_before else 0)
+        return geometry + .4*semantic + 0.30 * (1.0 - confidence)
 
     @classmethod
     def _match_to_references(cls, candidates: Sequence[Slot], references: Sequence[Slot],
                              page_map: Dict[int, Page]) -> Dict[int, Slot]:
         """Minimum-cost monotonic assignment; keys are reference indexes."""
-        ordered_candidates = sorted(candidates, key=lambda value: (
-            value.page_index, value.expected_bbox[0], value.expected_bbox[1]
-        ))
+        ordered_candidates = ordered_slots(candidates)
         ordered_refs = sorted(references, key=lambda value: value.slot_idx)
         n, k = len(ordered_candidates), len(ordered_refs)
         if not n or not k:
@@ -946,6 +957,8 @@ class MultiSlotTopologyEngine:
             text = block.text or ""
             for match in _BRACKET.finditer(text):
                 inner = match.group(1).strip()
+                if inner and re.search(r"[,，=+*/^<>]|[a-zA-Z].*\d|\d.*[a-zA-Z]", inner):
+                    continue
                 context = text[max(0, match.start()-2):match.start()] + text[match.end():match.end()+2]
                 structural = bool(re.fullmatch(r"(?:\d{1,3}|[ivxlcdm]{1,6})", inner, re.I)) and match.start() <= 4
                 formula = bool(re.search(r"[=+*/^<>]", inner + context)) or bool(
@@ -959,6 +972,8 @@ class MultiSlotTopologyEngine:
             for match in matches:
                 inner = match.group(1).strip()
                 normalized_inner = _normalized(inner)
+                if inner and re.search(r"[,，=+*/^<>]|[a-zA-Z].*\d|\d.*[a-zA-Z]", inner):
+                    continue
                 if _SCORE.fullmatch(inner):
                     continue
                 structural = bool(re.fullmatch(r"(?:\d{1,3}|[ivxlcdm]{1,6})", inner, re.I)) and match.start() <= 4
@@ -981,11 +996,11 @@ class MultiSlotTopologyEngine:
 
                 if blank:
                     confidence, evidence = 0.98, "empty_bracket_cavity"
-                elif expected_match:
-                    confidence, evidence = 0.97, "matches_teacher_answer"
+                elif expected_match and not function_or_formula:
+                    confidence, evidence = 0.65, "short_response_candidate"
                 elif kind == "choice" and option_label:
                     confidence, evidence = 0.90, "choice_label_in_brackets"
-                elif kind == "fill" and len(inner) <= 16 and not math_expression:
+                elif kind == "fill" and len(inner) <= 16 and not math_expression and not function_or_formula:
                     # Boost confidence for fill blanks
                     confidence, evidence = 0.82, "short_content_in_declared_blank"
                 elif kind == "fill" and expected_count > 1 and total_brackets >= expected_count:
@@ -1402,6 +1417,48 @@ class MultiSlotTopologyEngine:
             candidate.component_count,
         ) for index, candidate in enumerate(primitives)]
 
+    def _discover_free_response(self, item, page, image, reference_image, regions,
+                                reference_kind, reference_confidence):
+        from .ink_separation import NoBlankInkSeparator
+        import cv2
+        import numpy as np
+        fragments = []
+        if item.quality.get("geometry_status") == "UNRESOLVED_SUBITEM_BOUNDARY":
+            return []
+        for region in regions:
+            x1,y1,x2,y2 = [int(v) for v in region.bbox]
+            x1,y1 = max(0,x1),max(0,y1)
+            x2,y2 = min(image.shape[1],x2),min(image.shape[0],y2)
+            if x2 <= x1 or y2 <= y1:
+                continue
+            crop = image[y1:y2,x1:x2]
+            ref = reference_image[y1:y2,x1:x2] if reference_image is not None else None
+            separation = NoBlankInkSeparator.separate(crop,ref,self.policy,reference_kind,reference_confidence)
+            mask = separation["handwriting_mask"]
+            # Exclude known prompt lines; do not treat their parentheses as answers.
+            for block in page.ocr:
+                if len(block.bbox) != 4 or not block.text.strip():
+                    continue
+                if len(block.text.strip()) >= 10 and block.text.strip() in item.question_text:
+                    bx1,by1,bx2,by2 = [int(v) for v in block.bbox]
+                    mask[max(0,by1-y1):max(0,min(y2,by2)-y1),
+                         max(0,bx1-x1):max(0,min(x2,bx2)-x1)] = 0
+            joined = cv2.morphologyEx(mask,cv2.MORPH_CLOSE,np.ones((5,21),np.uint8))
+            count,_,stats,_ = cv2.connectedComponentsWithStats(joined,8)
+            for x,y,w,h,area in stats[1:]:
+                if area >= 35 and h >= 8 and w >= 8:
+                    fragments.append([int(y1+y),int(x1+x),int(y1+y+h),int(x1+x+w)])
+        if not fragments:
+            return []
+        box=[min(b[0] for b in fragments),min(b[1] for b in fragments),
+             max(b[2] for b in fragments),max(b[3] for b in fragments)]
+        slot=Slot(1,"free_response",item.item_id,box,page.index)
+        slot.audit={"evidence":"free_response_components", "candidate_confidence":.65,
+                    "physical_fragments_yxyx":fragments, "coordinate_authority":"student_page_only"}
+        item.expected_slot_count = 1
+        item.slot_count_source = "logical_free_response"
+        return [slot]
+
     def discover_item(self, item: ExamItem, page: Page, image: Any,
                       inherited_slots: Sequence[Slot] = (), reference_image: Any = None,
                       reference_kind: str = "teacher",
@@ -1416,6 +1473,11 @@ class MultiSlotTopologyEngine:
             regions = [region for region in self._regions(item)
                        if region.page_index == page.index]
         kind = self._effective_kind(item)
+        if kind == "large_writing":
+            # A free response has one logical answer, not a slot per formula
+            # parenthesis, underline, or line of working.
+            return self._discover_free_response(item, page, image, reference_image, regions,
+                                                reference_kind, reference_confidence)
         target_count, count_source = self._resolve_slot_count(
             item, inherited_slots, self.policy
         )
@@ -1634,7 +1696,7 @@ class MultiSlotTopologyEngine:
                                         reference_confidence, question_corridor,
                                         band if band_page == index else None,
                                     ))
-                        if student_mode:
+                        if student_mode and not self._is_large_writing_item(item):
                             found = self._lock_student_cardinality(
                                 item, found, inherited_slots, page_map, self.policy,
                                 question_corridor,
@@ -1661,7 +1723,9 @@ class MultiSlotTopologyEngine:
                                     "topology_source": "teacher",
                                     "expected_source": ("teacher_truth_or_ocr" if slot.expected_text else "missing"),
                                 })
-                        item.slots = found
+                        item.slots = ordered_slots(found)
+                        for local_index, current_slot in enumerate(item.slots, 1):
+                            current_slot.slot_idx = local_index
                         if not item.expected_slot_count and found:
                             resolved_count, resolved_source = self._resolve_slot_count(
                                 item, inherited_slots, self.policy
@@ -1729,6 +1793,8 @@ class MultiSlotTopologyEngine:
                         if not placeholder:
                             occupied.setdefault(slot.page_index, []).append((item.item_id, slot.expected_bbox))
                     item.slots = accepted_slots
+                    from .semantic_slots import bind_semantic_slots
+                    bind_semantic_slots(item, page_map)
 
                     # P1 修复：将槽位检测找到的答题区域回写到 student_regions
                     # 这样 student_answer OCR 就会从正确的区域提取

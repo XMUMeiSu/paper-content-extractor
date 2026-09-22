@@ -42,6 +42,10 @@ from exam_pipeline.contracts import (
     RoIPatchRef as ModularRoIPatchRef,
 )
 
+# All adapters must share the same OCR cache when invoked as a script.
+if __name__ == "__main__":
+    sys.modules.setdefault("homework_extractor", sys.modules[__name__])
+
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tif", ".tiff"}
 _PADDLE_OCR = None
 _PADDLE_OCR_INIT_ERROR: Optional[Exception] = None
@@ -584,16 +588,65 @@ def read_ocr_jsonl(path: Optional[Path]) -> Dict[str, List[OCRBlock]]:
     return result
 
 
-def make_pages(paths: Sequence[Path], engine: str, ocr_map: Dict[str, List[OCRBlock]], language: str) -> List[Page]:
+def page_file_fingerprint(path: Path) -> str:
+    """Stable per-image fingerprint used by caches and downstream audits."""
+    digest = hashlib.sha256()
+    try:
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+    except OSError:
+        return ""
+    return digest.hexdigest()
+
+
+def make_pages(paths: Sequence[Path], engine: str, ocr_map: Dict[str, List[OCRBlock]],
+               language: str, document_id: str = "") -> List[Page]:
     pages = []
     for i, path in enumerate(paths, 1):
         key = str(path.resolve())
         blocks = ocr_map.get(key)
         if blocks is None:
-            blocks = ocr_page(path, engine, language)
+            ocr_started = time.monotonic()
+            try:
+                blocks = ocr_page(path, engine, language)
+            except Exception as exc:
+                from exam_pipeline.performance import get_active_collector
+                collector = get_active_collector()
+                if collector:
+                    collector.record(
+                        stage="ocr", provider=str(engine), operation="ocr_page",
+                        duration_seconds=time.monotonic() - ocr_started,
+                        paths=[path], status="FAILED", error_type=type(exc).__name__)
+                raise
+            from exam_pipeline.performance import get_active_collector
+            collector = get_active_collector()
+            if collector:
+                collector.record(
+                    stage="ocr", provider=str(engine), operation="ocr_page",
+                    duration_seconds=time.monotonic() - ocr_started, paths=[path])
         width, height = image_size(path)
-        pages.append(Page(i, str(path), width, height, blocks))
+        physical_id = f"{document_id}:p{i}" if document_id else f"{path.stem}:p{i}"
+        fingerprint = page_file_fingerprint(path)
+        pages.append(Page(i, str(path), width, height, blocks,
+                          document_id=document_id,
+                          physical_page_id=physical_id,
+                          file_fingerprint=fingerprint,
+                          ocr_source_fingerprint=fingerprint,
+                          page_index=i))
     return pages
+
+
+def assign_page_identity(pages: Sequence[Page], document_id: str) -> None:
+    """Attach immutable document/page identity after legacy page construction."""
+    for index, page in enumerate(pages, 1):
+        page.document_id = document_id
+        page.page_index = index
+        page.physical_page_id = f"{document_id}:p{index}"
+        current_fingerprint = page_file_fingerprint(Path(page.path))
+        if not page.ocr_source_fingerprint:
+            page.ocr_source_fingerprint = page.file_fingerprint or current_fingerprint
+        page.file_fingerprint = current_fingerprint
 
 
 def ocr_text(pages: Sequence[Page]) -> str:
@@ -724,6 +777,26 @@ def _prompt(role: str, subject: str, pages: Sequence[Page], teacher: Optional[Di
     )
 
 
+class StructuredModelResult(dict):
+    """Parsed structured output with transport metadata outside JSON keys."""
+
+    def __init__(self, value: Dict[str, Any], response_audit: Optional[Dict[str, Any]] = None):
+        super().__init__(value)
+        self.response_audit = dict(response_audit or {})
+
+
+class StructuredOutputError(ValueError):
+    """Machine-readable structured-output failure safe to persist in audits."""
+
+    def __init__(self, code: str, detail: str, *, response_audit: Optional[Dict[str, Any]] = None,
+                 raw_text: str = ""):
+        super().__init__(detail)
+        self.code = code
+        self.detail = detail
+        self.response_audit = dict(response_audit or {})
+        self.raw_text = raw_text
+
+
 def _extract_json(value: Any) -> Dict[str, Any]:
     if isinstance(value, dict):
         return value
@@ -731,14 +804,19 @@ def _extract_json(value: Any) -> Dict[str, Any]:
     text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.I | re.S).strip()
     start = text.find("{")
     if start < 0:
-        raise ValueError("模型未返回合法 JSON")
+        raise StructuredOutputError("JSON_OBJECT_NOT_FOUND", "模型响应中没有 JSON 对象", raw_text=text)
     decoder = json.JSONDecoder()
     try:
         result, end = decoder.raw_decode(text, start)
     except json.JSONDecodeError as exc:
-        raise ValueError("模型未返回合法 JSON: {}".format(exc))
+        raise StructuredOutputError(
+            "INVALID_JSON",
+            "JSON 解析失败: line {} column {} char {}: {}".format(
+                exc.lineno, exc.colno, exc.pos, exc.msg),
+            raw_text=text,
+        ) from exc
     if not isinstance(result, dict):
-        raise ValueError("模型 JSON 必须为对象")
+        raise StructuredOutputError("JSON_ROOT_NOT_OBJECT", "模型 JSON 根节点必须为对象", raw_text=text)
     trailing = text[end:].strip()
     while trailing:
         trailing = re.sub(r"^```(?:json)?\s*|\s*```$", "", trailing,
@@ -751,13 +829,14 @@ def _extract_json(value: Any) -> Dict[str, Any]:
         except json.JSONDecodeError:
             break
         if isinstance(extra, dict) and extra != result:
-            raise ValueError("模型返回多个不一致 JSON 对象")
+            raise StructuredOutputError(
+                "MULTIPLE_JSON_OBJECTS", "模型返回多个不一致 JSON 对象", raw_text=text)
         trailing = trailing[next_end:].strip()
     return result
 
 
 def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], endpoint: str,
-                timeout: int, schema: Dict[str, Any], max_attempts: int = 3) -> Dict[str, Any]:
+                timeout: int, schema: Dict[str, Any], max_attempts: int = 2) -> Dict[str, Any]:
     """Call Ark's Responses API with Doubao vision inputs."""
     if not api_key or not api_key.strip():
         raise ValueError("未配置 DOUBAO_API_KEY")
@@ -776,7 +855,10 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
     }
     req = urllib.request.Request(endpoint, data=json.dumps(payload).encode(), headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}, method="POST")
     raw: Dict[str, Any] = {}
+    retry_reasons: List[str] = []
+    attempts_used = 0
     for attempt in range(1, max_attempts + 1):
+        attempts_used = attempt
         try:
             with urllib.request.urlopen(req, timeout=timeout) as response:
                 raw = json.loads(response.read().decode())
@@ -785,13 +867,29 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
             body = exc.read().decode(errors="replace")
             retryable = exc.code == 429 or 500 <= exc.code < 600
             if not retryable or attempt == max_attempts:
-                raise RuntimeError(f"视觉模型 HTTP {exc.code}: {body[:500]}") from exc
+                error = RuntimeError(f"视觉模型 HTTP {exc.code}: {body[:500]}")
+                error.response_audit = {"attempts": attempts_used,
+                                        "retry_reasons": retry_reasons + [f"http_{exc.code}"]}
+                raise error from exc
+            retry_reasons.append(f"http_{exc.code}")
             LOGGER.warning("vlm_retry attempt=%d status=%d", attempt, exc.code)
         except (urllib.error.URLError, TimeoutError) as exc:
             if attempt == max_attempts:
-                raise RuntimeError(f"视觉模型网络请求失败: {exc}") from exc
+                error = RuntimeError(f"视觉模型网络请求失败: {exc}")
+                error.response_audit = {"attempts": attempts_used,
+                                        "retry_reasons": retry_reasons + ["network"]}
+                raise error from exc
+            retry_reasons.append("network")
             LOGGER.warning("vlm_retry attempt=%d reason=network", attempt)
         time.sleep(min(4.0, 0.5 * (2 ** (attempt - 1))))
+    response_audit = {
+        "response_id": raw.get("id"),
+        "status": raw.get("status"),
+        "incomplete_details": raw.get("incomplete_details"),
+        "usage": raw.get("usage"),
+        "attempts": attempts_used,
+        "retry_reasons": retry_reasons,
+    }
     text = raw.get("output_text")
     if not text:
         chunks = []
@@ -800,9 +898,23 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
                 if part.get("type") in {"output_text", "text"}:
                     chunks.append(part.get("text", ""))
         text = "".join(chunks)
+    output_incomplete = raw.get("status") == "incomplete" or any(
+        item.get("status") == "incomplete" for item in raw.get("output", [])
+        if isinstance(item, dict)
+    )
+    if output_incomplete:
+        raise StructuredOutputError(
+            "OUTPUT_INCOMPLETE", "模型输出未完成，需缩小请求范围后重试",
+            response_audit=response_audit, raw_text=text,
+        )
     if not text:
         raise RuntimeError("豆包 Responses 响应中没有 output_text")
-    return _extract_json(text)
+    try:
+        parsed = _extract_json(text)
+    except StructuredOutputError as exc:
+        exc.response_audit.update(response_audit)
+        raise
+    return StructuredModelResult(parsed, response_audit)
 
 
 def validate_result(result: Dict[str, Any], role: str) -> List[str]:
@@ -911,37 +1023,6 @@ def _section_for_type(item_type: str) -> Tuple[str, str]:
     return "other", "试题"
 
 
-def _snap_to_ink_convex_hull(image_path: Path, bbox: Sequence[float], padding: int = 8) -> List[float]:
-    """Conservatively tighten a Golden region to visible ink, like prototype CSP post-processing."""
-    try:
-        import cv2
-        import numpy as np
-        image = cv2.imread(str(image_path))
-        if image is None or len(bbox) < 4:
-            return list(bbox[:4])
-        height, width = image.shape[:2]
-        left, top, right, bottom = [int(round(x)) for x in bbox[:4]]
-        left, top = max(0, left), max(0, top)
-        right, bottom = min(width, right), min(height, bottom)
-        if right <= left or bottom <= top:
-            return list(bbox[:4])
-        crop = cv2.cvtColor(image[top:bottom, left:right], cv2.COLOR_BGR2GRAY)
-        # OTSU is intentionally local: page-wide shadows have already been
-        # flattened, while this keeps the operation deterministic and cheap.
-        ink = cv2.threshold(crop, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        points = np.column_stack(np.where(ink > 0))
-        if len(points) < 12:
-            return list(bbox[:4])
-        # Ignore isolated speckles; retain the convex hull of connected ink.
-        points_xy = np.column_stack((points[:, 1], points[:, 0])).astype("int32")
-        hull = cv2.convexHull(points_xy)
-        x, y, w, h = cv2.boundingRect(hull)
-        return [max(0, left + x - padding), max(0, top + y - padding),
-                min(width, left + x + w + padding), min(height, top + y + h + padding)]
-    except Exception:
-        return list(bbox[:4])
-
-
 def _new_sections() -> Dict[str, ExamSection]:
     return {key: ExamSection(f"sec_{key}", title, []) for key, title in (
         ("choice", "一、选择题"), ("fill", "二、填空题"),
@@ -949,8 +1030,8 @@ def _new_sections() -> Dict[str, ExamSection]:
 
 
 def package_from_golden(template: Optional[Dict[str, Any]], pages: Sequence[Page],
-                        role: str, subject: str, student_id: Optional[str] = None,
-                        snap_to_ink: bool = True) -> Optional[ExamPackage]:
+                        role: str, subject: str,
+                        student_id: Optional[str] = None) -> Optional[ExamPackage]:
     """Build structure from page/item coordinates and answers in a Golden asset."""
     if not template:
         return None
@@ -981,8 +1062,6 @@ def package_from_golden(template: Optional[Dict[str, Any]], pages: Sequence[Page
             source_h = float(source.get("height", CANONICAL_PAGE_SIZE[1]) or CANONICAL_PAGE_SIZE[1])
             region = _page_region(page, raw.get("bbox"), str(raw.get("stem_full_text", "")), 0.98,
                                   golden_order=True, source_size=(source_w, source_h))
-            if region and snap_to_ink:
-                region.bbox = _snap_to_ink_convex_hull(Path(page.path), region.bbox, padding=8)
             answer = raw.get("ans") if role == "teacher" else raw.get("student_answer_full_text", raw.get("student_answer"))
             # Typed Golden zones are optional for backward compatibility.  If a
             # zone is absent, derive a conservative partition from the item box;
@@ -1082,74 +1161,9 @@ def _blocks_in_span(blocks: Sequence[OCRBlock], top: float, bottom: float, width
 
 
 def heuristic_questions(pages: Sequence[Page], role: str) -> List[ExamSection]:
-    """Extract question anchors from PaddleOCR lines when no template/VLM result is available."""
-    section_map = _new_sections()
-    top_pattern = re.compile(r"^\s*(\d{1,3})\s*[\.、．:：\)]\s*(.*)$")
-    sub_pattern = re.compile(r"(?:^|\s)[\(（](\d+)[\)）]\s*")
-    for page in pages:
-        from exam_pipeline.structuring import order_blocks_column_aware
-        blocks = order_blocks_column_aware(
-            page.ocr, float(page.width or CANONICAL_PAGE_SIZE[0])
-        )
-        anchors = [(idx, int(m.group(1)), block) for idx, block in enumerate(blocks)
-                   if (m := top_pattern.match(block.text or ""))]
-        if not anchors and blocks:
-            anchors = [(0, 0, blocks[0])]
-        for pos, (block_idx, q_num, anchor) in enumerate(anchors):
-            next_idx = anchors[pos + 1][0] if pos + 1 < len(anchors) else len(blocks)
-            start_top = anchor.bbox[1] if len(anchor.bbox) > 1 else 0
-            end_bottom = max((b.bbox[3] for b in blocks[block_idx:next_idx] if len(b.bbox) > 3), default=(page.height or CANONICAL_PAGE_SIZE[1]))
-            span_blocks = blocks[block_idx:next_idx]
-            span_text = " ".join(b.text.strip() for b in span_blocks if b.text.strip())
-            item_starts = [i for i, b in enumerate(span_blocks) if sub_pattern.search(b.text or "")]
-            item_ranges = []
-            if item_starts:
-                for j, local_start in enumerate(item_starts):
-                    local_end = item_starts[j + 1] if j + 1 < len(item_starts) else len(span_blocks)
-                    bs = span_blocks[local_start:local_end]
-                    top = bs[0].bbox[1] if bs and len(bs[0].bbox) > 1 else start_top
-                    bottom = max((b.bbox[3] for b in bs if len(b.bbox) > 3), default=end_bottom)
-                    item_ranges.append((j + 1, top, bottom, " ".join(b.text.strip() for b in bs)))
-            else:
-                item_ranges = [(1, start_top, end_bottom, span_text)]
-            item_type = "choice" if any(x in span_text for x in ("（ ）", "( )", "A.", "A、", "选择")) else ("fill" if "____" in span_text or "填空" in span_text else "solve")
-            sec_key, _ = _section_for_type(item_type)
-            sec = section_map[sec_key]
-            q_title = span_text[:160] if span_text else f"第{q_num}题"
-            logical_num = q_num or (max((q.question_num for s in section_map.values() for q in s.questions), default=0) + 1)
-            q = ExamQuestion(f"q{logical_num}", logical_num, q_title, [])
-            for sub_num, top, bottom, text in item_ranges:
-                from exam_pipeline.slots import infer_item_type
-                local_item_type = infer_item_type(text, item_type)
-                local_sec_key, _ = _section_for_type(local_item_type)
-                range_blocks = [block for block in span_blocks if len(block.bbox) >= 4
-                                and block.bbox[1] >= top - 8 and block.bbox[3] <= bottom + 8]
-                page_width = float(page.width or CANONICAL_PAGE_SIZE[0])
-                if range_blocks:
-                    left = max(0.0, min(float(block.bbox[0]) for block in range_blocks) - 24.0)
-                    right = min(page_width, max(float(block.bbox[2]) for block in range_blocks) + 24.0)
-                else:
-                    left, right = 0.0, page_width
-                region = PageRegion(page.index, page.path, [left, top, right, bottom], None, text)
-                q.items.append(ExamItem(
-                    item_id=f"q{logical_num}_{sub_num}" if len(item_ranges) > 1 else f"q{logical_num}",
-                    item_name=f"{logical_num}.({sub_num})" if len(item_ranges) > 1 else f"第{logical_num}题",
-                    question_text=text, student_answer=text if role == "student" else None,
-                    answer_regions=[region], student_regions=[region] if role == "student" else [],
-                    item_type=local_item_type,
-                    stem_region=copy.deepcopy(region),
-                    option_regions=([PageRegion(region.page_index, region.page_file,
-                                                [region.bbox[0], region.bbox[1] + (region.bbox[3]-region.bbox[1])*0.55, region.bbox[2], region.bbox[3]], region.confidence)]
-                                    if local_sec_key == "choice" else []),
-                    blank_regions=([PageRegion(region.page_index, region.page_file,
-                                               [region.bbox[0], region.bbox[1] + (region.bbox[3]-region.bbox[1])*0.60, region.bbox[2], region.bbox[3]], region.confidence)]
-                                   if local_sec_key == "fill" else []),
-                    writing_regions=([PageRegion(region.page_index, region.page_file,
-                                                 [region.bbox[0], region.bbox[1] + (region.bbox[3]-region.bbox[1])*0.42, region.bbox[2], region.bbox[3]], region.confidence)]
-                                     if local_sec_key in {"solve", "other"} else []),
-                ))
-            sec.questions.append(q)
-    return [s for s in section_map.values() if s.questions]
+    """Build a deterministic candidate from page-aware physical evidence."""
+    from exam_pipeline.structure_recovery import build_sections
+    return build_sections(pages, role)
 
 
 def _page_exit_text(value: Any) -> str:
@@ -1386,7 +1400,7 @@ def package_from_result(result: Dict[str, Any], pages: Sequence[Page], role: str
 def reconcile_exam_package(package: ExamPackage) -> List[str]:
     """Merge duplicate cross-page questions and validate sequence and score conservation."""
     warnings: List[str] = []
-    by_num: Dict[int, ExamQuestion] = {}
+    by_num: Dict[str, ExamQuestion] = {}
     last_seen_num = 0
     for section in package.sections:
         repaired: List[ExamQuestion] = []
@@ -1399,8 +1413,8 @@ def reconcile_exam_package(package: ExamPackage) -> List[str]:
                         item.is_cross_page = True
                     warnings.append("发现无题号的跨页小题，已挂接到上一道大题")
                 continue
-            if question.question_num in by_num:
-                target = by_num[question.question_num]
+            if question.question_id in by_num:
+                target = by_num[question.question_id]
                 existing = {item.item_id: item for item in target.items}
                 for item in question.items:
                     if item.item_id in existing:
@@ -1421,9 +1435,9 @@ def reconcile_exam_package(package: ExamPackage) -> List[str]:
                 continue
             if last_seen_num and question.question_num < last_seen_num:
                 warnings.append(
-                    f"题号非单调递增：Q{last_seen_num} 后出现 Q{question.question_num}，请进入 HITL 核对"
+                    f"题号非单调递增：Q{last_seen_num} 后出现 Q{question.question_num}，请记录未解决状态 核对"
                 )
-            by_num[question.question_num] = question
+            by_num[question.question_id] = question
             last_seen_num = question.question_num
             for index, item in enumerate(question.items, 1):
                 if not item.item_id:
@@ -1432,7 +1446,7 @@ def reconcile_exam_package(package: ExamPackage) -> List[str]:
                     item.item_name = f"{question.question_num}.({index})"
             repaired.append(question)
         section.questions = repaired
-    nums = sorted(by_num)
+    nums = sorted({q.question_num for q in by_num.values()})
     if nums and nums != list(range(nums[0], nums[-1] + 1)):
         warnings.append(f"题号序列存在缺口: {nums}")
     # Page-local extraction appends sections on every page. Consolidate same
@@ -1470,7 +1484,7 @@ def _prepare_paths(paths: Sequence[Path], output: Path, subject: str, role: str)
     return normalized, metadata, warnings
 
 
-def process(dataset: Path, output: Path, model: str, api_key: Optional[str], endpoint: str, ocr_engine: str, ocr_json: Optional[Path], dry_run: bool, include_scan: bool, language: str, timeout: int, golden: Optional[Path] = None, limit: Optional[int] = None, local_ocr: bool = True, feedback_db: Optional[Path] = None, grounding_kb: Optional[Path] = None, cohort_consensus: bool = True, consensus_max_samples: int = 12, save_separation_masks: bool = False, paddle_model_tier: Optional[str] = None, subject_filter: Optional[str] = None, student_id_filter: Optional[str] = None, exam_tree_overrides: Optional[Path] = None, structure_vlm: str = "auto", paddleocr_vl_endpoint: Optional[str] = None, paddleocr_vl_model: str = PADDLEOCR_VL_MODEL, paddleocr_vl_api_key: Optional[str] = None, tree_llm_endpoint: Optional[str] = None, tree_llm_model: str = TREE_LLM_MODEL, tree_llm_api_key: Optional[str] = None, tree_llm_use_doubao: bool = False, slot_vlm_verify: bool = False, production_mode: bool = False) -> Dict[str, Any]:
+def process(dataset: Path, output: Path, model: str, api_key: Optional[str], endpoint: str, ocr_engine: str, ocr_json: Optional[Path], dry_run: bool, include_scan: bool, language: str, timeout: int, golden: Optional[Path] = None, limit: Optional[int] = None, local_ocr: bool = True, feedback_db: Optional[Path] = None, grounding_kb: Optional[Path] = None, paddle_model_tier: Optional[str] = None, subject_filter: Optional[str] = None, student_id_filter: Optional[str] = None, exam_tree_overrides: Optional[Path] = None, structure_vlm: str = "auto", paddleocr_vl_endpoint: Optional[str] = None, paddleocr_vl_model: str = PADDLEOCR_VL_MODEL, paddleocr_vl_api_key: Optional[str] = None, tree_llm_endpoint: Optional[str] = None, tree_llm_model: str = TREE_LLM_MODEL, tree_llm_api_key: Optional[str] = None, tree_llm_use_doubao: bool = False, slot_vlm_verify: bool = False, production_mode: bool = False, slot_semantics: str = "auto") -> Dict[str, Any]:
     global PADDLE_MODEL_TIER, PADDLE_DET_MODEL, PADDLE_REC_MODEL, _PADDLE_OCR
     if paddle_model_tier is not None:
         requested_tier = str(paddle_model_tier).strip().lower()
@@ -1488,34 +1502,19 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
     from exam_pipeline.knowledge import GroundingKnowledgeBase
     from exam_pipeline.structure_vlm import PaddleOCRVLStructureClient
     from exam_pipeline.tree_llm import ExamTreeLLMClient
+    from exam_pipeline.performance import PerformanceCollector, set_active_collector
 
-    if production_mode:
-        if not local_ocr or not cohort_consensus:
-            raise ValueError("--production 必须启用本地 OCR 和多卷共识")
-        if not str(api_key or "").strip():
-            raise ValueError("--production 需要 DOUBAO_API_KEY 或 --api-key")
-        if str(structure_vlm or "auto").strip().lower() == "none":
-            raise ValueError("--production 不允许关闭结构 VLM")
-        tree_llm_use_doubao = True
-        slot_vlm_verify = True
+    performance_collector = PerformanceCollector()
+    set_active_collector(performance_collector)
 
     requested_structure_vlm = str(structure_vlm or "auto").strip().lower()
     if requested_structure_vlm not in {"auto", "paddleocr-vl", "doubao", "none"}:
         raise ValueError(f"不支持的结构模型: {structure_vlm}")
     paddleocr_vl_endpoint = str(paddleocr_vl_endpoint or PADDLEOCR_VL_ENDPOINT or "").strip()
-    if production_mode:
-        if not paddleocr_vl_endpoint:
-            raise ValueError(
-                "--production 需要独立 PaddleOCR-VL 服务：请配置 "
-                "PADDLEOCR_VL_ENDPOINT 或 --paddleocr-vl-endpoint"
-            )
-        if requested_structure_vlm not in {"auto", "paddleocr-vl"}:
-            raise ValueError("--production 的结构理解必须使用 PaddleOCR-VL")
-        requested_structure_vlm = "paddleocr-vl"
     if requested_structure_vlm == "auto":
         active_structure_vlm = (
-            "paddleocr-vl" if paddleocr_vl_endpoint
-            else "doubao" if api_key
+            "doubao" if api_key
+            else "paddleocr-vl" if paddleocr_vl_endpoint
             else "none"
         )
     else:
@@ -1535,6 +1534,17 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
             timeout=timeout,
         ) if active_structure_vlm == "paddleocr-vl" and paddleocr_vl_endpoint else None
     )
+    structure_request = None
+    if not dry_run and active_structure_vlm == "doubao":
+        structure_request = lambda prompt, images, schema: call_doubao(
+            model, str(api_key or ""), prompt, images, endpoint, timeout, schema)
+    elif not dry_run and active_structure_vlm == "paddleocr-vl" and paddleocr_vl_client:
+        structure_request = lambda prompt, images, schema: paddleocr_vl_client.analyze(prompt, images)
+    structure_base_request = structure_request
+    if structure_request is not None:
+        structure_request = performance_collector.instrument(
+            structure_request, stage="question_tree_generation",
+            provider=active_structure_vlm, operation="structure_request")
     if tree_llm_use_doubao:
         tree_llm_endpoint = endpoint
         tree_llm_model = model
@@ -1545,8 +1555,6 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
     tree_llm_model = str(tree_llm_model or TREE_LLM_MODEL or "").strip()
     if tree_llm_endpoint and not tree_llm_model:
         raise ValueError("配置 TREE_LLM_ENDPOINT 时必须同时配置 TREE_LLM_MODEL")
-    if tree_llm_endpoint and active_structure_vlm != "paddleocr-vl":
-        raise ValueError("--tree-llm-endpoint 当前必须与 --structure-vlm paddleocr-vl 配合使用")
     tree_llm_client = (
         ExamTreeLLMClient(
             endpoint=tree_llm_endpoint,
@@ -1555,22 +1563,106 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
             timeout=timeout,
         ) if tree_llm_endpoint else None
     )
-    if slot_vlm_verify and not dry_run and not str(api_key or "").strip():
-        raise ValueError("--slot-vlm-verify 需要 DOUBAO_API_KEY 或 --api-key")
-    slot_vision_verifier = None
-    if slot_vlm_verify and not dry_run:
-        from exam_pipeline.slot_vlm import SlotCoordinateVisionVerifier
-        slot_vision_verifier = SlotCoordinateVisionVerifier(
-            request=lambda prompt, paths, schema: call_doubao(
-                model, str(api_key), prompt, paths, endpoint, timeout, schema
-            ),
-            model=model,
+    # Visual models assign meaning and candidate IDs; geometry stays local.
+    from exam_pipeline.slot_semantics import VisualSlotSemanticService
+    requested_semantics = str(slot_semantics or "auto").lower()
+    if requested_semantics not in {"auto", "doubao", "paddleocr-vl", "none"}:
+        raise ValueError("不支持的槽位语义模型: " + requested_semantics)
+    if slot_vlm_verify and requested_semantics == "none":
+        raise ValueError("--slot-vlm-verify 已改为语义候选选择，不能与 --slot-semantics none 同时使用")
+    semantic_provider = requested_semantics
+    if semantic_provider == "auto":
+        semantic_provider = "doubao" if api_key else "paddleocr-vl" if paddleocr_vl_endpoint else "none"
+    semantic_request = None
+    if not dry_run and semantic_provider == "doubao":
+        if not api_key:
+            raise ValueError("--slot-semantics doubao 需要 DOUBAO_API_KEY")
+        semantic_request = lambda prompt, paths, schema: call_doubao(
+            model, str(api_key), prompt, paths, endpoint, timeout, schema)
+    elif not dry_run and semantic_provider == "paddleocr-vl":
+        if not paddleocr_vl_endpoint:
+            raise ValueError("--slot-semantics paddleocr-vl 需要 PADDLEOCR_VL_ENDPOINT")
+        semantic_client = paddleocr_vl_client or PaddleOCRVLStructureClient(
+            endpoint=paddleocr_vl_endpoint, model=paddleocr_vl_model,
+            api_key=str(paddleocr_vl_api_key or ""), timeout=timeout)
+        semantic_request = lambda prompt, paths, schema: semantic_client.analyze(prompt, paths)
+    if slot_vlm_verify and semantic_request is None and not dry_run:
+        raise ValueError("--slot-vlm-verify 需要可用的视觉模型配置")
+    semantic_base_request = semantic_request
+    if semantic_base_request is not None:
+        semantic_request = performance_collector.instrument(
+            semantic_base_request, stage="slot_semantic_proposal",
+            provider=semantic_provider, operation="semantic_request")
+    semantic_service = VisualSlotSemanticService(
+        semantic_request, semantic_provider,
+        ocr_engine=ocr_engine, language=language)
+    from exam_pipeline.question_localization import VisualQuestionLocalizer
+    question_localization_base = semantic_base_request
+    question_localization_request = (
+        performance_collector.instrument(
+            question_localization_base, stage="question_localization",
+            provider=semantic_provider, operation="question_localization_request")
+        if question_localization_base is not None else structure_request
+    )
+    question_localizer = VisualQuestionLocalizer(
+        question_localization_request,
+        semantic_provider if semantic_request else active_structure_vlm,
+    )
+    from exam_pipeline.answer_vision import AnswerVisionClient
+    answer_request = (
+        performance_collector.instrument(
+            semantic_base_request, stage="answer_recognition",
+            provider=semantic_provider, operation="answer_transcription_request")
+        if semantic_base_request is not None else None
+    )
+    answer_vision_client = (
+        AnswerVisionClient(answer_request) if answer_request is not None and semantic_provider == "doubao"
+        else paddleocr_vl_client
+    )
+    from exam_pipeline.visual_extraction import VisualExamExtractionService
+    visual_extraction_base = semantic_base_request
+    visual_extraction_provider = semantic_provider
+    visual_extraction_request = (
+        performance_collector.instrument(
+            visual_extraction_base, stage="visual_page_extraction",
+            provider=visual_extraction_provider, operation="page_joint_extraction")
+        if visual_extraction_base is not None else None
+    )
+    visual_extraction_service = VisualExamExtractionService(
+        visual_extraction_request, visual_extraction_provider
+    )
+    vlm_only = bool(
+        not dry_run and structure_request is not None
+        and semantic_base_request is not None
+        and visual_extraction_request is not None
+    )
+    if production_mode and not local_ocr and not vlm_only:
+        raise ValueError(
+            "--production without local OCR requires configured structure and slot VLMs"
         )
 
     output.mkdir(parents=True, exist_ok=True)
+    cache_base = Path(os.getenv(
+        "EXAM_PIPELINE_CACHE_DIR",
+        str(Path(__file__).resolve().parent / ".exam_pipeline_cache"),
+    )).expanduser().resolve()
+    dataset_cache_id = hashlib.sha256(str(dataset.resolve()).encode("utf-8")).hexdigest()[:16]
+    cache_root = cache_base / "datasets" / dataset_cache_id
+    cache_root.mkdir(parents=True, exist_ok=True)
     grounding_policy = (
         GroundingKnowledgeBase.load(grounding_kb) if grounding_kb else None
     )
+    grounding_runtime_audit = ({
+        "version": grounding_policy.version,
+        "source_path": grounding_policy.source_path,
+        "source_sha256": grounding_policy.source_sha256,
+        "active_rules": [],
+        "runtime_role": ("disabled_in_vlm_only_path" if vlm_only
+                         else "question_layout_only"),
+        "slot_coordinate_authority": ("vlm_original_page_pixels" if vlm_only
+                                      else "ocr_boxes_only"),
+        "legacy_ink_rules_enabled": False,
+    } if grounding_policy else {})
     ocr_map = read_ocr_jsonl(ocr_json)
     all_docs = discover_documents(dataset, include_scan)
     docs = list(all_docs)
@@ -1608,14 +1700,39 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
     teachers: Dict[str, Dict[str, Any]] = {}
     teacher_packages: Dict[str, ExamPackage] = {}
     teacher_pages: Dict[str, List[Page]] = {}
-    consensus_pages: Dict[str, List[Page]] = {}
-    consensus_audits: Dict[str, Dict[str, Any]] = {}
+    # Cohort print/handwriting templates were removed from the production
+    # path. Keep the input flag for API/CLI compatibility and audit that it
+    # was ignored; no template is generated, loaded, or passed downstream.
     exam_trees: Dict[str, Dict[str, Any]] = {}
     applied_tree_overrides: Dict[str, Dict[str, Any]] = {}
     batch_audit_pages: Dict[str, List[Dict[str, Any]]] = {}
     golden_service = GoldenTemplateService()
     started_monotonic = time.monotonic()
     started_at = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    runtime_pipeline_order = ([
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output",
+    ] if vlm_only else [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "question_localization",
+        "slot_semantic_proposal",
+        "ocr_vlm_cross_validation",
+        "ocr_coordinate_grounding",
+        "answer_recognition",
+        "automatic_repair",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output",
+    ])
     manifest = {
         "schema_version": "exam_manifest.v4",
         "status": "RUNNING",
@@ -1625,15 +1742,17 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
         "errors": [],
         "generated_goldens": {},
         "exam_trees": {},
-        "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, page_files)",
+        "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, diagrams, page_files)",
         "canonical_canvas": {"width": 1654, "height": 2338},
-        "architecture_spec": "PRODUCTION_PIPELINE_SPEC(1).md",
+        "architecture_spec": "PRODUCTION_PIPELINE_SPEC.md",
         "runtime": {
-            "pipeline_version": "2.7.0",
+            "pipeline_version": "2.12.0",
+            "pipeline_order": runtime_pipeline_order,
+            "recognition_mode": "vlm_only" if vlm_only else "legacy_ocr_compatible",
             "production_mode": bool(production_mode),
             "model": model,
             "endpoint": endpoint,
-            "ocr_engine": ocr_engine,
+            "ocr_engine": "disabled_in_vlm_only_path" if vlm_only else ocr_engine,
             "paddle_models": {
                 "tier": PADDLE_MODEL_TIER,
                 "detection": PADDLE_DET_MODEL,
@@ -1646,12 +1765,23 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                           if active_structure_vlm == "doubao" else None),
                 "endpoint": (paddleocr_vl_endpoint if active_structure_vlm == "paddleocr-vl" else endpoint
                              if active_structure_vlm == "doubao" else None),
-                "scope": "semantic_structure_only",
-                "geometry_authority": "ppocrv5_and_deterministic_grounding",
-                "model_geometry_policy": "discard",
+                "scope": "lightweight_whole_document_topology_then_page_text_enrichment",
+                "primary_evidence": "all_original_pages",
+                "proposal_stage": "pre_ocr_original_images",
+                "validation": ("vlm_schema_page_coverage" if vlm_only else
+                               "post_proposal_ocr_anchors_reading_order_subquestions_pages"),
+                "max_semantic_attempts": 2,
+                "page_fallback": "bounded_per_page_topology_and_text_recovery",
+                "id_authority": "local_deterministic",
+                "response_diagnostics": "status_incomplete_details_usage_parse_position_raw_artifact",
+                "geometry_authority": ("vlm_original_page_pixels" if vlm_only else
+                                       "ppocrv5_and_deterministic_grounding"),
+                "model_geometry_policy": "final" if vlm_only else "discard",
             },
             "tree_llm": {
-                "enabled": bool(tree_llm_client),
+                "enabled": False,
+                "configured": bool(tree_llm_client),
+                "disabled_reason": "superseded_by_whole_document_visual_tree",
                 "provider": "doubao" if tree_llm_use_doubao else "custom",
                 "protocol": tree_llm_client.protocol if tree_llm_client else None,
                 "model": tree_llm_model or None,
@@ -1667,32 +1797,54 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 "dual_source_pages": 0,
                 "ppocr_fallback_pages": 0,
             },
-            "slot_vlm_verification": {
-                "enabled": bool(slot_vision_verifier),
-                "provider": "doubao" if slot_vision_verifier else None,
-                "model": model if slot_vision_verifier else None,
-                "invocation_policy": "single_question_roi_then_repair_recheck",
-                "authority": "bounded_coordinate_repair_with_local_hard_gates",
-                "minimum_confidence": .70,
-                "repair_policy": "model_proposal_local_hard_gate_second_visual_recheck",
-                "coordinate_protocol": "item_roi_normalized_0_1000",
-                "absolute_page_coordinates_exposed_to_model": False,
+                "slot_semantics": {
+                "requested": requested_semantics, "provider": semantic_provider,
+                "enabled": bool(semantic_request),
+                "authority": ("question_slots_coordinates_and_answers" if vlm_only else
+                              "logical_slots_and_search_proposals_only"),
+                "coordinate_authority": ("vlm_original_page_pixels" if vlm_only else
+                                         "current_page_ocr_boxes"),
+                "max_semantic_attempts_per_item": 2 if vlm_only else 1,
+                "batch_size": "one_physical_page_all_items",
+                "batch_policy": "one_page_batch_then_item_retry",
+                "candidate_visual_review": False,
+                "answer_visual_transcription": bool(answer_vision_client),
+                "answer_authority": ("vlm_original_page" if vlm_only else
+                                     "vlm_primary_ocr_auxiliary"),
+                "fallback": ("page_local_vlm_retry_then_unresolved" if vlm_only else
+                             "unconfigured_or_missing_ocr_coordinates_remain_unresolved"),
+                "ocr_used": False if vlm_only else None,
             },
+            "question_localization": {
+                "enabled": bool(question_localization_request),
+                "provider": semantic_provider if semantic_request else active_structure_vlm,
+                "stage": "visual_page_extraction" if vlm_only else "pre_ocr",
+                "authority": ("vlm_final_question_region" if vlm_only else
+                              "question_search_context_only"),
+                "coordinate_authority": ("vlm_original_page_pixels" if vlm_only else
+                                         "post_ocr_coordinate_grounding"),
+                "fallback": "page_local_vlm_retry" if vlm_only else "declared_page_context",
+            },
+            "slot_vlm_verification": {"enabled": False, "replaced_by": "slot_semantics"},
             "language": language,
-            "local_ocr": local_ocr,
+            "local_ocr": False if vlm_only else local_ocr,
             "dry_run": dry_run,
             "feedback_db": str(feedback_db) if feedback_db else None,
             "grounding_knowledge": (
-                grounding_policy.audit() if grounding_policy else None
+                grounding_runtime_audit or None
             ),
-            "cohort_consensus": {
-                "enabled": bool(cohort_consensus),
-                "max_samples": int(consensus_max_samples),
-                "save_separation_masks": bool(save_separation_masks),
+            "ink_detection": {"enabled": False,
+                              "reason": ("vlm_direct_original_page_extraction" if vlm_only
+                                         else "coordinates_from_ocr_content_from_vlm")},
+            "cache_policy": {
+                "root": str(cache_root),
+                "dataset_cache_id": dataset_cache_id,
+                "exam_tree": ("teacher_fingerprint_locked_vlm_only_v1" if vlm_only else
+                              "teacher_fingerprint_locked"),
+                "ocr": "disabled" if vlm_only else "source_page_fingerprint",
+                "roi": "question_topology_fingerprint",
+                "retry_scope": "failed_slot_or_item_only",
             },
-            "ink_separation_mode": (
-                "cohort_consensus" if cohort_consensus else "single_page_visual"
-            ),
             "input_filter": {
                 "subject": subject_filter,
                 "student_id": student_id_filter,
@@ -1710,22 +1862,43 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
         manifest["total_documents_available"] = len(discover_documents(dataset, include_scan))
     for subject, role, paths in docs:
         doc_id = f"{subject}__{role}__{paths[0].parent.name}"
+        performance_collector.set_document(doc_id)
         safe_doc_id = re.sub(r"[^\w.-]+", "_", doc_id)
         document_started = time.monotonic()
         stage = "input_validation"
         document_audit: Optional[Dict[str, Any]] = None
-        slot_vlm_audit: Optional[Dict[str, Any]] = None
         roi_records: List[Dict[str, Any]] = []
         subitem_stats: Dict[str, int] = {}
+        phase_trace: List[Dict[str, Any]] = []
+        phase_started: Dict[str, float] = {}
+
+        def record_phase(name: str, status: str = "COMPLETED", **details: Any) -> None:
+            now = time.monotonic()
+            event = {
+                "phase": name,
+                "status": status,
+                "at": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
+                **details,
+            }
+            if status == "STARTED":
+                phase_started[name] = now
+            elif name in phase_started:
+                event["duration_seconds"] = round(now - phase_started.pop(name), 3)
+            phase_trace.append(event)
+        record_phase("document_discovery", "COMPLETED", pages=len(paths),
+                     source_files=[str(path) for path in paths])
         try:
             LOGGER.info("document_started id=%s role=%s pages=%d", doc_id, role, len(paths))
             fingerprint = input_fingerprint(paths)
             if not dry_run and role == "student" and subject not in teacher_subjects and not golden_data:
                 raise ValueError(f"学科 {subject} 没有教师卷，无法生成 Golden 并处理学生卷")
             stage = "normalization"
+            record_phase("image_preprocessing", "STARTED")
             page_paths, preprocessing, prep_warnings = (list(paths), [], []) if dry_run else _prepare_paths(paths, output, subject, role)
+            record_phase("image_preprocessing", "COMPLETED", pages=len(page_paths), artifacts=preprocessing)
             registration_meta: List[Dict[str, Any]] = []
-            if not dry_run and role == "student" and subject in teacher_pages:
+            if (not dry_run and not vlm_only and role == "student"
+                    and subject in teacher_pages):
                 stage = "registration"
                 from exam_pipeline.registration import register_pages
                 reference_paths = [Path(page.path) for page in teacher_pages[subject]]
@@ -1737,69 +1910,125 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 page_paths = registered_paths
                 preprocessing = [dict(prep, registration=registration_meta[index])
                                  for index, prep in enumerate(preprocessing)]
-            # OCR JSON keys refer to source images; normalized images use the same
-            # page order and are used for OCR/model inputs when no cached blocks exist.
-            if preprocessing and not ocr_map:
-                stage = "page_ocr"
-                pages = make_pages(page_paths, "none" if dry_run else ocr_engine, {}, language)
-            else:
-                stage = "page_ocr"
-                pages = make_pages(paths, "none" if dry_run else ocr_engine, ocr_map, language)
-                if preprocessing:
-                    for page, normalized in zip(pages, page_paths):
+            # Build image-only pages first.  This is the input contract for
+            # whole-document VLM tree generation; OCR is deliberately acquired
+            # after the logical topology exists.
+            visual_source_paths = page_paths if preprocessing else list(paths)
+            visual_pages = make_pages(visual_source_paths, "none", {}, language)
+            assign_page_identity(visual_pages, doc_id)
+            pages = visual_pages
+
+            def load_document_ocr_pages() -> List[Page]:
+                # Cached OCR keys refer to source images. Preserve page order,
+                # then attach the normalized/registered image contract used by
+                # all downstream geometry stages.
+                cached_map = dict(ocr_map)
+                if not dry_run and ocr_engine != "none":
+                    cache_dir = cache_root / "ocr" / str(ocr_engine)
+                    cache_dir.mkdir(parents=True, exist_ok=True)
+                    for source in (paths if preprocessing and ocr_map else visual_source_paths):
+                        cache_file = cache_dir / f"{page_file_fingerprint(Path(source))}.json"
+                        if cache_file.is_file():
+                            try:
+                                payload = json.loads(cache_file.read_text(encoding="utf-8"))
+                                cached_map[str(Path(source).resolve())] = [
+                                    OCRBlock(str(block.get("text", "")), list(block.get("bbox", [])),
+                                             block.get("confidence"))
+                                    for block in payload.get("blocks", [])]
+                            except (OSError, ValueError, TypeError):
+                                pass
+                if preprocessing and ocr_map:
+                    loaded = make_pages(paths, "none" if dry_run else ocr_engine,
+                                        cached_map, language)
+                    for page, normalized in zip(loaded, visual_source_paths):
                         page.path = str(normalized)
                         page.width, page.height = image_size(normalized)
+                    assign_page_identity(loaded, doc_id)
+                    if not dry_run and ocr_engine != "none":
+                        cache_dir = cache_root / "ocr" / str(ocr_engine)
+                        cache_dir.mkdir(parents=True, exist_ok=True)
+                        for page in loaded:
+                            cache_file = cache_dir / f"{page.file_fingerprint}.json"
+                            if page.file_fingerprint and not cache_file.exists():
+                                try:
+                                    cache_file.write_text(json.dumps(
+                                        {"blocks": [asdict(b) for b in page.ocr]}, ensure_ascii=False),
+                                        encoding="utf-8")
+                                except OSError:
+                                    pass
+                    return loaded
+                loaded = make_pages(visual_source_paths, "none" if dry_run else ocr_engine,
+                                    cached_map, language)
+                assign_page_identity(loaded, doc_id)
+                if not dry_run and ocr_engine != "none":
+                    cache_dir = cache_root / "ocr" / str(ocr_engine)
+                    cache_dir.mkdir(parents=True, exist_ok=True)
+                    for page in loaded:
+                        cache_file = cache_dir / f"{page.file_fingerprint}.json"
+                        if page.file_fingerprint and not cache_file.exists():
+                            try:
+                                cache_file.write_text(json.dumps({"blocks": [asdict(b) for b in page.ocr]},
+                                                                 ensure_ascii=False), encoding="utf-8")
+                            except OSError:
+                                pass
+                return loaded
             if dry_run:
                 stage = "dry_run_serialization"
                 dry_result = fallback_result(role, subject, pages, "dry-run：未调用 OCR/视觉模型")
                 package = package_from_result(dry_result, pages, role, subject, paths[0].parent.name if role == "student" else None)
+                from exam_pipeline.localization import ground_contexts
+                package.quality["localization_summary"] = ground_contexts(package, pages)
                 package.grounding_knowledge = (
-                    grounding_policy.audit() if grounding_policy else {}
+                    dict(grounding_runtime_audit)
                 )
                 result = package.to_dict()
+                from exam_pipeline.stage_evaluation import stage_diagnostics
+                result["stage_diagnostics"] = stage_diagnostics(package)
             else:
-                if role == "teacher" and local_ocr and cohort_consensus:
-                    stage = "cohort_consensus"
-                    from exam_pipeline.cohort_consensus import CohortConsensusBuilder
-                    student_documents = cohort_student_documents(all_docs, subject)
-                    safe_subject = re.sub(r"[^\w.-]+", "_", subject)
-                    consensus = CohortConsensusBuilder.build(
-                        [Path(page.path) for page in pages], student_documents,
-                        output / "cohort_consensus" / safe_subject,
-                        consensus_max_samples,
-                    )
-                    consensus_audits[subject] = consensus
-                    template_paths = [
-                        Path(str(record["template_path"]))
-                        for record in sorted(
-                            consensus.get("pages", []),
-                            key=lambda value: int(value.get("page_index") or 0),
-                        )
-                        if record.get("status") == "READY" and record.get("template_path")
-                    ]
-                    # The pseudo-blank template is not merely an answer-removal
-                    # reference: OCR it and make it the authoritative teacher
-                    # stem source. Teacher handwriting must never enter stems.
-                    consensus_pages[subject] = make_pages(
-                        template_paths, ocr_engine, {}, language
-                    ) if template_paths else []
-                    for page, record in zip(
-                            consensus_pages[subject],
-                            [entry for entry in sorted(
-                                consensus.get("pages", []),
-                                key=lambda value: int(value.get("page_index") or 0),
-                            ) if entry.get("status") == "READY" and entry.get("template_path")]):
-                        page.index = int(record["page_index"])
+                structure_ocr_retries = []
                 stage = "structuring"
                 student_id = paths[0].parent.name if role == "student" else None
+                from exam_pipeline.structure_recovery import recover_structure
+                # The structure model receives original pages only.  This is
+                # deliberately a single evidence path: no print/handwriting
+                # classifier or pseudo-blank template can alter page identity.
+                visual_tree = role == "teacher" and active_structure_vlm != "none"
+                cached_tree = None
+                if role == "teacher":
+                    tree_cache_name = "exam_tree_vlm_only_v1" if vlm_only else "exam_tree"
+                    cache_path = cache_root / tree_cache_name / subject / f"{fingerprint}.json"
+                    if cache_path.is_file():
+                        try:
+                            cached_tree = ExamTreeService.load(
+                                cache_path, expected_subject=subject,
+                                require_valid=True, require_production=False,
+                                allow_valid_draft=True)
+                        except Exception as exc:
+                            LOGGER.warning("exam_tree_cache_invalid path=%s error=%s", cache_path, exc)
+                            cached_tree = None
+                if cached_tree is not None:
+                    visual_tree = False
+                # Offline/legacy structure mode still needs OCR before it can
+                # recover question anchors. The visual-primary path remains
+                # image-only at this point.
+                if not visual_tree and not vlm_only:
+                    stage = "page_ocr"
+                    record_phase("question_tree_generation", "STARTED", evidence="original_preprocessed_images")
+                    pages = load_document_ocr_pages()
+                    structure_ocr_retries = []
+                    if role == "teacher" and local_ocr:
+                        from exam_pipeline.structure_recovery import recover_unread_lines
+                        from exam_pipeline.ocr import OCRService
+                        structure_ocr_retries = recover_unread_lines(pages, OCRService(), ocr_engine, language)
                 structure_pages = list(pages)
-                if role == "teacher" and consensus_pages.get(subject):
-                    consensus_page_map = {
-                        page.index: page for page in consensus_pages[subject]
+                structure_sources = [
+                    {
+                        "page_index": page.index,
+                        "source": "original",
+                        "evidence": "current_normalized_page",
                     }
-                    structure_pages = [
-                        consensus_page_map.get(page.index, page) for page in pages
-                    ]
+                    for page in pages
+                ]
                 # The teacher is scanned first and becomes the subject Golden.
                 # Student extraction is only a source of dynamic answer fields;
                 # its logical topology is replaced with the teacher hierarchy.
@@ -1808,182 +2037,76 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                     document_type=role, student_id=student_id,
                     total_pages=len(pages), page_files=[p.path for p in pages],
                     sections=[], warnings=[])
+                package.structure_audit["sources"] = structure_sources
+                package.structure_audit["ocr_retries"] = structure_ocr_retries
                 strategies: List[str] = []
-                exit_ctx: Optional[PageExitContext] = None
-                # Every teacher page must participate in the document-level
-                # semantic-tree proposal.  PaddleOCR-VL is deliberately
-                # optional per page: when it times out, PP-OCRv5 still gives
-                # the LLM complete-document evidence instead of silently
-                # dropping that page and comparing a partial proposal with a
-                # full-document reference tree.
-                tree_llm_evidence: List[Tuple[int, str, str]] = []
-                for page in structure_pages:
-                    page_sections: List[ExamSection] = []
-                    page_tree_vl_text = ""
-                    page_tree_ppocr_text = (
-                        ocr_text([page])
-                        if role == "teacher" and tree_llm_client is not None
-                        else ""
+                if cached_tree is not None:
+                    ExamTreeService.apply_to_package(cached_tree, package)
+                    package.exam_title = str(cached_tree.get("exam_title") or cached_tree.get("title") or "")
+                    package.structure_audit = copy.deepcopy(
+                        (cached_tree.get("provenance") or {}).get("structure_coverage") or
+                        {"status": "COMPLETE", "source": "fingerprint_cache"})
+                    package.golden_source = f"teacher_cache:{fingerprint}"
+                    package.topology_locked = cached_tree.get("state") == "LOCKED"
+                    strategies.append(
+                        "teacher_exam_tree_fingerprint_cache_locked" if package.topology_locked
+                        else "teacher_exam_tree_fingerprint_cache_valid_draft")
+                    record_phase("question_tree_generation", "COMPLETED", source="fingerprint_cache",
+                                 fingerprint=fingerprint, state=cached_tree.get("state"))
+                elif visual_tree:
+                    record_phase("question_tree_generation", "STARTED", evidence="original_preprocessed_images")
+                    from exam_pipeline.document_structure import DocumentStructureService
+                    DocumentStructureService(structure_request, active_structure_vlm).generate(
+                        package, pages, structure_pages, (),
+                        output / "document_structure" / safe_doc_id,
+                        validate_ocr=False,
+                        vlm_only=vlm_only,
                     )
-                    # An explicitly supplied legacy Golden may bootstrap a
-                    # teacher, but is never used as a student's answer source.
-                    golden_page = package_from_golden(golden_data, [page], role, subject, student_id) if role == "teacher" else None
-                    if golden_page and golden_page.sections:
-                        page_sections = golden_page.sections
-                        strategies.append("golden")
-                    if not page_sections and active_structure_vlm != "none":
-                        try:
-                            if active_structure_vlm == "paddleocr-vl":
-                                # Document VLM sees the normalized full page to infer
-                                # hierarchy.  It never supplies physical geometry.
-                                page_roi_records = []
-                                vlm_paths = [Path(page.path)]
-                            else:
-                                from exam_pipeline.roi import RoIPatchGenerator
-                                if role == "student" and subject in teacher_packages:
-                                    proposal_sections = copy.deepcopy(teacher_packages[subject].sections)
-                                else:
-                                    proposal_sections = heuristic_questions([page], role)
-                                roi_dir = output / "roi_patches" / safe_doc_id
-                                page_roi_records = RoIPatchGenerator().generate(
-                                    Path(page.path), proposal_sections, page.index, roi_dir
-                                )
-                                if not page_roi_records:
-                                    page_roi_records = [RoIPatchGenerator().generate_page_fallback(
-                                        Path(page.path), page.index, roi_dir
-                                    )]
-                                    package.warnings.append(
-                                        f"第 {page.index} 页 OCR 未形成题目锚点，VLM 使用受控未分割 RoI 并标记版面复核"
-                                    )
-                                roi_records.extend(page_roi_records)
-                                vlm_paths = [Path(str(record["image_path"])) for record in page_roi_records]
-                            schema = TEACHER_SCHEMA if role == "teacher" else STUDENT_SCHEMA
-                            context_prompt = _prompt(
-                                role, subject, [page], teachers.get(subject),
-                                page_roi_records or None,
-                                grounding_policy.prompt_context() if grounding_policy else "",
+                    record_phase("question_tree_generation", "COMPLETED",
+                                 source="whole_document_vlm")
+                    strategies.append("whole_document_vlm")
+                    # A visual backend outage must not leave the deterministic
+                    # OCR fallback without evidence. Obtain OCR only after the
+                    # proposal attempt, then recover a clearly marked draft.
+                    if not any(question.items for section in package.sections
+                               for question in section.questions):
+                        if vlm_only:
+                            raise RuntimeError(
+                                "VLM_STRUCTURE_UNRESOLVED: teacher question tree is empty"
                             )
-                            if exit_ctx and exit_ctx.last_question_num:
-                                context_prompt += (
-                                    f"\n前一页出口上下文：上一题为 Q{exit_ctx.last_question_num}，"
-                                    f"题干末尾为“{exit_ctx.last_text_tail}”；请判断本页开头是否为续题。"
-                                )
-                            if active_structure_vlm == "paddleocr-vl":
-                                from exam_pipeline.structure_vlm import (
-                                    remove_model_geometry, structure_only_prompt,
-                                )
-                                assert paddleocr_vl_client is not None
-                                raw_vlm_result = paddleocr_vl_client.analyze(
-                                    structure_only_prompt(context_prompt, role), vlm_paths
-                                )
-                                if "_paddleocr_vl_ocr_text" in raw_vlm_result:
-                                    from exam_pipeline.structure_vlm import structure_from_ocr_text
-                                    paddleocr_vl_text = raw_vlm_result["_paddleocr_vl_ocr_text"]
-                                    page_tree_vl_text = paddleocr_vl_text
-                                    deterministic_error = None
-                                    try:
-                                        deterministic_result = structure_from_ocr_text(
-                                            paddleocr_vl_text,
-                                            role, subject, page.index,
-                                        )
-                                    except ValueError as exc:
-                                        deterministic_error = exc
-                                        deterministic_result = {
-                                            "document_type": role,
-                                            "subject": subject,
-                                            "sections": [],
-                                            "warnings": [str(exc)],
-                                        }
-                                    if deterministic_error is not None:
-                                        raise deterministic_error
-                                    raw_vlm_result = deterministic_result
-                                vlm_result, removed_geometry = remove_model_geometry(raw_vlm_result)
-                                if removed_geometry:
-                                    package.warnings.append(
-                                        f"第 {page.index} 页已丢弃 PaddleOCR-VL 返回的 "
-                                        f"{len(removed_geometry)} 个几何字段；最终坐标由 PP-OCRv5/几何引擎确定"
-                                    )
-                            else:
-                                vlm_result = call_doubao(
-                                    model, str(api_key or ""), context_prompt,
-                                    vlm_paths, endpoint, timeout, schema)
-                            errors = validate_result(vlm_result, role)
-                            if errors:
-                                vlm_result.setdefault("warnings", []).extend(errors)
-                            vlm_page = package_from_result(vlm_result, [page], role, subject, student_id)
-                            page_sections = vlm_page.sections
-                            package.warnings.extend(vlm_page.warnings)
-                            if page_sections:
-                                strategies.append(
-                                    "paddleocr_vl_structure+ppocrv5_geometry"
-                                    if active_structure_vlm == "paddleocr-vl" else "doubao_vlm"
-                                )
-                        except Exception as exc:
-                            package.warnings.append(f"第 {page.index} 页 VLM 失败，转启发式: {exc}")
-                    if not page_sections:
-                        page_sections = heuristic_questions([page], role)
-                        strategies.append("heuristic")
-                    if role == "teacher" and tree_llm_client is not None:
-                        tree_llm_evidence.append(
-                            (page.index, page_tree_vl_text, page_tree_ppocr_text)
+                        stage = "page_ocr_fallback"
+                        pages = load_document_ocr_pages()
+                        structure_pages = list(pages)
+                        if role == "teacher" and local_ocr:
+                            from exam_pipeline.structure_recovery import recover_unread_lines
+                            from exam_pipeline.ocr import OCRService
+                            structure_ocr_retries = recover_unread_lines(
+                                pages, OCRService(), ocr_engine, language)
+                        package.structure_audit["fallback_after_vlm_proposal"] = True
+                        strategies.append("ocr_fallback_after_vlm_proposal")
+                        record_phase("question_tree_generation", "COMPLETED",
+                                     source="ocr_fallback_after_vlm_proposal")
+                        visual_tree = False
+                    if (vlm_only
+                            and package.structure_audit.get("status") != "COMPLETE"):
+                        raise RuntimeError(
+                            "TREE_UNRESOLVED: "
+                            + json.dumps(package.structure_audit.get("failures") or [],
+                                         ensure_ascii=False)
                         )
-                    if exit_ctx and stitch_page_sections(package, page_sections, exit_ctx):
-                        package.warnings.append(f"第 {page.index} 页沿用上一页题目并完成跨页缝合")
-                    package.sections.extend(section for section in page_sections if section.questions)
-                    exit_ctx = analyze_page_exit(page, page_sections or package.sections)
-                if role == "teacher" and tree_llm_client is not None and tree_llm_evidence:
-                    full_vl_text, full_ppocr_text, page_evidence_audit = (
-                        compose_tree_llm_evidence(tree_llm_evidence)
-                    )
-                    evidence_audit = manifest["runtime"]["tree_llm"]
-                    for key, value in page_evidence_audit.items():
-                        evidence_audit[key] += value
-                    package.warnings.append(
-                        "题目树 LLM 全卷证据覆盖：{}/{} 页；双路 {} 页，"
-                        "PP-OCRv5 降级 {} 页".format(
-                            page_evidence_audit["teacher_pages_total"], len(pages),
-                            page_evidence_audit["dual_source_pages"],
-                            page_evidence_audit["ppocr_fallback_pages"],
-                        )
-                    )
-                    try:
-                        candidate = tree_llm_client.refine(
-                            role=role,
-                            subject=subject,
-                            page_index=1,
-                            paddleocr_vl_text=full_vl_text,
-                            ppocr_text=full_ppocr_text,
-                            reference=package.to_dict(),
-                            previous_context="全卷共 {} 页，请统一处理跨页续题".format(len(pages)),
-                        )
-                        refined = package_from_result(
-                            candidate, structure_pages, role, subject, student_id
-                        )
-                        if not refined.sections:
-                            raise ValueError("题目树 LLM 候选转换后没有有效章节")
-                        package.sections = refined.sections
-                        package.warnings.extend(refined.warnings)
-                        strategies.append(
-                            "paddleocr_vl_ocr+tree_llm_semantics+ppocrv5_geometry"
-                        )
-                        manifest["runtime"]["tree_llm"]["accepted_teacher_documents"] += 1
-                    except Exception as exc:
-                        manifest["runtime"]["tree_llm"]["fallback_teacher_documents"] += 1
-                        if production_mode:
-                            raise ValueError(
-                                "生产题目树 LLM 失败，禁止回退确定性 OCR 结构: {}".format(exc)
-                            )
-                        package.warnings.append(
-                            f"教师卷题目树 LLM 候选未采用，回退确定性 OCR 结构: {exc}"
-                        )
-                if (role == "teacher" and production_mode
-                        and not any(
-                            "tree_llm_semantics" in current
-                            for current in strategies
-                        )):
-                    raise ValueError("生产题目树未获得 LLM 语义结果，禁止继续生成 ExamTree")
+                    if tree_llm_client is not None:
+                        package.warnings.append("全卷视觉构树已启用，旧 tree-llm 文本重写阶段不再覆盖视觉结构")
+                elif role == "teacher":
+                    legacy = package_from_golden(golden_data, structure_pages, role, subject, student_id)
+                    package.sections = legacy.sections if legacy and legacy.sections else heuristic_questions(structure_pages, role)
+                    strategies.append("golden" if legacy and legacy.sections else "heuristic")
+                else:
+                    # Students reuse the teacher's semantic tree; local OCR and
+                    # visual slots locate/recognize their own paper independently.
+                    strategies.append("inherited_teacher_topology+student_local_evidence")
                 package.exam_id = doc_id
-                package.exam_title = (golden_data or {}).get("title", "") if golden_data else ""
+                if not visual_tree and cached_tree is None:
+                    package.exam_title = (golden_data or {}).get("title", "") if golden_data else ""
                 if active_structure_vlm == "none":
                     package.warnings.append("未启用结构 VLM，已使用 PaddleOCR/Golden 离线路径")
                 package.warnings.extend(prep_warnings)
@@ -1991,23 +2114,28 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                     registered = sum(1 for entry in registration_meta if entry.get("status") == "REGISTERED")
                     package.warnings.append(
                         f"教师页到学生页配准：{registered}/{len(registration_meta)} 页成功，"
-                        "失败页保留原图并进入 HITL"
+                        "失败页保留原图并记录未解决状态"
                     )
                 # Preserve order while avoiding duplicate strategy labels.
                 strategy = "+".join(dict.fromkeys(strategies)) or "heuristic"
                 package.warnings.append(f"提取策略: {strategy}")
-                reconcile_exam_package(package)
+                if role == "teacher" and not visual_tree and cached_tree is None:
+                    recover_structure(package, structure_pages, pages)
+                    record_phase("question_tree_generation", "COMPLETED", source="ocr_fallback")
+                if not visual_tree and cached_tree is None:
+                    reconcile_exam_package(package)
                 if role == "teacher":
                     stage = "fine_grained_item_split"
                     from exam_pipeline.subitems import FineGrainedItemSplitter
-                    subitem_stats = FineGrainedItemSplitter().enrich_package(
-                        package, structure_pages
-                    )
+                    if not visual_tree and cached_tree is None:
+                        subitem_stats = FineGrainedItemSplitter().enrich_package(package, structure_pages)
                     if not any(question.items for section in package.sections for question in section.questions):
                         raise ValueError(f"教师卷 {doc_id} 未提取到题目，不能生成 Golden")
-                    golden_service.seed_regions_from_ocr(package, structure_pages)
-                    package.golden_source = f"external:{golden}" if golden else f"teacher:{doc_id}"
-                    package.topology_locked = True
+                    if not visual_tree and cached_tree is None:
+                        golden_service.seed_regions_from_ocr(package, structure_pages)
+                    if cached_tree is None:
+                        package.golden_source = f"external:{golden}" if golden and not visual_tree else f"teacher:{doc_id}"
+                        package.topology_locked = False
                     override_path = resolve_override(exam_tree_overrides, subject)
                     if override_path:
                         stage = "exam_tree_override_validation"
@@ -2037,109 +2165,180 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                             f"学科 {subject} 缺少可用教师卷，无法生成 Golden 并锁定学生题目拓扑"
                         )
                     package = golden_service.inherit_student_topology(
-                        teacher_package, package, source_pages, pages, doc_id, student_id or ""
+                        teacher_package, package, source_pages, pages, doc_id,
+                        student_id or "", localize_with_ocr=not vlm_only,
                     )
-                package.grounding_knowledge = (
-                    grounding_policy.audit() if grounding_policy else {}
-                )
-                package.registration = list(registration_meta)
-                if local_ocr:
-                    stage = "local_grounding"
-                    from exam_pipeline.grounding import GeometryGrounder
-                    from exam_pipeline.feedback import HITLFeedbackReader
-                    feedback_reader = HITLFeedbackReader(feedback_db) if feedback_db else None
-                    GeometryGrounder(
-                        feedback_reader=feedback_reader, policy=grounding_policy
-                    ).enrich_package(
-                        package, pages, ocr_engine, language
-                    )
+                    record_phase("question_tree_generation", "COMPLETED", source="inherited_teacher_tree")
 
-                stage = "diagram_masking"
-                from exam_pipeline.layout import QuestionLayoutService
-                diagram_mask_stats = QuestionLayoutService.enrich_diagram_masks(
-                    package, pages
-                )
-                if diagram_mask_stats["automatic_diagram_masks"]:
+                if vlm_only:
+                    stage = "visual_page_extraction"
+                    record_phase(
+                        "visual_page_extraction", "STARTED",
+                        provider=visual_extraction_provider,
+                        evidence="current_document_original_pages",
+                    )
+                    semantic_summary = visual_extraction_service.extract(
+                        package, pages, output / "visual_extraction" / safe_doc_id
+                    )
+                    record_phase(
+                        "visual_page_extraction", "COMPLETED",
+                        summary=semantic_summary,
+                    )
+                    record_phase(
+                        "visual_page_retry", "COMPLETED",
+                        retries=semantic_summary.get("page_retries", 0),
+                        failed_pages=semantic_summary.get("failed_pages", 0),
+                    )
+                    slot_stats = {
+                        "slots": semantic_summary.get("slots", 0),
+                        "items": semantic_summary.get("items", 0),
+                        "source": "vlm_original_page",
+                        "ocr_used": False,
+                    }
+                    package.grounding_knowledge = {
+                        "runtime_role": "disabled_in_vlm_only_path",
+                        "slot_coordinate_authority": "vlm_original_page_pixels",
+                        "ocr_used": False,
+                    }
+                    package.registration = []
                     package.warnings.append(
-                        "版式图表屏蔽：自动标记 {} 个线密集图表区域；区域内横线禁止作为答案槽位".format(
-                            diagram_mask_stats["automatic_diagram_masks"]
-                        )
+                        "原页 VLM 联合提取题目区域、逻辑槽位、最终坐标和答案；"
+                        "本路径未运行 OCR"
                     )
+                else:
+                    # Compatibility path for explicitly disabled visual models.
+                    stage = "page_ocr"
+                    record_phase("ocr_vlm_cross_validation", "STARTED",
+                                 evidence="current_document_ocr")
+                    pages = load_document_ocr_pages()
+                    if visual_tree:
+                        from exam_pipeline.document_structure import DocumentStructureService
+                        DocumentStructureService(structure_request, active_structure_vlm).revalidate(
+                            package, pages, output / "document_structure" / safe_doc_id,
+                            request=structure_request, original_pages=visual_pages)
+                    record_phase("ocr_vlm_cross_validation", "COMPLETED",
+                                 ocr_blocks=sum(len(page.ocr) for page in pages),
+                                 structure_status=package.structure_audit.get("status"))
+                    from exam_pipeline.localization import ground_contexts
+                    record_phase("question_localization", "STARTED",
+                                 mode="ocr_anchor_refinement")
+                    package.quality["localization_summary"] = ground_contexts(package, pages)
+                    record_phase("question_localization", "COMPLETED",
+                                 mode="ocr_anchor_refinement",
+                                 summary=package.quality.get("localization_summary"))
+                    record_phase("question_localization", "STARTED",
+                                 mode="bounded_visual_question_refinement")
+                    visual_summary, localization_audit = question_localizer.localize(
+                        package, pages, output / "question_localization" / safe_doc_id)
+                    if visual_summary:
+                        package.quality["localization_visual"] = visual_summary
+                    record_phase("question_localization", "COMPLETED",
+                                 mode="bounded_visual_question_refinement",
+                                 summary=visual_summary,
+                                 audit_status=localization_audit.get("status"))
+                    record_phase("slot_semantic_proposal", "STARTED",
+                                 provider=semantic_provider,
+                                 input="grounded_question_contexts")
+                    proposal_summary = semantic_service.propose_package(
+                        package, pages, output / "slot_semantics_proposals" / safe_doc_id,
+                        reference_pages=())
+                    record_phase("slot_semantic_proposal", "COMPLETED",
+                                 summary=proposal_summary)
+                    package.grounding_knowledge = dict(grounding_runtime_audit)
+                    package.registration = list(registration_meta)
+                    stage = "diagram_masking"
+                    from exam_pipeline.layout import QuestionLayoutService
+                    diagram_mask_stats = QuestionLayoutService.enrich_diagram_masks(
+                        package, pages
+                    )
+                    if diagram_mask_stats["automatic_diagram_masks"]:
+                        package.warnings.append(
+                            "版式图表屏蔽：自动标记 {} 个线密集图表区域；区域内横线禁止作为答案槽位".format(
+                                diagram_mask_stats["automatic_diagram_masks"]
+                            )
+                        )
+                    if semantic_service.request is None:
+                        slot_stats = {"slots": 0, "items": 0,
+                                      "source": "visual_backend_unavailable_ocr_only"}
+                    else:
+                        slot_stats = {"slots": 0, "items": 0,
+                                      "source": "visual_proposal_ocr_coordinates"}
+                    stage = "ocr_coordinate_grounding"
+                    semantic_service.validator.policy = grounding_policy
+                    semantic_summary = semantic_service.enrich_package(
+                        package, pages, output / "slot_semantics" / safe_doc_id,
+                        reference_pages=(), reuse_proposals=True)
+                    package.warnings.append(
+                        "视觉提出槽位后 OCR 坐标落地：通过 {accepted}，部分 {partial}，降级 {fallback}".format(
+                            **semantic_summary))
+                    record_phase("ocr_coordinate_grounding", "COMPLETED",
+                                 verified_regions=sum(
+                                     slot.geometry_status in {"ALIGNED", "ALIGNED_WITH_WARNING"}
+                                     for section in package.sections
+                                     for question in section.questions
+                                     for item in question.items for slot in item.slots
+                                 ))
 
-                # Rebuild durable RoI references from the finalized topology.
-                # These are also the only image class allowed at the VLM edge.
+                # Persist crops only after final per-document VLM/OCR geometry.
                 stage = "roi_generation"
                 from exam_pipeline.roi import RoIPatchGenerator
                 roi_records = RoIPatchGenerator().generate_package(
                     package, pages, output / "roi_patches" / safe_doc_id
                 )
 
-                stage = "slot_topology"
-                from exam_pipeline.slots import MultiSlotTopologyEngine
-                slot_reference_pages: List[Page] = []
-                slot_reference_kind = "teacher"
-                slot_reference_confidence: Optional[float] = None
-                if role == "student":
-                    cohort_references = consensus_pages.get(subject, [])
-                    slot_reference_pages = cohort_references or source_pages
-                    if cohort_references:
-                        slot_reference_kind = "cohort"
-                        slot_reference_confidence = consensus_audits.get(
-                            subject, {}
-                        ).get("confidence")
-                slot_stats = MultiSlotTopologyEngine(
-                    policy=grounding_policy
-                ).enrich_package(
-                    package, pages, slot_reference_pages,
-                    slot_reference_kind, slot_reference_confidence,
-                )
-
-                if role == "teacher":
-                    stage = "slot_cardinality_consensus"
-                    from exam_pipeline.cardinality import SlotCardinalityConsensusService
-                    cardinality_summary = SlotCardinalityConsensusService(
-                        policy=grounding_policy
-                    ).enrich(
-                        package,
-                        consensus_pages.get(subject, []),
-                        consensus_audits.get(subject, {}),
-                        "tree_llm" if "tree_llm_semantics" in strategy else strategy,
-                    )
-                    package.warnings.append(
-                        "槽位数量三方校验：一致 {consensus}，冲突 {conflict}，"
-                        "证据不足 {insufficient}；非一致项禁止锁定 ExamTree".format(
-                            **cardinality_summary
-                        )
-                    )
-
                 if role == "teacher":
                     stage = "teacher_answer_extraction"
-                    from exam_pipeline.teacher_answers import TeacherAnswerExtractionService
-                    teacher_references = consensus_pages.get(subject, [])
-                    teacher_reference_kind = "cohort" if teacher_references else "single_page"
-                    answer_summary = TeacherAnswerExtractionService(
-                        policy=grounding_policy
-                    ).extract(
-                        package, pages, teacher_references, ocr_engine, language,
-                        consensus_audits.get(subject, {}).get("confidence"),
-                        (output / "separation_masks" / safe_doc_id)
-                        if save_separation_masks else None,
-                        teacher_reference_kind,
-                        use_exam_tree_fallback=True,  # Use exam tree standard_answer as fallback
-                    )
-                    # Enhanced warning with exam tree fallback info
-                    fallback_count = answer_summary.get('exam_tree_fallback_used', 0)
-                    if fallback_count > 0:
+                    record_phase("answer_recognition", "STARTED", role="teacher")
+                    if vlm_only:
+                        from exam_pipeline.visual_extraction import visual_answer_summary
+                        answer_summary = visual_answer_summary(package)
+                        record_phase("answer_recognition", "COMPLETED",
+                                     summary=answer_summary, authority="vlm_original_page")
                         package.warnings.append(
-                            f"教师答案提取：{answer_summary['answers_extracted']}/{answer_summary['total_slots']} 个槽位成功 "
-                            f"({fallback_count} 个来自 Exam Tree 标准答案，"
-                            f"{answer_summary['answers_extracted']-fallback_count} 个从图像提取)"
+                            "教师答案原页 VLM 识别：{}/{} 个逻辑槽位提取成功".format(
+                                answer_summary["answers_extracted"],
+                                answer_summary["total_logical_slots"],
+                            )
                         )
                     else:
-                        package.warnings.append(
-                            f"教师答案{teacher_reference_kind}分离："
-                            f"{answer_summary['answers_extracted']}/{answer_summary['total_slots']} 个槽位提取成功"
+                        from exam_pipeline.teacher_answers import TeacherAnswerExtractionService
+                        teacher_references = ()
+                        teacher_reference_kind = "single_page"
+                        answer_summary = TeacherAnswerExtractionService(
+                            policy=grounding_policy, formula_client=answer_vision_client
+                        ).extract(
+                            package, pages, teacher_references, ocr_engine, language,
+                            None, None, teacher_reference_kind,
+                            use_exam_tree_fallback=False,
                         )
+                        from exam_pipeline.automatic_repair import repair_contaminated_answers
+                        record_phase("answer_recognition", "COMPLETED",
+                                     summary=answer_summary)
+                        record_phase("automatic_repair", "STARTED", role="teacher")
+                        repair_summary = repair_contaminated_answers(
+                            package, pages, semantic_service,
+                            lambda subset: TeacherAnswerExtractionService(
+                                policy=grounding_policy,
+                                formula_client=answer_vision_client,
+                            ).extract(subset, pages, teacher_references,
+                                      ocr_engine, language),
+                            output / "automatic_relocalization" / safe_doc_id,
+                            teacher_references,
+                        )
+                        record_phase("automatic_repair", "COMPLETED", role="teacher",
+                                     summary=repair_summary)
+                        fallback_count = answer_summary.get('exam_tree_fallback_used', 0)
+                        if fallback_count > 0:
+                            package.warnings.append(
+                                f"教师答案提取：{answer_summary['answers_extracted']}/{answer_summary['total_slots']} 个槽位成功 "
+                                f"({fallback_count} 个来自 Exam Tree 标准答案，"
+                                f"{answer_summary['answers_extracted']-fallback_count} 个从图像提取)"
+                            )
+                        else:
+                            package.warnings.append(
+                                f"教师答案 VLM/OCR 识别："
+                                f"{answer_summary['answers_extracted']}/{answer_summary['total_slots']} 个槽位提取成功"
+                            )
 
                 # Structural totals may be normalized, but correctness and
                 # student marks are intentionally outside this extraction job.
@@ -2148,43 +2347,33 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 score_warnings = balance_score_tree(package)
                 package.warnings.extend(score_warnings)
                 if role == "teacher":
+                    from exam_pipeline.result_contract import finalize_answers
+                    finalize_answers(package, pages)
                     stage = "exam_tree_validation"
                     override_tree = applied_tree_overrides.get(subject)
-                    production_tree_gate = bool(
-                        local_ocr and cohort_consensus and tree_llm_client is not None
-                    )
+                    production_tree_gate = bool(production_mode)
                     provenance = {
+                        "structure_coverage": package.structure_audit,
                         "kind": ("manual_override" if override_tree else
-                                 "teacher_extraction+tree_llm" if "tree_llm_semantics" in strategy
+                                 "whole_document_vlm" if vlm_only
+                                 else "whole_document_vlm+ocr_validation" if visual_tree
                                  else "teacher_extraction"),
                         "golden_source": package.golden_source,
                         "override_fingerprint": (
                             override_tree.get("fingerprint") if override_tree else None
                         ),
                         "semantic_model": (
-                            tree_llm_model if "tree_llm_semantics" in strategy else None
+                            (model if active_structure_vlm == "doubao" else paddleocr_vl_model) if visual_tree else None
                         ),
                         "semantic_candidate_gate": (
-                            "ocr_question_number_overlap_and_contract_validation"
-                            if "tree_llm_semantics" in strategy else None
+                            "vlm_schema_page_coverage" if vlm_only
+                            else "full_document_ocr_rule_validation" if visual_tree else None
                         ),
-                        "stem_source": (
-                            "cohort_print_consensus"
-                            if consensus_pages.get(subject)
-                            else "teacher_page_compatibility_fallback"
+                        "stem_source": "original_pages",
+                        "coordinate_authority": (
+                            "vlm_original_page_pixels" if vlm_only else None
                         ),
-                        "print_template": {
-                            "status": consensus_audits.get(subject, {}).get("status"),
-                            "teacher_page_count": consensus_audits.get(
-                                subject, {}
-                            ).get("teacher_page_count", 0),
-                            "ready_page_count": consensus_audits.get(
-                                subject, {}
-                            ).get("ready_page_count", 0),
-                            "confidence": consensus_audits.get(
-                                subject, {}
-                            ).get("confidence"),
-                        },
+                        "ocr_used": False if vlm_only else None,
                     }
                     tree = ExamTreeService.compile(
                         package,
@@ -2200,13 +2389,22 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                             f"{safe_subject}.draft.json"
                         )
                         ExamTreeService.save(tree, rejected_path, lock=False)
-                        raise ValueError(
-                            "生产 ExamTree 阻断：" + "; ".join(
-                                tree["validation"]["errors"]
-                            ) + f"；诊断草稿: {rejected_path}"
-                        )
-                    tree = ExamTreeService.save(tree, tree_path, lock=True)
-                    ExamTreeService.apply_to_package(tree, package)
+                        package.warnings.append("结构证据未通过强校验，保留草稿: " + str(rejected_path))
+                        # The deterministic package remains available for independent
+                        # student extraction; it must not be advertised as locked.
+                        tree = ExamTreeService.save(tree, tree_path, lock=False)
+                        package.topology_locked = False
+                    else:
+                        tree = ExamTreeService.save(tree, tree_path, lock=True)
+                        ExamTreeService.apply_to_package(tree, package)
+                        tree_cache_name = "exam_tree_vlm_only_v1" if vlm_only else "exam_tree"
+                        cache_path = cache_root / tree_cache_name / subject / f"{fingerprint}.json"
+                        cache_path.parent.mkdir(parents=True, exist_ok=True)
+                        try:
+                            ExamTreeService.save(tree, cache_path, lock=True)
+                            package.warnings.append(f"ExamTree 已按教师图像指纹缓存: {fingerprint[:12]}")
+                        except OSError as exc:
+                            package.warnings.append(f"ExamTree 缓存写入失败: {exc}")
                     exam_trees[subject] = tree
                     manifest["exam_trees"][subject] = {
                         "path": str(tree_path),
@@ -2216,105 +2414,129 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                         "validation": tree["validation"],
                     }
                 if role == "student":
-                    stage = "student_answer_region_refinement"
-                    from exam_pipeline.student_answer_refine import StudentAnswerRefineService
-                    refine_summary = StudentAnswerRefineService(
-                        policy=grounding_policy
-                    ).refine(package, pages, ocr_engine, language)
-                    if refine_summary["improved_items"] > 0:
-                        package.warnings.append(
-                            f"学生答题区域精细化：{refine_summary['refined_items']}/{refine_summary['total_items']} 个项目已优化，"
-                            f"{refine_summary['improved_items']} 个区域显著缩小"
+                    stage = "answer_verification"
+                    record_phase("answer_recognition", "STARTED", role="student")
+                    if vlm_only:
+                        from exam_pipeline.visual_extraction import visual_answer_summary
+                        visual_answers = visual_answer_summary(package)
+                        document_audit = {"summary": visual_answers, "pages": {}}
+                        record_phase(
+                            "answer_recognition", "COMPLETED",
+                            summary=visual_answers,
+                            authority="vlm_original_page",
                         )
-
-                    stage = "student_answer_localization"
-                    from exam_pipeline.student_answer_localization import StudentAnswerLocalizationService
-                    localization_summary = StudentAnswerLocalizationService(
-                        policy=grounding_policy
-                    ).localize(package, pages, source_pages, ocr_engine, language)
-                    if localization_summary["localized_items"] > 0:
-                        package.warnings.append(
-                            f"学生答案精准定位：{localization_summary['localized_items']}/{localization_summary['total_items']} 个项目已定位，"
-                            f"平均区域缩小 {localization_summary.get('avg_reduction_percent', 0):.0f}%"
+                    else:
+                        from exam_pipeline.verification import SlotVerificationService
+                        verification_references = []
+                        reference_context = {"kind": "single_page", "confidence": None}
+                        document_audit = SlotVerificationService(
+                            policy=grounding_policy, formula_client=answer_vision_client
+                        ).verify_package(
+                            package, pages, verification_references, ocr_engine,
+                            language, reference_context, None,
+                            independent_page=True,
                         )
-
-                    stage = "iterative_verification"
-                    from exam_pipeline.verification import SlotVerificationService
-                    consensus_page_map = {
-                        page.index: page for page in consensus_pages.get(subject, [])
-                    }
-                    teacher_page_map = {page.index: page for page in source_pages}
-                    verification_references = ([
-                        consensus_page_map.get(index) or teacher_page_map[index]
-                        for index in sorted(teacher_page_map)
-                    ] if cohort_consensus else [])
-                    consensus_context = consensus_audits.get(subject, {})
-                    reference_context = ({"pages": {
-                        index: ({"kind": "cohort", "confidence": consensus_context.get("confidence")}
-                                if index in consensus_page_map
-                                else {"kind": "teacher", "confidence": 0.82})
-                        for index in teacher_page_map
-                    }} if cohort_consensus else {"kind": "single_page", "confidence": None})
-                    document_audit = SlotVerificationService(
-                        policy=grounding_policy
-                    ).verify_package(
-                        package, pages, verification_references, ocr_engine, language,
-                        reference_context,
-                        (output / "separation_masks" / safe_doc_id)
-                        if save_separation_masks else None,
-                        independent_page=not cohort_consensus,
-                    )
-                    batch_audit_pages.update(document_audit.get("pages", {}))
-                if slot_vision_verifier is not None:
-                    stage = "slot_vlm_verification"
-                    slot_vlm_audit = slot_vision_verifier.verify_package(
-                        package, pages,
-                        output / "slot_vlm_audits" / safe_doc_id,
-                    )
-                    rejected = slot_vlm_audit["summary"].get("rejected", 0)
-                    repaired = slot_vlm_audit["summary"].get("repaired", 0)
-                    if document_audit is not None:
-                        post_geometry: Dict[str, int] = {}
-                        for current_section in package.sections:
-                            for current_question in current_section.questions:
-                                for current_item in current_question.items:
-                                    for current_slot in current_item.slots:
-                                        status = current_slot.geometry_status
-                                        post_geometry[status] = post_geometry.get(status, 0) + 1
-                        document_audit["summary"]["post_vlm_geometry"] = post_geometry
-                        document_audit["summary"]["vision_rejected"] = rejected
-                        document_audit["summary"]["vision_repaired"] = repaired
-                    if repaired:
-                        package.warnings.append(
-                            "视觉模型自动修正 {} 个槽位坐标；均已通过本地硬门禁和二次视觉复核".format(repaired)
+                        from exam_pipeline.automatic_repair import repair_contaminated_answers
+                        record_phase("answer_recognition", "COMPLETED",
+                                     summary=document_audit.get("summary"))
+                        record_phase("automatic_repair", "STARTED", role="student")
+                        repair_summary = repair_contaminated_answers(
+                            package, pages, semantic_service,
+                            lambda subset: SlotVerificationService(
+                                policy=grounding_policy,
+                                formula_client=answer_vision_client,
+                            ).verify_package(
+                                subset, pages, verification_references,
+                                ocr_engine, language, reference_context,
+                                independent_page=True,
+                            ),
+                            output / "automatic_relocalization" / safe_doc_id,
+                            verification_references,
                         )
-                    if rejected:
-                        package.warnings.append(
-                            "视觉模型仍无法安全修正 {} 个最终槽位坐标，已进入 HITL".format(rejected)
-                        )
+                        record_phase("automatic_repair", "COMPLETED", role="student",
+                                     summary=repair_summary)
+                        batch_audit_pages.update(document_audit.get("pages", {}))
+                from exam_pipeline.result_contract import finalize_answers
+                finalize_answers(package, pages)
                 from exam_pipeline.quality import validate_item_regions
                 stage = "quality_gate"
                 validate_item_regions(package, pages)
                 if package.quality.get("status") == "NEED_REVIEW":
-                    package.warnings.append("框质量校验未通过，相关题目已进入 HITL")
+                    package.warnings.append("框质量校验未通过，相关题目已记录未解决状态")
+                # Export figure regions after all page-local geometry is
+                # finalized.  The asset service is deterministic and uses
+                # current-page evidence; its links are relative to output so
+                # results remain portable when the output directory moves.
+                stage = "diagram_asset_export"
+                from exam_pipeline.diagram_assets import DiagramAssetService
+                diagram_asset_summary = DiagramAssetService().export(
+                    package, pages, output,
+                    output / "diagram_assets" / safe_doc_id,
+                )
+                record_phase("diagram_asset_export", "COMPLETED",
+                             assets=diagram_asset_summary.get("diagram_assets", 0),
+                             items=diagram_asset_summary.get("items_with_diagrams", 0),
+                             errors=len(diagram_asset_summary.get("errors", [])))
+                from exam_pipeline.visualization import render_slot_overlays
+                stage = "slot_visualization"
+                visualization_summary = render_slot_overlays(
+                    package, pages, output / "visualizations",
+                    paths[0].parent.name if role == "student" else "teacher",
+                )
+                record_phase("slot_visualization", "COMPLETED",
+                             contact_sheet=visualization_summary.get("contact_sheet"),
+                             pages=visualization_summary.get("page_count", 0))
                 result = package.to_dict()
+                record_phase("result_output", "COMPLETED", artifact="document_json_pending")
+                from exam_pipeline.stage_evaluation import stage_diagnostics
+                result["stage_diagnostics"] = stage_diagnostics(package)
+                result["pipeline_order"] = manifest["runtime"]["pipeline_order"]
+                result["phase_trace"] = phase_trace
                 result["roi_patches"] = roi_records
+                result["diagram_assets"] = diagram_asset_summary
+                result["slot_visualization"] = visualization_summary
+                slot_stats["slots"] = sum(len(i.slots) for s in package.sections for q in s.questions for i in q.items)
+                slot_stats["items"] = sum(len(q.items) for s in package.sections for q in s.questions)
                 result["slot_topology"] = slot_stats
+                if semantic_summary:
+                    final_items = [i for s in package.sections for q in s.questions for i in q.items]
+                    semantic_summary = dict(semantic_summary,
+                        accepted=sum(i.slot_semantics_audit.get("status") == "ACCEPTED" for i in final_items),
+                        partial=sum(i.slot_semantics_audit.get("status") == "PARTIAL" for i in final_items),
+                        fallback=sum(i.slot_semantics_audit.get("status") == "FALLBACK" for i in final_items),
+                        automatic_relocalizations=sum(bool(i.quality.get("automatic_relocalization")) for i in final_items))
+                result["slot_semantics"] = semantic_summary
                 if subitem_stats:
                     result["fine_grained_items"] = subitem_stats
                 if document_audit:
-                    result["iterative_verification"] = document_audit["summary"]
-                if slot_vlm_audit:
-                    result["slot_vlm_verification"] = slot_vlm_audit["summary"]
-                if subject in consensus_audits:
-                    result["cohort_consensus"] = consensus_audits[subject]
+                    result["answer_verification"] = document_audit["summary"]
             result.setdefault("subject", subject)
             if role == "student" and not result.get("student_id"):
                 result["student_id"] = paths[0].parent.name
-            result.setdefault("pages", [{"page": p.index, "image": p.path} for p in pages])
+            result.setdefault("pages", [{"page": p.index, "page_index": p.page_index or p.index,
+                                          "physical_page_id": p.physical_page_id,
+                                          "document_id": p.document_id,
+                                          "file_fingerprint": p.file_fingerprint,
+                                          "ocr_source_fingerprint": p.ocr_source_fingerprint,
+                                          "image": p.path, "width": p.width, "height": p.height}
+                                         for p in pages])
             result["page_files"] = [p.path for p in pages]
-            result["ocr"] = [{"page": p.index, "blocks": [asdict(b) for b in p.ocr]} for p in pages]
+            result["ocr"] = ([] if vlm_only else [
+                {"page": p.index, "blocks": [asdict(b) for b in p.ocr]}
+                for p in pages
+            ])
+            result["recognition_mode"] = "vlm_only" if vlm_only else "legacy_ocr_compatible"
+            result["ocr_used"] = False if vlm_only else any(page.ocr for page in pages)
+            result["coordinate_authority"] = (
+                "vlm_original_page_pixels" if vlm_only else "local_ocr"
+            )
+            result["answer_authority"] = (
+                "vlm_original_page" if vlm_only else "vlm_primary_ocr_auxiliary"
+            )
             result["preprocessing"] = preprocessing
+            result["phase_trace"] = phase_trace
+            result["pipeline_order"] = manifest["runtime"]["pipeline_order"]
+            result["performance"] = performance_collector.summary(doc_id)
             if registration_meta:
                 result["registration"] = registration_meta
             expected_pages = next((len(item[2]) for item in docs if item[0] == subject and item[1] == "teacher"), None)
@@ -2343,16 +2565,21 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 "strategy": next((w.split(": ", 1)[1] for w in result.get("warnings", []) if str(w).startswith("提取策略:")), ""),
                 "quality_status": (result.get("quality") or {}).get("status", "NOT_EVALUATED"),
                 "roi_patch_count": len(result.get("roi_patches", [])),
+                "diagram_asset_count": int((result.get("diagram_assets") or {}).get("diagram_assets", 0)),
+                "slot_visualization": (result.get("slot_visualization") or {}).get("contact_sheet"),
                 "slot_count": sum(
                     len(item.get("slots", []))
                     for section in result.get("sections", [])
                     for question in section.get("questions", [])
                     for item in question.get("items", [])
                 ),
-                "iterative_verification": result.get("iterative_verification"),
+                "answer_verification": result.get("answer_verification"),
                 "input_fingerprint": f"sha256:{fingerprint}",
                 "source_pages": [str(path) for path in paths],
                 "duration_seconds": round(time.monotonic() - document_started, 3),
+                "performance": performance_collector.summary(doc_id, include_events=False),
+                "phase_trace": phase_trace,
+                "pipeline_order": manifest["runtime"]["pipeline_order"],
             })
             LOGGER.info("document_completed id=%s quality=%s", doc_id,
                         (result.get("quality") or {}).get("status", "NOT_EVALUATED"))
@@ -2365,9 +2592,18 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 golden_service.save_generated(package, golden_path)
                 manifest["generated_goldens"][subject] = str(golden_path)
         except Exception as exc:
+            if not phase_trace or phase_trace[-1].get("status") != "FAILED":
+                phase_trace.append({
+                    "phase": stage,
+                    "status": "FAILED",
+                    "at": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
+                    "error_type": type(exc).__name__,
+                })
             manifest["errors"].append({
                 "id": doc_id, "error": str(exc), "error_type": type(exc).__name__,
                 "stage": stage, "duration_seconds": round(time.monotonic() - document_started, 3),
+                "phase_trace": phase_trace,
+                "pipeline_order": manifest["runtime"]["pipeline_order"],
             })
             LOGGER.exception("document_failed id=%s stage=%s", doc_id, stage)
             if "PaddleOCR 初始化/下载模型失败" in str(exc):
@@ -2375,50 +2611,68 @@ def process(dataset: Path, output: Path, model: str, api_key: Optional[str], end
                 # leave a concise actionable error in manifest.json.
                 break
     audit_records = [record for records in batch_audit_pages.values() for record in records]
-    converged_records = [
+    accepted_records = [
         record for record in audit_records
-        if record.get("status") == "CONVERGED_SUCCESS"
-    ]
-    iteration_values = [
-        int(record.get("iterations_used", 0)) for record in converged_records
-    ]
-    shrink_values = [
-        float(str(record.get("shrink_rate", "0")).rstrip("%"))
-        for record in converged_records
+        if record.get("status") in {"COORDINATE_ACCEPTED", "COORDINATE_ACCEPTED_WITH_WARNING"}
     ]
     audit_summary = {
         "total_audit_slots": len(audit_records),
-        "converged_success": len(converged_records),
-        "blank_unanswered": sum(
-            record.get("status") == "BLANK_UNANSWERED" for record in audit_records
-        ),
+        "coordinates_accepted": len(accepted_records),
+        "coordinates_accepted_with_warning": sum(
+            record.get("status") == "COORDINATE_ACCEPTED_WITH_WARNING"
+            for record in audit_records),
         "anomaly_escalated": sum(
             record.get("status") == "ANOMALY_ESCALATED" for record in audit_records
         ),
     }
-    audit_summary.update({
-        "avg_iterations_to_converge": round(
-            sum(iteration_values) / len(iteration_values), 2
-        ) if iteration_values else 0.0
-    })
-    audit_summary["avg_area_shrink_rate"] = (
-        f"{sum(shrink_values) / len(shrink_values):.1f}%" if shrink_values else "0.0%"
-    )
-    audit_summary["max_iter_limit"] = 3
-    audit_payload = {
-        "summary": audit_summary,
-        "pages": batch_audit_pages,
-        "bbox_format": "yxyx",
-        "canonical_canvas": {"width": 1654, "height": 2338},
-    }
+    # Verification controllers historically keep their private working boxes
+    # in yxyx.  Convert the persisted audit recursively so every public
+    # artifact follows the package xyxy contract.
+    from exam_pipeline.roi import yxyx_to_xyxy
+
+    def _audit_xyxy(value):
+        if isinstance(value, dict):
+            return {key: (_audit_xyxy(child) if not (
+                isinstance(child, list) and len(child) == 4
+                and "bbox" in str(key).lower()
+            ) else yxyx_to_xyxy(child)) for key, child in value.items()}
+        if isinstance(value, list):
+            return [_audit_xyxy(child) for child in value]
+        return value
+
     from exam_pipeline.io_utils import atomic_write_json
-    audit_path = output / "iterative_verification_audit.json"
-    atomic_write_json(audit_path, audit_payload)
-    manifest["iterative_verification_audit"] = str(audit_path)
-    manifest["iterative_verification_summary"] = audit_summary
-    manifest["cohort_consensus"] = consensus_audits
+    if vlm_only:
+        visual_phase_summaries = [
+            entry.get("summary") or {}
+            for document in manifest["documents"]
+            for entry in document.get("phase_trace", [])
+            if entry.get("phase") == "visual_page_extraction"
+            and entry.get("status") == "COMPLETED"
+        ]
+        manifest["visual_extraction_summary"] = {
+            "documents": len(manifest["documents"]),
+            "page_calls": sum(summary.get("page_calls", 0)
+                              for summary in visual_phase_summaries),
+            "page_retries": sum(summary.get("page_retries", 0)
+                                for summary in visual_phase_summaries),
+            "failed_pages": sum(summary.get("failed_pages", 0)
+                                for summary in visual_phase_summaries),
+            "ocr_used": False,
+        }
+    else:
+        audit_payload = {
+            "summary": audit_summary,
+            "pages": _audit_xyxy(batch_audit_pages),
+            "bbox_format": "xyxy",
+            "canonical_canvas": {"width": 1654, "height": 2338},
+        }
+        audit_path = output / "answer_verification_audit.json"
+        atomic_write_json(audit_path, audit_payload)
+        manifest["answer_verification_audit"] = str(audit_path)
+        manifest["answer_verification_summary"] = audit_summary
     manifest["completed_at"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
     manifest["duration_seconds"] = round(time.monotonic() - started_monotonic, 3)
+    manifest["performance"] = performance_collector.summary(include_events=False)
     manifest["status"] = "COMPLETED_WITH_ERRORS" if manifest["errors"] else "COMPLETED"
     manifest["summary"] = {
         "documents_succeeded": len(manifest["documents"]),
@@ -2442,21 +2696,27 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--endpoint", default=DOUBAO_RESPONSES_ENDPOINT, help="火山方舟 Responses API 地址")
     parser.add_argument("--api-key", default=DOUBAO_API_KEY,
                         help="优先使用 DOUBAO_API_KEY 环境变量；仅建议开发调试时临时传参")
-    parser.add_argument("--ocr", choices=["auto", "paddle", "tesseract", "none"], default="paddle", help="OCR 引擎，默认 PaddleOCR；auto 为 PaddleOCR 不可用时兼容回退")
+    parser.add_argument(
+        "--ocr", choices=["auto", "paddle", "tesseract", "none"], default="none",
+        help="兼容离线路径的 OCR 引擎；默认 VLM-only 路径不运行 OCR",
+    )
     parser.add_argument("--ocr-json", type=Path, help="预先生成的 OCR JSONL，跳过本地 OCR")
     parser.add_argument("--golden", type=Path, help="兼容旧流程的外部 Golden（可选）；默认扫描各学科 teacher 目录自动生成")
     parser.add_argument("--language", default="chi_sim+eng", help="tesseract 语言包")
     parser.add_argument("--include-scan", action="store_true", help="教师目录同时处理扫描_ 图片")
     parser.add_argument("--dry-run", action="store_true", help="只扫描分组并生成占位 JSON，不调用模型")
-    parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--timeout", type=int, default=60)
     parser.add_argument("--limit", type=int, help="只处理前 N 份文档，用于小规模验证；默认处理全部文档")
+    parser.add_argument("--slot-semantics", choices=["auto", "doubao", "paddleocr-vl", "none"], default="auto",
+                        help="视觉模型联合识别题目区域、槽位、最终坐标和答案")
     parser.add_argument("--subject", help="只处理指定学科")
     parser.add_argument("--student-id", help="只处理指定学生卷；会同时加载该学科教师卷以建立题目拓扑")
     parser.add_argument(
         "--exam-tree-overrides", type=Path,
         help="人工修订 ExamTree JSON 或目录（目录内按 <subject>.json 命名）；校验通过后供全部学生复用",
     )
-    parser.add_argument("--disable-local-ocr", action="store_true", help="关闭题目区域局部二次 OCR 和三目标框选")
+    parser.add_argument("--disable-local-ocr", action="store_true",
+                        help="关闭教师结构漏行的局部 OCR 恢复")
     parser.add_argument("--fail-on-review", action="store_true",
                         help="有任何文档未通过质量门时返回码 2，适用于生产 CI/调度")
     parser.add_argument("--hitl-workspace", type=Path,
@@ -2470,28 +2730,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         default=Path(__file__).resolve().parent / "GROUNDING_KNOWLEDGE_BASE.md",
         help="视觉定位知识库 Markdown；默认加载项目根目录 GROUNDING_KNOWLEDGE_BASE.md",
     )
-    consensus_group = parser.add_mutually_exclusive_group()
-    consensus_group.add_argument(
-        "--enable-cohort-consensus", dest="cohort_consensus", action="store_true",
-        help=argparse.SUPPRESS,
-    )
-    consensus_group.add_argument(
-        "--disable-cohort-consensus", dest="cohort_consensus", action="store_false",
-        help="关闭同版式多学生卷印刷共识，改用单卷视觉分离",
-    )
-    parser.set_defaults(cohort_consensus=True)
-    parser.add_argument("--consensus-max-samples", type=int, default=12,
-                        help="每个学科参与印刷模板共识的学生卷上限，默认 12")
-    parser.add_argument("--save-separation-masks", action="store_true",
-                        help="保存每个槽位的手写分离掩码，便于质检和调参")
     parser.add_argument("--paddle-model-tier", choices=["mobile", "server"],
                         default=PADDLE_MODEL_TIER,
                         help="PP-OCRv5 模型规格；server 更准但更慢且依赖兼容运行时")
     parser.add_argument(
         "--structure-vlm", choices=["auto", "paddleocr-vl", "doubao", "none"],
         default=os.getenv("STRUCTURE_VLM_PROVIDER", "auto"),
-        help=("题目结构理解模型；auto 优先使用已配置的 PaddleOCR-VL，"
-              "否则使用豆包，最终坐标始终由 PP-OCRv5/几何引擎确定"),
+        help=("全卷视觉构树；auto 优先豆包，其次已配置的 PaddleOCR-VL；"
+              "VLM-only 路径使用 Schema、页码和覆盖规则验证结构"),
     )
     parser.add_argument(
         "--paddleocr-vl-endpoint", default=PADDLEOCR_VL_ENDPOINT,
@@ -2525,13 +2771,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     )
     parser.add_argument(
         "--slot-vlm-verify", action="store_true",
-        help=("使用豆包视觉模型验收最终槽位；错误框由模型提出修正坐标，"
-              "经本地硬门禁与第二次视觉复核后自动写入，无法安全修复才进入 HITL"),
+        help="兼容开关：启用视觉槽位提议与本地证据验证，模型区域仅作搜索提示",
     )
     parser.add_argument(
         "--production", action="store_true",
-        help=("生产强校验模式：强制多卷共识、本地 OCR、豆包题目树 LLM 和"
-              "题目 ROI 归一化坐标复核；任一题目树证据冲突立即阻断"),
+        help="生产强校验：要求完整 VLM 结构、槽位坐标和答案证据",
     )
     parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"],
                         default=os.getenv("EXAM_LOG_LEVEL", "INFO"), help="运行日志级别")
@@ -2544,8 +2788,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         parser.error(f"视觉定位知识库不存在: {args.grounding_kb}")
     if args.exam_tree_overrides and not args.exam_tree_overrides.exists():
         parser.error(f"ExamTree 修订文件或目录不存在: {args.exam_tree_overrides}")
-    if args.consensus_max_samples < 2:
-        parser.error("--consensus-max-samples 必须不小于 2")
     PADDLE_MODEL_TIER = args.paddle_model_tier
     PADDLE_DET_MODEL = f"PP-OCRv5_{PADDLE_MODEL_TIER}_det"
     PADDLE_REC_MODEL = f"PP-OCRv5_{PADDLE_MODEL_TIER}_rec"
@@ -2564,8 +2806,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         args.language, args.timeout, args.golden, args.limit,
         not args.disable_local_ocr, args.feedback_db,
         args.grounding_kb,
-        args.cohort_consensus, args.consensus_max_samples,
-        args.save_separation_masks,
         args.paddle_model_tier,
         args.subject,
         args.student_id,
@@ -2580,6 +2820,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         args.tree_llm_use_doubao,
         args.slot_vlm_verify,
         args.production,
+        slot_semantics=args.slot_semantics,
     )
     if args.hitl_workspace and not manifest["errors"]:
         from exam_pipeline.hitl_export import HITLExporter

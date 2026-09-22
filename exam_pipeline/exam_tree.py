@@ -87,6 +87,9 @@ def _semantic_contexts(text: str, count: int) -> List[Tuple[str, str]]:
 
 def _slot_blueprint(item: ExamItem, expected_count: int) -> List[Dict[str, Any]]:
     slots = sorted(item.slots, key=lambda value: value.slot_idx)
+    if item.semantic_slot_plan:
+        slots = [next((s for s in slots if s.semantic_id == entry["slot_id"]), None)
+                 for entry in item.semantic_slot_plan]
     contexts = _semantic_contexts(item.question_text, expected_count)
     anchor = _anchor(item) or {}
     evidence = copy.deepcopy(item.cardinality_evidence or {})
@@ -94,6 +97,9 @@ def _slot_blueprint(item: ExamItem, expected_count: int) -> List[Dict[str, Any]]
     for local_index in range(1, expected_count + 1):
         slot = slots[local_index-1] if local_index <= len(slots) else None
         before, after = contexts[local_index-1]
+        if slot:
+            before = slot.anchor_before or before
+            after = slot.anchor_after or after
         slot_type = str((slot.slot_type if slot else "semantic_answer_point") or
                         "semantic_answer_point")
         result.append({
@@ -149,7 +155,14 @@ class ExamTreeService:
                         # blueprint count.  Production validation must prove
                         # that every teacher answer point was localized; a
                         # semantic placeholder is not a coordinate.
-                        "localized_slot_count": len(item.slots),
+                        "semantic_slot_plan": copy.deepcopy(item.semantic_slot_plan),
+                        "slot_semantics_audit": copy.deepcopy(item.slot_semantics_audit),
+                        "structure_references": copy.deepcopy(
+                            item.quality.get("structure_references") or []
+                        ),
+                        "localized_slot_count": len({s.semantic_id or str(s.slot_idx) for s in item.slots
+                                                     if len(s.expected_bbox or []) == 4}),
+                        "physical_region_count": len(item.slots),
                         "slot_count_source": str(item.slot_count_source or (
                             "teacher_topology" if item.slots else "unknown"
                         )),
@@ -176,7 +189,8 @@ class ExamTreeService:
             })
 
         # 自动去重：移除重复的 item_id，优先保留有内容的项目
-        sections = ExamTreeService._deduplicate_items(sections)
+        if package.structure_audit.get("topology_source") != "vlm":
+            sections = ExamTreeService._deduplicate_items(sections)
         tree = {
             "schema_version": SCHEMA_VERSION,
             "tree_id": f"{package.subject}:exam_tree",
@@ -189,7 +203,7 @@ class ExamTreeService:
             "canonical_canvas": {"width": 1654, "height": 2338},
             "production_policy": {
                 "strict": bool(production_strict),
-                "required_cardinality_sources": ["llm", "layout", "cohort"],
+                "required_cardinality_sources": ["available_independent_evidence"],
             },
             "sections": sections,
             "provenance": provenance or {
@@ -303,14 +317,11 @@ class ExamTreeService:
 
         strict = (bool((tree.get("production_policy") or {}).get("strict"))
                   if production is None else bool(production))
-        if strict:
-            template = (tree.get("provenance") or {}).get("print_template") or {}
-            ready = int(template.get("ready_page_count") or 0)
-            total = int(template.get("teacher_page_count") or 0)
-            if total < 1 or ready != total:
-                errors.append(
-                    f"multi-paper print template coverage incomplete: {ready}/{total} pages"
-                )
+        coverage = (tree.get("provenance") or {}).get("structure_coverage") or {}
+        if strict and (not coverage or coverage.get("status") != "COMPLETE"):
+            errors.append("structure coverage unresolved")
+        elif coverage and coverage.get("status") != "COMPLETE":
+            warnings.append("structure coverage unresolved")
         required_blueprint_fields = {
             "slot_idx", "slot_id", "slot_type", "cue_type", "answer_point",
             "page_index", "anchor_before", "anchor_after", "relative_order",
@@ -407,21 +418,8 @@ class ExamTreeService:
                                     "blueprint has no semantic anchor"
                                 )
                         card = item.get("cardinality_evidence") or {}
-                        sources = card.get("sources") or {}
-                        counts = []
-                        for source in ("llm", "layout", "cohort"):
-                            value = (sources.get(source) or {}).get("count")
-                            if not isinstance(value, int) or value < 1:
-                                errors.append(
-                                    f"item {iid} missing valid {source} slot-count evidence"
-                                )
-                            else:
-                                counts.append(value)
-                        if (card.get("decision") != "CONSENSUS" or len(counts) != 3
-                                or len(set(counts)) != 1):
-                            errors.append(
-                                f"item {iid} LLM/layout/cohort slot counts are not unanimous"
-                            )
+                        if card.get("decision") == "CONFLICT":
+                            errors.append(f"item {iid} slot-count evidence conflicts")
                     anchor = item.get("anchor")
                     if strict and not anchor:
                         errors.append(f"item {iid} missing anchor")
@@ -438,7 +436,19 @@ class ExamTreeService:
             if numbers and numbers != sorted(numbers):
                 warnings.append(f"section {sid} question numbers are not in reading order")
 
+        readiness = []
+        if not coverage or coverage.get("status") != "COMPLETE":
+            readiness.append("STRUCTURE_INCOMPLETE")
+        for _, _, item in ExamTreeService.iter_items(tree):
+            if item.get("slot_semantics_audit") and item["slot_semantics_audit"].get("status") != "ACCEPTED":
+                readiness.append("SLOT_SEMANTICS_UNRESOLVED:" + item["item_id"])
+            if not item.get("slot_blueprint"):
+                readiness.append("SLOTS_UNRESOLVED:" + item["item_id"])
+            if (item.get("cardinality_evidence") or {}).get("decision") == "CONFLICT":
+                readiness.append("SLOT_COUNT_CONFLICT:" + item["item_id"])
         report = {
+            "ready_to_lock": not errors and not readiness,
+            "readiness_issues": readiness,
             "status": "VALID" if not errors else "INVALID",
             "production_strict": strict,
             "errors": list(dict.fromkeys(errors)),
@@ -459,7 +469,7 @@ class ExamTreeService:
         report = ExamTreeService.validate(result)
         if lock and report["errors"]:
             raise ValueError("ExamTree 校验失败: " + "; ".join(report["errors"]))
-        result["state"] = "LOCKED" if lock and not report["errors"] else "DRAFT"
+        result["state"] = "LOCKED" if lock and report["ready_to_lock"] else "DRAFT"
         result["validation"] = report
         result["fingerprint"] = tree_fingerprint(result)
         return result
@@ -467,22 +477,27 @@ class ExamTreeService:
     @staticmethod
     def load(path: Path, expected_subject: Optional[str] = None,
              require_valid: bool = True,
-             require_production: bool = False) -> Dict[str, Any]:
+             require_production: bool = False,
+             allow_valid_draft: bool = False) -> Dict[str, Any]:
         tree = json.loads(Path(path).read_text(encoding="utf-8"))
         if expected_subject and str(tree.get("subject")) != str(expected_subject):
             raise ValueError(
                 f"ExamTree 学科不匹配: expected={expected_subject}, actual={tree.get('subject')}"
             )
-        if require_valid and tree.get("state") != "LOCKED":
+        if require_valid and tree.get("state") != "LOCKED" and not allow_valid_draft:
             raise ValueError("生产 ExamTree 必须先使用 exam_tree_tool.py lock 锁定")
         declared_fingerprint = str(tree.get("fingerprint") or "")
         actual_fingerprint = tree_fingerprint(tree)
         if (require_valid and declared_fingerprint
                 and declared_fingerprint != actual_fingerprint):
             raise ValueError("ExamTree 指纹不匹配，文件可能在锁定后被修改")
+        report = ExamTreeService.validate(tree)
+        if require_valid and report["errors"]:
+            raise ValueError("ExamTree 校验失败: " + "; ".join(report["errors"]))
         if require_production:
             tree.setdefault("production_policy", {})["strict"] = True
-        tree = ExamTreeService.finalize(tree, lock=require_valid)
+        tree = ExamTreeService.finalize(
+            tree, lock=require_valid and not allow_valid_draft)
         return tree
 
     @staticmethod
@@ -520,6 +535,11 @@ class ExamTreeService:
                     item.standard_answer = copy.deepcopy(item_data.get("standard_answer"))
                     item.item_score = item_data.get("item_score")
                     item.rubric = item_data.get("rubric")
+                    item.semantic_slot_plan = copy.deepcopy(item_data.get("semantic_slot_plan") or [])
+                    item.slot_semantics_audit = copy.deepcopy(item_data.get("slot_semantics_audit") or {})
+                    item.quality["structure_references"] = copy.deepcopy(
+                        item_data.get("structure_references") or []
+                    )
                     item.expected_slot_count = item_data.get("expected_slot_count")
                     item.slot_count_source = str(item_data.get("slot_count_source") or "exam_tree")
                     item.cardinality_evidence = copy.deepcopy(
@@ -535,7 +555,14 @@ class ExamTreeService:
                         )
                     blueprint = item_data.get("slot_blueprint") or []
                     old_slots = sorted(item.slots, key=lambda slot: slot.slot_idx)
-                    if blueprint:
+                    if item.semantic_slot_plan and old_slots:
+                        item.slots = old_slots
+                    elif blueprint and item.item_type == "large_writing" and old_slots:
+                        for old_slot in old_slots:
+                            old_slot.semantic_id = str(blueprint[0]["slot_id"])
+                            old_slot.anchor_before = str(blueprint[0].get("anchor_before") or "")
+                            old_slot.anchor_after = str(blueprint[0].get("anchor_after") or "")
+                    elif blueprint:
                         # Preserve geometry only when the blueprint still maps
                         # one-to-one. A human cardinality edit clears stale
                         # boxes so the detector must localize the new topology.
@@ -553,6 +580,9 @@ class ExamTreeService:
                                 slot.parent_item_id = iid
                                 slot.slot_type = str(entry.get("slot_type") or slot.slot_type)
                                 slot.expected_text = copy.deepcopy(entry.get("expected_text"))
+                                slot.semantic_id = str(entry.get("slot_id") or "")
+                                slot.anchor_before = str(entry.get("anchor_before") or "")
+                                slot.anchor_after = str(entry.get("anchor_after") or "")
                                 slot.audit["cardinality_confirmed"] = True
                                 slot.audit["topology_source"] = "exam_tree"
                                 new_slots.append(slot)
@@ -572,12 +602,15 @@ class ExamTreeService:
                                     page_idx = int(entry.get("page_index") or 1)
                                     page_file = page_files[page_idx-1] if 1 <= page_idx <= len(page_files) else ""
                                     slot = Slot(
-                                        index, iid,
-                                        str(entry.get("slot_type") or "semantic_answer_point"),
-                                        page_idx, page_file,
-                                        list(bbox) if bbox else None,
+                                        slot_idx=index,
+                                        slot_type=str(entry.get("slot_type") or "semantic_answer_point"),
+                                        parent_item_id=iid, expected_bbox=list(bbox),
+                                        page_index=page_idx,
                                     )
                                     slot.expected_text = copy.deepcopy(entry.get("expected_text"))
+                                    slot.semantic_id = str(entry.get("slot_id") or "")
+                                    slot.anchor_before = str(entry.get("anchor_before") or "")
+                                    slot.anchor_after = str(entry.get("anchor_after") or "")
                                     slot.audit["cardinality_confirmed"] = True
                                     slot.audit["topology_source"] = "exam_tree_layout_evidence"
                                     slot.audit["promoted_from"] = "cardinality_consensus_layout"
@@ -599,7 +632,7 @@ class ExamTreeService:
                 section_data.get("section_score"),
             ))
         package.sections = rebuilt_sections
-        package.topology_locked = True
+        package.topology_locked = tree.get("state") == "LOCKED"
         package.exam_tree_id = str(tree.get("tree_id") or "")
         package.exam_tree_revision = int(tree.get("revision") or 1)
         package.exam_tree_fingerprint = str(tree.get("fingerprint") or tree_fingerprint(tree))

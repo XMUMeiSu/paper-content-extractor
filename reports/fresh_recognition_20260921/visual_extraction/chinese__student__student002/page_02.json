@@ -1,0 +1,590 @@
+{
+  "status": "PARTIAL",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "FAILED",
+      "reason": "TEACHER_TOPOLOGY_CONFLICT",
+      "error_type": "ValueError"
+    },
+    {
+      "attempt": 2,
+      "failures_in": [
+        {
+          "reason": "TEACHER_TOPOLOGY_CONFLICT",
+          "page_index": 2
+        }
+      ],
+      "status": "FAILED",
+      "reason": "JSON 解析失败: line 36 column 84 char 7687: Expecting value",
+      "error_type": "StructuredOutputError"
+    },
+    {
+      "attempt": 2,
+      "item_id": "s2_q1",
+      "mode": "item_focus_retry",
+      "status": "FAILED",
+      "reason": "TEACHER_TOPOLOGY_CONFLICT",
+      "error_type": "ValueError"
+    },
+    {
+      "attempt": 2,
+      "item_id": "s2_q2",
+      "mode": "item_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              68,
+              590,
+              345
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1. 陈太丘与友期行，期日中。（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      66,
+                      195,
+                      580,
+                      212
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "2. 与人期行，相委而去。（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      66,
+                      237,
+                      580,
+                      255
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "3. 友人惭，下车引之，元方入门不顾。（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      66,
+                      280,
+                      580,
+                      298
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 4,
+                "label": "blank_response",
+                "anchor_before": "4. 尊君在不？（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      66,
+                      322,
+                      580,
+                      340
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 2,
+      "item_id": "s2_q3_1",
+      "mode": "item_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q3_1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              418,
+              458,
+              448
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "1. 你认为元方和友人各是怎样的人？（4分）",
+                "anchor_after": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      48,
+                      460,
+                      896,
+                      512
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 2,
+      "item_id": "s2_q3_2",
+      "mode": "item_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q3_2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              80,
+              515,
+              795,
+              545
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                "anchor_after": "根据语境填空 (13分)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      80,
+                      560,
+                      900,
+                      645
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 2,
+      "item_id": "s3_q1",
+      "mode": "item_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s3_q1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              50,
+              275,
+              930,
+              385
+            ],
+            "answer_layout": "mixed",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "一草一木，一人一事都能引起文人的感触。曹操登高望海心中升起 “",
+                "anchor_after": "，\n________________（1）；星汉灿烂，若出其里” 的豪情；李白借杨花、子规诉说着",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      81,
+                      293,
+                      221,
+                      314
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 1.0
+                  }
+                ],
+                "confidence": 1.0
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 3,
+      "item_id": "s2_q3_1",
+      "mode": "empty_region_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q3_1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              8,
+              42,
+              47,
+              45
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "1. 你认为元方和友人各是怎样的人？（4分）",
+                "anchor_after": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      8,
+                      46,
+                      90,
+                      51
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 1.0
+                  }
+                ],
+                "confidence": 1.0
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 3,
+      "item_id": "s2_q3_2",
+      "mode": "empty_region_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q3_2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              4,
+              510,
+              805,
+              558
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                "anchor_after": "根据语境填空 (13分)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      4,
+                      560,
+                      900,
+                      650
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "s2_q2": {
+      "item_id": "s2_q2",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        48,
+        68,
+        590,
+        345
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1. 陈太丘与友期行，期日中。（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                66,
+                195,
+                580,
+                212
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "2. 与人期行，相委而去。（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                66,
+                237,
+                580,
+                255
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "3. 友人惭，下车引之，元方入门不顾。（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                66,
+                280,
+                580,
+                298
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 4,
+          "label": "blank_response",
+          "anchor_before": "4. 尊君在不？（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                66,
+                322,
+                580,
+                340
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q3_1": {
+      "item_id": "s2_q3_1",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        8,
+        42,
+        47,
+        45
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "1. 你认为元方和友人各是怎样的人？（4分）",
+          "anchor_after": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+          "regions": [
+            {
+              "answer_bbox": [
+                8,
+                46,
+                90,
+                51
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 1.0
+            }
+          ],
+          "confidence": 1.0
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 1.0
+    },
+    "s2_q3_2": {
+      "item_id": "s2_q3_2",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        4,
+        510,
+        805,
+        558
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+          "anchor_after": "根据语境填空 (13分)",
+          "regions": [
+            {
+              "answer_bbox": [
+                4,
+                560,
+                900,
+                650
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1": {
+      "item_id": "s3_q1",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        50,
+        275,
+        930,
+        385
+      ],
+      "answer_layout": "mixed",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "一草一木，一人一事都能引起文人的感触。曹操登高望海心中升起 “",
+          "anchor_after": "，\n________________（1）；星汉灿烂，若出其里” 的豪情；李白借杨花、子规诉说着",
+          "regions": [
+            {
+              "answer_bbox": [
+                81,
+                293,
+                221,
+                314
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 1.0
+            }
+          ],
+          "confidence": 1.0
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 1.0
+    }
+  }
+}

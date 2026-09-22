@@ -36,10 +36,21 @@ def _map_slot(slot: Slot, source_pages, target_pages):
     sw = float((source.width if source else None) or target.width or 1654)
     sh = float((source.height if source else None) or target.height or 2338)
     tw, th = float(target.width or sw), float(target.height or sh)
+    if len(slot.expected_bbox or []) != 4:
+        mapped = copy.deepcopy(slot)
+        mapped.page_index = target.index
+        mapped.handwriting_bbox = None
+        mapped.student_answer = None
+        mapped.recognized_text = ""
+        mapped.answer_fragments = []
+        return mapped
     y1, x1, y2, x2 = slot.expected_bbox
-    return Slot(slot.slot_idx, slot.slot_type, slot.parent_item_id,
+    mapped = Slot(slot.slot_idx, slot.slot_type, slot.parent_item_id,
                 [round(y1*th/sh), round(x1*tw/sw), round(y2*th/sh), round(x2*tw/sw)],
                 target.index, slot.expected_text)
+    mapped.semantic_id = slot.semantic_id
+    mapped.anchor_before, mapped.anchor_after = slot.anchor_before, slot.anchor_after
+    return mapped
 
 
 def _map_regions(regions, source_pages, target_pages):
@@ -157,6 +168,9 @@ class GoldenTemplateService:
         seeded = 0
         for logical_index, (question, item) in enumerate(logical):
             assignment = assignments.get(logical_index)
+            if item.stem_region and item.answer_regions and item.stem_region.confidence is not None:
+                seeded += 1
+                continue
             if not assignment:
                 package.warnings.append(f"{item.item_id} 未找到唯一 OCR 锚点，进入人工复核")
                 continue
@@ -211,17 +225,20 @@ class GoldenTemplateService:
 
     def inherit_student_topology(self, teacher: ExamPackage, candidate: ExamPackage,
                                  teacher_pages: Sequence[Page], student_pages: Sequence[Page],
-                                 exam_id: str, student_id: str) -> ExamPackage:
+                                 exam_id: str, student_id: str,
+                                 localize_with_ocr: bool = True) -> ExamPackage:
         candidate_items = {_norm(item.item_id): item for section in candidate.sections
                            for question in section.questions for item in question.items}
         result = copy.deepcopy(teacher)
         result.exam_id = exam_id; result.document_type = "student"; result.student_id = student_id
         result.page_files = [page.path for page in student_pages]; result.total_pages = len(student_pages)
         result.golden_source = teacher.golden_source or f"teacher:{teacher.exam_id}"
-        result.topology_locked = True; result.registration = []; result.quality = {}; result.score_audit = {}
+        result.topology_locked = teacher.topology_locked; result.registration = []; result.quality = {}; result.score_audit = {}
 
-        # 使用学生卷自己的OCR进行独立区域检测
-        student_bands = self._compute_student_bands(result, student_pages)
+        student_bands = (
+            self._compute_student_bands(result, student_pages)
+            if localize_with_ocr else {}
+        )
 
         hits = mapped_count = independent_count = 0
         for section in result.sections:
@@ -239,14 +256,24 @@ class GoldenTemplateService:
                             item.expected_slot_count = found.expected_slot_count
                             item.slot_count_source = found.slot_count_source or "student_vlm"
                     item.student_score = None; item.is_correct = None; item.eval_status = "pending"
+                    # Retry budgets and recognition feedback belong to THIS paper.
+                    # Teacher history must not suppress a student's automatic retry.
+                    for key in ("automatic_relocalization", "localization_retry_feedback", "student_anchor_conflict"):
+                        item.quality.pop(key, None)
                     source_regions = item.answer_regions
-                    mapped = _map_regions(source_regions, teacher_pages, student_pages)
+                    mapped = (_map_regions(source_regions, teacher_pages, student_pages)
+                              if localize_with_ocr else [])
 
                     # 优先使用学生卷独立检测的区域
-                    independent_region = self._get_student_independent_region(
-                        item, student_bands, student_pages
+                    independent_region = (
+                        self._get_student_independent_region(item, student_bands, student_pages)
+                        if localize_with_ocr else None
                     )
 
+                    allowed_pages = {r["page_index"] for r in item.quality.get("structure_references", [])}
+                    if independent_region and allowed_pages and independent_region.page_index not in allowed_pages:
+                        item.quality["student_anchor_conflict"] = "PAGE_IDENTITY_CONFLICT"
+                        independent_region = None
                     if independent_region and not _too_broad([independent_region], student_pages):
                         item.student_regions = [independent_region]
                         independent_count += 1
@@ -257,12 +284,35 @@ class GoldenTemplateService:
                         mapped_count += len(mapped)
 
                     item.answer_regions = copy.deepcopy(item.student_regions or mapped)
-                    item.option_regions = _map_regions(item.option_regions, teacher_pages, student_pages)
-                    item.blank_regions = _map_regions(item.blank_regions, teacher_pages, student_pages)
-                    item.writing_regions = _map_regions(item.writing_regions, teacher_pages, student_pages)
-                    item.stem_region = _map_region(item.stem_region, teacher_pages, student_pages) if item.stem_region else None
-                    item.slots = [mapped_slot for slot in item.slots
-                                  if (mapped_slot := _map_slot(slot, teacher_pages, student_pages))]
+                    item.option_regions = (_map_regions(item.option_regions, teacher_pages, student_pages)
+                                           if localize_with_ocr else [])
+                    item.blank_regions = (_map_regions(item.blank_regions, teacher_pages, student_pages)
+                                          if localize_with_ocr else [])
+                    item.writing_regions = (_map_regions(item.writing_regions, teacher_pages, student_pages)
+                                            if localize_with_ocr else [])
+                    item.stem_region = (
+                        _map_region(item.stem_region, teacher_pages, student_pages)
+                        if localize_with_ocr and item.stem_region else None
+                    )
+                    if not item.semantic_slot_plan and item.expected_slot_count:
+                        item.semantic_slot_plan = [{
+                            "slot_id": "{}:slot:{}".format(item.item_id, index), "index": index,
+                            "label": "answer_point_{}".format(index),
+                            "anchor_before": next((s.anchor_before for s in item.slots if s.slot_idx == index), ""),
+                            "anchor_after": next((s.anchor_after for s in item.slots if s.slot_idx == index), ""),
+                        } for index in range(1, item.expected_slot_count + 1)]
+                    if localize_with_ocr:
+                        item.slots = [mapped_slot for slot in item.slots
+                                      if (mapped_slot := _map_slot(
+                                          slot, teacher_pages, student_pages))]
+                    else:
+                        for slot in item.slots:
+                            slot.student_answer = None
+                            slot.recognized_text = ""
+                            slot.answer_fragments = []
+                            slot.handwriting_bbox = None
+                            slot.evidence_bbox = None
+                            slot.recognition_bbox = None
                     if item.slots and not item.expected_slot_count:
                         item.expected_slot_count = len(item.slots)
                         item.slot_count_source = "teacher_topology"
@@ -271,13 +321,21 @@ class GoldenTemplateService:
                             "cardinality_confirmed": True,
                             "coordinate_role": "matching_hint_only",
                         })
-                    if item.roi_patch:
+                    if item.roi_patch and localize_with_ocr:
                         item.roi_patch = RoIPatchRef(list(item.roi_patch.bbox), "", item.roi_patch.padding)
+                    elif not localize_with_ocr:
+                        item.roi_patch = None
         result.warnings = list(candidate.warnings)
-        result.warnings.append(
-            f"学生卷题目拓扑已锁定到教师 Golden：{sum(len(s.questions) for s in result.sections)} 道大题，"
-            f"命中 {hits} 个作答，独立检测 {independent_count} 个区域，映射 {mapped_count} 个教师区域"
-        )
+        if localize_with_ocr:
+            result.warnings.append(
+                f"学生卷题目拓扑已锁定到教师 Golden：{sum(len(s.questions) for s in result.sections)} 道大题，"
+                f"命中 {hits} 个作答，独立检测 {independent_count} 个区域，映射 {mapped_count} 个教师区域"
+            )
+        else:
+            result.warnings.append(
+                f"学生卷继承教师逻辑题目树：{sum(len(s.questions) for s in result.sections)} 道大题；"
+                "题目、槽位和答案坐标由学生原页 VLM 独立识别"
+            )
         return result
 
     def _compute_student_bands(self, package: ExamPackage, pages: Sequence[Page]):

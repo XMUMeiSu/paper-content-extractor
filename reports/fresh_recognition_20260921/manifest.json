@@ -1,0 +1,2514 @@
+{
+  "schema_version": "exam_manifest.v4",
+  "status": "COMPLETED",
+  "started_at": "2026-09-21T21:49:58+08:00",
+  "dataset": "dataset",
+  "documents": [
+    {
+      "id": "chinese__teacher__teacher",
+      "role": "teacher",
+      "subject": "chinese",
+      "student_id": null,
+      "output": "reports/fresh_recognition_20260921/chinese__teacher__teacher.json",
+      "structured_file": "reports/fresh_recognition_20260921/chinese__teacher__teacher.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": true,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": false,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "strategy": "whole_document_vlm",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 7,
+      "diagram_asset_count": 1,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/teacher_slots.jpg",
+      "slot_count": 36,
+      "answer_verification": null,
+      "input_fingerprint": "sha256:67c37e9439dba1f44cddb6d63e6405f2bc50c866e0796e0652471c380bbbd040",
+      "source_pages": [
+        "dataset/chinese/teacher/page_01.jpg",
+        "dataset/chinese/teacher/page_02.jpg"
+      ],
+      "duration_seconds": 559.634,
+      "performance": {
+        "request_count": 17,
+        "cumulative_operation_seconds": 555.7786,
+        "failures": 2,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 1008670,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 11,
+            "duration_seconds": 375.6802,
+            "image_count": 14,
+            "image_bytes": 5962569,
+            "attempts": 11,
+            "failures": 2,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "structure_request": {
+            "request_count": 4,
+            "duration_seconds": 180.0984,
+            "image_count": 6,
+            "image_bytes": 3026010,
+            "attempts": 4,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:49:58+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/teacher/page_01.jpg",
+            "dataset/chinese/teacher/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T21:49:58+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:50:01+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/teacher/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01_mask.png",
+              "original_size": {
+                "width": 2477,
+                "height": 3510
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.667743,
+              "scale_y": 0.666097,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/teacher/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02_mask.png",
+              "original_size": {
+                "width": 2483,
+                "height": 3505
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.66613,
+              "scale_y": 0.667047,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 2.941
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "STARTED",
+          "at": "2026-09-21T21:50:01+08:00",
+          "evidence": "original_preprocessed_images"
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:53:01+08:00",
+          "source": "whole_document_vlm",
+          "duration_seconds": 180.193
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T21:53:01+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:17+08:00",
+          "summary": {
+            "page_calls": 11,
+            "page_retries": 9,
+            "failed_pages": 0,
+            "items": 11,
+            "slots": 36,
+            "regions": 35,
+            "partial_pages": 1,
+            "accepted_items": 10,
+            "partial_items": 1,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 375.853
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:17+08:00",
+          "retries": 9,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T21:59:17+08:00",
+          "role": "teacher"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:17+08:00",
+          "summary": {
+            "total_logical_slots": 33,
+            "answers_extracted": 17,
+            "blank_slots": 15,
+            "unresolved_slots": 1,
+            "physical_regions": 35,
+            "geometry": {
+              "ALIGNED": 35,
+              "MISSING": 1
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 18,
+              "NOT_EVALUATED": 1
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:18+08:00",
+          "assets": 1,
+          "items": 1,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:18+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/teacher_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:18+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student001",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student001",
+      "output": "reports/fresh_recognition_20260921/chinese__student__student001.json",
+      "structured_file": "reports/fresh_recognition_20260921/chinese__student__student001.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": false,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 7,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student001_slots.jpg",
+      "slot_count": 35,
+      "answer_verification": {
+        "total_logical_slots": 33,
+        "answers_extracted": 19,
+        "blank_slots": 13,
+        "unresolved_slots": 1,
+        "physical_regions": 34,
+        "geometry": {
+          "ALIGNED": 34,
+          "MISSING": 1
+        },
+        "content": {
+          "RECOGNIZED": 19,
+          "BLANK": 15,
+          "NOT_EVALUATED": 1
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:283cc1a8a0c43e636780dd17ba5a7c7db1e73cc901ba79ed7001eff585e18f9c",
+      "source_pages": [
+        "dataset/chinese/student001/page_01.jpg",
+        "dataset/chinese/student001/page_02.jpg"
+      ],
+      "duration_seconds": 536.843,
+      "performance": {
+        "request_count": 14,
+        "cumulative_operation_seconds": 533.2125,
+        "failures": 3,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 972778,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 12,
+            "duration_seconds": 533.2125,
+            "image_count": 15,
+            "image_bytes": 6205323,
+            "attempts": 12,
+            "failures": 3,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:18+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student001/page_01.jpg",
+            "dataset/chinese/student001/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T21:59:18+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:21+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student001/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_01_mask.png",
+              "original_size": {
+                "width": 2470,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.669636,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student001/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_02_mask.png",
+              "original_size": {
+                "width": 2483,
+                "height": 3500
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.66613,
+              "scale_y": 0.668,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student001/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.167
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T21:59:21+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T21:59:21+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:14+08:00",
+          "summary": {
+            "page_calls": 12,
+            "page_retries": 10,
+            "failed_pages": 0,
+            "items": 11,
+            "slots": 35,
+            "regions": 34,
+            "partial_pages": 1,
+            "accepted_items": 10,
+            "partial_items": 1,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 533.375
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:14+08:00",
+          "retries": 10,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:08:14+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:14+08:00",
+          "summary": {
+            "total_logical_slots": 33,
+            "answers_extracted": 19,
+            "blank_slots": 13,
+            "unresolved_slots": 1,
+            "physical_regions": 34,
+            "geometry": {
+              "ALIGNED": 34,
+              "MISSING": 1
+            },
+            "content": {
+              "RECOGNIZED": 19,
+              "BLANK": 15,
+              "NOT_EVALUATED": 1
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:14+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:15+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student001_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:15+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student002",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student002",
+      "output": "reports/fresh_recognition_20260921/chinese__student__student002.json",
+      "structured_file": "reports/fresh_recognition_20260921/chinese__student__student002.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": false,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 8,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student002_slots.jpg",
+      "slot_count": 33,
+      "answer_verification": {
+        "total_logical_slots": 33,
+        "answers_extracted": 17,
+        "blank_slots": 16,
+        "unresolved_slots": 0,
+        "physical_regions": 33,
+        "geometry": {
+          "ALIGNED": 33
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 16
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:66c11d99b88f23ee3fb273312ff07cb946d008de2b6a01b0cf3f16f331669a47",
+      "source_pages": [
+        "dataset/chinese/student002/page_01.jpg",
+        "dataset/chinese/student002/page_02.jpg"
+      ],
+      "duration_seconds": 428.897,
+      "performance": {
+        "request_count": 13,
+        "cumulative_operation_seconds": 424.8164,
+        "failures": 1,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 963142,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 11,
+            "duration_seconds": 424.8164,
+            "image_count": 14,
+            "image_bytes": 5678242,
+            "attempts": 11,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:15+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student002/page_01.jpg",
+            "dataset/chinese/student002/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:08:15+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:18+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student002/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_01_mask.png",
+              "original_size": {
+                "width": 2481,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.666667,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student002/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3506
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.666857,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student002/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.622
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:08:18+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:08:18+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "summary": {
+            "page_calls": 11,
+            "page_retries": 9,
+            "failed_pages": 0,
+            "items": 11,
+            "slots": 33,
+            "regions": 33,
+            "partial_pages": 1,
+            "accepted_items": 11,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 424.976
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "retries": 9,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "summary": {
+            "total_logical_slots": 33,
+            "answers_extracted": 17,
+            "blank_slots": 16,
+            "unresolved_slots": 0,
+            "physical_regions": 33,
+            "geometry": {
+              "ALIGNED": 33
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 16
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student002_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student003",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student003",
+      "output": "reports/fresh_recognition_20260921/chinese__student__student003.json",
+      "structured_file": "reports/fresh_recognition_20260921/chinese__student__student003.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": false,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 7,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student003_slots.jpg",
+      "slot_count": 33,
+      "answer_verification": {
+        "total_logical_slots": 33,
+        "answers_extracted": 17,
+        "blank_slots": 16,
+        "unresolved_slots": 0,
+        "physical_regions": 32,
+        "geometry": {
+          "ALIGNED": 32,
+          "MISSING": 1
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 16
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:f2717958cfb791606e088732c24e8c5722f4215bb26112891a93d42fb4ebc7d3",
+      "source_pages": [
+        "dataset/chinese/student003/page_01.jpg",
+        "dataset/chinese/student003/page_02.jpg"
+      ],
+      "duration_seconds": 446.607,
+      "performance": {
+        "request_count": 14,
+        "cumulative_operation_seconds": 443.1888,
+        "failures": 0,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 991379,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 12,
+            "duration_seconds": 443.1888,
+            "image_count": 16,
+            "image_bytes": 6317626,
+            "attempts": 12,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:23+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student003/page_01.jpg",
+            "dataset/chinese/student003/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:15:23+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:26+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student003/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_01_mask.png",
+              "original_size": {
+                "width": 2479,
+                "height": 3510
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.667205,
+              "scale_y": 0.666097,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student003/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3507
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.666667,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student003/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 2.923
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:15:26+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:15:26+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "summary": {
+            "page_calls": 12,
+            "page_retries": 10,
+            "failed_pages": 0,
+            "items": 11,
+            "slots": 33,
+            "regions": 32,
+            "partial_pages": 1,
+            "accepted_items": 11,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 443.38
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "retries": 10,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "summary": {
+            "total_logical_slots": 33,
+            "answers_extracted": 17,
+            "blank_slots": 16,
+            "unresolved_slots": 0,
+            "physical_regions": 32,
+            "geometry": {
+              "ALIGNED": 32,
+              "MISSING": 1
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 16
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student003_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student004",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student004",
+      "output": "reports/fresh_recognition_20260921/chinese__student__student004.json",
+      "structured_file": "reports/fresh_recognition_20260921/chinese__student__student004.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": false,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 8,
+      "diagram_asset_count": 1,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student004_slots.jpg",
+      "slot_count": 35,
+      "answer_verification": {
+        "total_logical_slots": 33,
+        "answers_extracted": 17,
+        "blank_slots": 16,
+        "unresolved_slots": 0,
+        "physical_regions": 35,
+        "geometry": {
+          "ALIGNED": 35
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 18
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:674241ad17857d1e643a5af3f02f76cd36585ca9b48306ecc3cc108a6cfdd2bd",
+      "source_pages": [
+        "dataset/chinese/student004/page_01.jpg",
+        "dataset/chinese/student004/page_02.jpg"
+      ],
+      "duration_seconds": 417.538,
+      "performance": {
+        "request_count": 13,
+        "cumulative_operation_seconds": 413.781,
+        "failures": 1,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 979018,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 11,
+            "duration_seconds": 413.781,
+            "image_count": 14,
+            "image_bytes": 5716763,
+            "attempts": 11,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:50+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student004/page_01.jpg",
+            "dataset/chinese/student004/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:22:50+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:53+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student004/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_01_mask.png",
+              "original_size": {
+                "width": 2471,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.669365,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student004/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3501
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.667809,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/chinese/student/student004/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.265
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:22:53+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:22:53+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:47+08:00",
+          "summary": {
+            "page_calls": 11,
+            "page_retries": 9,
+            "failed_pages": 0,
+            "items": 11,
+            "slots": 35,
+            "regions": 35,
+            "partial_pages": 1,
+            "accepted_items": 11,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 413.96
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:47+08:00",
+          "retries": 9,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:29:47+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:47+08:00",
+          "summary": {
+            "total_logical_slots": 33,
+            "answers_extracted": 17,
+            "blank_slots": 16,
+            "unresolved_slots": 0,
+            "physical_regions": 35,
+            "geometry": {
+              "ALIGNED": 35
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 18
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:47+08:00",
+          "assets": 1,
+          "items": 1,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:48+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student004_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:48+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__teacher__teacher",
+      "role": "teacher",
+      "subject": "math_01",
+      "student_id": null,
+      "output": "reports/fresh_recognition_20260921/math_01__teacher__teacher.json",
+      "structured_file": "reports/fresh_recognition_20260921/math_01__teacher__teacher.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": true,
+      "golden_source": "teacher:math_01__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:c22db8cb1971296a7628123c76c60fb2feb7412be0fa6e4f1bffd533d5baf1aa",
+      "strategy": "whole_document_vlm",
+      "quality_status": "OK",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 8,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/teacher_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": null,
+      "input_fingerprint": "sha256:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "source_pages": [
+        "dataset/math_01/teacher/page_01.jpg",
+        "dataset/math_01/teacher/page_02.jpg"
+      ],
+      "duration_seconds": 294.027,
+      "performance": {
+        "request_count": 7,
+        "cumulative_operation_seconds": 288.7006,
+        "failures": 0,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 1261884,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 2,
+            "duration_seconds": 141.753,
+            "image_count": 2,
+            "image_bytes": 1261884,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "structure_request": {
+            "request_count": 3,
+            "duration_seconds": 146.9476,
+            "image_count": 4,
+            "image_bytes": 2523768,
+            "attempts": 3,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:48+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/teacher/page_01.jpg",
+            "dataset/math_01/teacher/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:29:48+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:29:52+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/teacher/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/teacher/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 4.43
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "STARTED",
+          "at": "2026-09-21T22:29:52+08:00",
+          "evidence": "original_preprocessed_images"
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:32:19+08:00",
+          "source": "whole_document_vlm",
+          "duration_seconds": 147.006
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:32:19+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:41+08:00",
+          "summary": {
+            "page_calls": 2,
+            "page_retries": 0,
+            "failed_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 24,
+            "accepted_items": 20,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 141.853
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:41+08:00",
+          "retries": 0,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:34:41+08:00",
+          "role": "teacher"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:41+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 24,
+            "blank_slots": 0,
+            "unresolved_slots": 0,
+            "physical_regions": 24,
+            "geometry": {
+              "ALIGNED": 24
+            },
+            "content": {
+              "RECOGNIZED": 24
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:42+08:00",
+          "assets": 8,
+          "items": 5,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:42+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/teacher_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:42+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student001",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student001",
+      "output": "reports/fresh_recognition_20260921/math_01__student__student001.json",
+      "structured_file": "reports/fresh_recognition_20260921/math_01__student__student001.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:math_01__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:c22db8cb1971296a7628123c76c60fb2feb7412be0fa6e4f1bffd533d5baf1aa",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 10,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student001_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 20,
+        "blank_slots": 4,
+        "unresolved_slots": 0,
+        "physical_regions": 24,
+        "geometry": {
+          "ALIGNED": 24
+        },
+        "content": {
+          "RECOGNIZED": 20,
+          "BLANK": 4
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:071b3ce416daac495d450999708df9256610fbbcddf39adc8fab658b1c2e9389",
+      "source_pages": [
+        "dataset/math_01/student001/page_01.jpg",
+        "dataset/math_01/student001/page_02.jpg"
+      ],
+      "duration_seconds": 183.753,
+      "performance": {
+        "request_count": 7,
+        "cumulative_operation_seconds": 179.4387,
+        "failures": 0,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 1100477,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 5,
+            "duration_seconds": 179.4387,
+            "image_count": 8,
+            "image_bytes": 2917604,
+            "attempts": 5,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:42+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student001/page_01.jpg",
+            "dataset/math_01/student001/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:34:42+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:45+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student001/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student001/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student001/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.556
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:34:45+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:34:45+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "summary": {
+            "page_calls": 5,
+            "page_retries": 3,
+            "failed_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 24,
+            "accepted_items": 20,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 179.585
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "retries": 3,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 20,
+            "blank_slots": 4,
+            "unresolved_slots": 0,
+            "physical_regions": 24,
+            "geometry": {
+              "ALIGNED": 24
+            },
+            "content": {
+              "RECOGNIZED": 20,
+              "BLANK": 4
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "assets": 10,
+          "items": 6,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student001_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student002",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student002",
+      "output": "reports/fresh_recognition_20260921/math_01__student__student002.json",
+      "structured_file": "reports/fresh_recognition_20260921/math_01__student__student002.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:math_01__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:c22db8cb1971296a7628123c76c60fb2feb7412be0fa6e4f1bffd533d5baf1aa",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 3,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student002_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 18,
+        "blank_slots": 6,
+        "unresolved_slots": 0,
+        "physical_regions": 23,
+        "geometry": {
+          "ALIGNED": 23,
+          "MISSING": 1
+        },
+        "content": {
+          "RECOGNIZED": 18,
+          "BLANK": 6
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:f408b1e096c278985d70511d65a3826c9ae6d3467a24b9075a4942d700772920",
+      "source_pages": [
+        "dataset/math_01/student002/page_01.jpg",
+        "dataset/math_01/student002/page_02.jpg"
+      ],
+      "duration_seconds": 276.459,
+      "performance": {
+        "request_count": 10,
+        "cumulative_operation_seconds": 272.5053,
+        "failures": 0,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 925075,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 8,
+            "duration_seconds": 272.5053,
+            "image_count": 14,
+            "image_bytes": 5016884,
+            "attempts": 8,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:45+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student002/page_01.jpg",
+            "dataset/math_01/student002/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:37:45+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:49+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student002/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student002/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student002/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.251
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:37:49+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:37:49+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:21+08:00",
+          "summary": {
+            "page_calls": 8,
+            "page_retries": 6,
+            "failed_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 23,
+            "accepted_items": 20,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 272.739
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:21+08:00",
+          "retries": 6,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 18,
+            "blank_slots": 6,
+            "unresolved_slots": 0,
+            "physical_regions": 23,
+            "geometry": {
+              "ALIGNED": 23,
+              "MISSING": 1
+            },
+            "content": {
+              "RECOGNIZED": 18,
+              "BLANK": 6
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "assets": 3,
+          "items": 2,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student002_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student003",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student003",
+      "output": "reports/fresh_recognition_20260921/math_01__student__student003.json",
+      "structured_file": "reports/fresh_recognition_20260921/math_01__student__student003.json",
+      "normalized_pages": [
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_01.jpg",
+        "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:math_01__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:c22db8cb1971296a7628123c76c60fb2feb7412be0fa6e4f1bffd533d5baf1aa",
+      "strategy": "inherited_teacher_topology+student_local_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 6,
+      "slot_visualization": "reports/fresh_recognition_20260921/visualizations/student003_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 24,
+        "blank_slots": 0,
+        "unresolved_slots": 0,
+        "physical_regions": 24,
+        "geometry": {
+          "ALIGNED": 24
+        },
+        "content": {
+          "RECOGNIZED": 24
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:7702619e206ec462a6aa764eb99ae2c2908504080f8eef3f19c7da2f1787ed46",
+      "source_pages": [
+        "dataset/math_01/student003/page_01.jpg",
+        "dataset/math_01/student003/page_02.jpg"
+      ],
+      "duration_seconds": 157.846,
+      "performance": {
+        "request_count": 4,
+        "cumulative_operation_seconds": 152.7369,
+        "failures": 0,
+        "operations": {
+          "ocr_page": {
+            "request_count": 2,
+            "duration_seconds": 0.0,
+            "image_count": 2,
+            "image_bytes": 1063601,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "page_joint_extraction": {
+            "request_count": 2,
+            "duration_seconds": 152.7369,
+            "image_count": 2,
+            "image_bytes": 1063601,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:22+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student003/page_01.jpg",
+            "dataset/math_01/student003/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-21T22:42:22+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:26+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student003/page_01.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_01.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_01.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student003/page_02.jpg",
+              "normalized_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_02.jpg",
+              "geometry_mask_path": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_02.jpg",
+                "geometry": "reports/fresh_recognition_20260921/normalized/math_01/student/student003/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 4.494
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:42:26+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-21T22:42:26+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:44:59+08:00",
+          "summary": {
+            "page_calls": 2,
+            "page_retries": 0,
+            "failed_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 24,
+            "accepted_items": 20,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 152.831
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:44:59+08:00",
+          "retries": 0,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-21T22:44:59+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:44:59+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 24,
+            "blank_slots": 0,
+            "unresolved_slots": 0,
+            "physical_regions": 24,
+            "geometry": {
+              "ALIGNED": 24
+            },
+            "content": {
+              "RECOGNIZED": 24
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:45:00+08:00",
+          "assets": 6,
+          "items": 3,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:45:00+08:00",
+          "contact_sheet": "reports/fresh_recognition_20260921/visualizations/student003_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-21T22:45:00+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    }
+  ],
+  "errors": [],
+  "generated_goldens": {
+    "chinese": "reports/fresh_recognition_20260921/generated_golden/chinese.json",
+    "math_01": "reports/fresh_recognition_20260921/generated_golden/math_01.json"
+  },
+  "exam_trees": {
+    "chinese": {
+      "path": "reports/fresh_recognition_20260921/exam_trees/chinese.json",
+      "tree_id": "chinese:exam_tree",
+      "revision": 1,
+      "fingerprint": "sha256:e2a8ae12f1b63ac7db69ad39919df72748c047314ff375a122ea26bf1c6f2785",
+      "validation": {
+        "ready_to_lock": false,
+        "readiness_issues": [
+          "SLOT_SEMANTICS_UNRESOLVED:s3_q1"
+        ],
+        "status": "VALID",
+        "production_strict": false,
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "sections": 3,
+          "questions": 8,
+          "items": 11,
+          "slot_blueprints": 33
+        },
+        "validated_at": "2026-09-21T21:59:17+08:00"
+      }
+    },
+    "math_01": {
+      "path": "reports/fresh_recognition_20260921/exam_trees/math_01.json",
+      "tree_id": "math_01:exam_tree",
+      "revision": 1,
+      "fingerprint": "sha256:c22db8cb1971296a7628123c76c60fb2feb7412be0fa6e4f1bffd533d5baf1aa",
+      "validation": {
+        "ready_to_lock": true,
+        "readiness_issues": [],
+        "status": "VALID",
+        "production_strict": false,
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "sections": 3,
+          "questions": 15,
+          "items": 20,
+          "slot_blueprints": 24
+        },
+        "validated_at": "2026-09-21T22:34:41+08:00"
+      }
+    }
+  },
+  "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, diagrams, page_files)",
+  "canonical_canvas": {
+    "width": 1654,
+    "height": 2338
+  },
+  "architecture_spec": "PRODUCTION_PIPELINE_SPEC.md",
+  "runtime": {
+    "pipeline_version": "2.12.0",
+    "pipeline_order": [
+      "document_discovery",
+      "image_preprocessing",
+      "question_tree_generation",
+      "visual_page_extraction",
+      "answer_recognition",
+      "visual_page_retry",
+      "diagram_asset_export",
+      "slot_visualization",
+      "result_output"
+    ],
+    "recognition_mode": "vlm_only",
+    "production_mode": false,
+    "model": "doubao-seed-2.0-lite",
+    "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+    "ocr_engine": "disabled_in_vlm_only_path",
+    "paddle_models": {
+      "tier": "mobile",
+      "detection": "PP-OCRv5_mobile_det",
+      "recognition": "PP-OCRv5_mobile_rec"
+    },
+    "structure_vlm": {
+      "requested": "doubao",
+      "active": "doubao",
+      "model": "doubao-seed-2.0-lite",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+      "scope": "lightweight_whole_document_topology_then_page_text_enrichment",
+      "primary_evidence": "all_original_pages",
+      "proposal_stage": "pre_ocr_original_images",
+      "validation": "vlm_schema_page_coverage",
+      "max_semantic_attempts": 2,
+      "page_fallback": "bounded_per_page_topology_and_text_recovery",
+      "id_authority": "local_deterministic",
+      "response_diagnostics": "status_incomplete_details_usage_parse_position_raw_artifact",
+      "geometry_authority": "vlm_original_page_pixels",
+      "model_geometry_policy": "final"
+    },
+    "tree_llm": {
+      "enabled": false,
+      "configured": false,
+      "disabled_reason": "superseded_by_whole_document_visual_tree",
+      "provider": "custom",
+      "protocol": null,
+      "model": null,
+      "endpoint": null,
+      "scope": "teacher_semantic_tree_only",
+      "invocation_policy": "teacher_document_once_students_reuse_locked_tree",
+      "geometry_authority": "ppocrv5_and_deterministic_grounding",
+      "candidate_gate": "ocr_question_number_overlap_and_contract_validation",
+      "fallback": "deterministic_ocr_tree",
+      "accepted_teacher_documents": 0,
+      "fallback_teacher_documents": 0,
+      "teacher_pages_total": 0,
+      "dual_source_pages": 0,
+      "ppocr_fallback_pages": 0
+    },
+    "slot_semantics": {
+      "requested": "doubao",
+      "provider": "doubao",
+      "enabled": true,
+      "authority": "question_slots_coordinates_and_answers",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "max_semantic_attempts_per_item": 2,
+      "batch_size": "one_physical_page_all_items",
+      "batch_policy": "one_page_batch_then_item_retry",
+      "candidate_visual_review": false,
+      "answer_visual_transcription": true,
+      "answer_authority": "vlm_original_page",
+      "fallback": "page_local_vlm_retry_then_unresolved",
+      "ocr_used": false
+    },
+    "question_localization": {
+      "enabled": true,
+      "provider": "doubao",
+      "stage": "visual_page_extraction",
+      "authority": "vlm_final_question_region",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "fallback": "page_local_vlm_retry"
+    },
+    "slot_vlm_verification": {
+      "enabled": false,
+      "replaced_by": "slot_semantics"
+    },
+    "language": "chi_sim+eng",
+    "local_ocr": false,
+    "dry_run": false,
+    "feedback_db": null,
+    "grounding_knowledge": {
+      "version": "grounding-kb.v1",
+      "source_path": "/home/hzh/paper-content-extractor/GROUNDING_KNOWLEDGE_BASE.md",
+      "source_sha256": "1b35da809d751ec7c17c0e59a567170a39f7a2ba0c19667d9f71b50f676a412c",
+      "active_rules": [],
+      "runtime_role": "disabled_in_vlm_only_path",
+      "slot_coordinate_authority": "vlm_original_page_pixels",
+      "legacy_ink_rules_enabled": false
+    },
+    "ink_detection": {
+      "enabled": false,
+      "reason": "vlm_direct_original_page_extraction"
+    },
+    "cache_policy": {
+      "root": "/home/hzh/paper-content-extractor/.exam_pipeline_cache/datasets/8c96d303318125a1",
+      "dataset_cache_id": "8c96d303318125a1",
+      "exam_tree": "teacher_fingerprint_locked_vlm_only_v1",
+      "ocr": "disabled",
+      "roi": "question_topology_fingerprint",
+      "retry_scope": "failed_slot_or_item_only"
+    },
+    "input_filter": {
+      "subject": null,
+      "student_id": null
+    },
+    "exam_tree_overrides": null
+  },
+  "visual_extraction_summary": {
+    "documents": 9,
+    "page_calls": 74,
+    "page_retries": 56,
+    "failed_pages": 0,
+    "ocr_used": false
+  },
+  "completed_at": "2026-09-21T22:45:00+08:00",
+  "duration_seconds": 3301.733,
+  "performance": {
+    "request_count": 99,
+    "cumulative_operation_seconds": 3264.1588,
+    "failures": 7,
+    "operations": {
+      "ocr_page": {
+        "request_count": 18,
+        "duration_seconds": 0.0,
+        "image_count": 18,
+        "image_bytes": 9266024,
+        "attempts": 18,
+        "failures": 0,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      },
+      "page_joint_extraction": {
+        "request_count": 74,
+        "duration_seconds": 2937.1128,
+        "image_count": 99,
+        "image_bytes": 40140496,
+        "attempts": 74,
+        "failures": 7,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      },
+      "structure_request": {
+        "request_count": 7,
+        "duration_seconds": 327.046,
+        "image_count": 10,
+        "image_bytes": 5549778,
+        "attempts": 7,
+        "failures": 0,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      }
+    }
+  },
+  "summary": {
+    "documents_succeeded": 9,
+    "documents_failed": 0,
+    "documents_needing_review": 3
+  }
+}

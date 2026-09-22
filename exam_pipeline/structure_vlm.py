@@ -178,7 +178,7 @@ class PaddleOCRVLStructureClient:
     """OpenAI-compatible client for a separately deployed PaddleOCR-VL service."""
 
     def __init__(self, endpoint: str, model: str = "PaddlePaddle/PaddleOCR-VL-1.6",
-                 api_key: str = "", timeout: int = 180, max_attempts: int = 3):
+                 api_key: str = "", timeout: int = 60, max_attempts: int = 2):
         endpoint = str(endpoint or "").strip()
         if not endpoint.startswith(("http://", "https://")):
             raise ValueError("PaddleOCR-VL endpoint 必须是 HTTP(S) URL")

@@ -1,4 +1,4 @@
-<svg width="800" height="1400" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="1320" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
       .card { fill: #FFFFFF; stroke: #2563EB; stroke-width: 2; rx: 12; }
@@ -23,112 +23,74 @@
     </marker>
   </defs>
 
-  <!-- Step 1: 图像预处理 -->
-  <rect class="card" x="250" y="30" width="300" height="70"/>
-  <text class="badge" x="270" y="58">01</text>
-  <text class="title" x="310" y="58">图像预处理</text>
-  <text class="subtitle" x="270" y="82">页面归一化 1654×2338 | 透视校正</text>
+  <rect class="card" x="190" y="25" width="420" height="70"/>
+  <text class="badge" x="215" y="53">01</text>
+  <text class="title" x="260" y="53">发现试卷</text>
+  <text class="subtitle" x="215" y="78">教师卷与学生卷分组 | 稳定页序</text>
+  <path class="arrow" d="M 400 95 L 400 120"/>
 
-  <path class="arrow" d="M 400 100 L 400 130"/>
+  <rect class="card" x="190" y="120" width="420" height="70"/>
+  <text class="badge" x="215" y="148">02</text>
+  <text class="title" x="260" y="148">图像预处理</text>
+  <text class="subtitle" x="215" y="173">归一化 | 透视校正 | 学生页自动配准</text>
+  <path class="arrow" d="M 400 190 L 400 215"/>
 
-  <!-- Step 2: OCR 识别 -->
-  <rect class="card" x="250" y="130" width="300" height="70"/>
-  <text class="badge" x="270" y="158">02</text>
-  <text class="title" x="310" y="158">OCR 识别</text>
-  <text class="subtitle" x="270" y="182">PP-OCRv5 整页识别 | 定位文本</text>
+  <rect class="card-teacher" x="190" y="215" width="420" height="70"/>
+  <text class="badge" x="215" y="243">03</text>
+  <text class="title" x="260" y="243">题目树生成</text>
+  <text class="subtitle" x="215" y="268">VLM 读取预处理原图 | 不读取 OCR | 不输出坐标</text>
+  <path class="arrow" d="M 400 285 L 400 310"/>
 
-  <path class="arrow" d="M 400 200 L 400 230"/>
+  <rect class="card" x="190" y="310" width="420" height="70"/>
+  <text class="badge" x="215" y="338">04</text>
+  <text class="title" x="260" y="338">题目局部定位</text>
+  <text class="subtitle" x="215" y="363">按树中页码和题干锚点建立局部搜索上下文</text>
+  <path class="arrow" d="M 400 380 L 400 405"/>
 
-  <!-- Step 3: 结构分析 -->
-  <rect class="card" x="250" y="230" width="300" height="70"/>
-  <text class="badge" x="270" y="258">03</text>
-  <text class="title" x="310" y="258">结构分析</text>
-  <text class="subtitle" x="270" y="282">识别题号 | 题干 | 答题区域</text>
+  <rect class="card" x="190" y="405" width="420" height="70"/>
+  <text class="badge" x="215" y="433">05</text>
+  <text class="title" x="260" y="433">槽位语义提议</text>
+  <text class="subtitle" x="215" y="458">VLM 判断槽位归属、顺序和粗搜索区域</text>
+  <path class="arrow" d="M 400 475 L 400 500"/>
 
-  <path class="arrow" d="M 400 300 L 400 330"/>
+  <rect class="card" x="190" y="500" width="420" height="70"/>
+  <text class="badge" x="215" y="528">06</text>
+  <text class="title" x="260" y="528">OCR 与 VLM 交叉验证</text>
+  <text class="subtitle" x="215" y="553">题号 | 页码 | 阅读顺序 | 选项与小问 | 有界重试</text>
+  <path class="arrow" d="M 400 570 L 400 595"/>
 
-  <!-- Step 4: Cohort Consensus -->
-  <rect class="card" x="250" y="330" width="300" height="70"/>
-  <text class="badge" x="270" y="358">04</text>
-  <text class="title" x="310" y="358">Cohort Consensus</text>
-  <text class="subtitle" x="270" y="382">多卷对齐投票 | 生成印刷模板</text>
+  <rect class="card" x="190" y="595" width="420" height="70"/>
+  <text class="badge" x="215" y="623">07</text>
+  <text class="title" x="260" y="623">OCR 坐标落地</text>
+  <text class="subtitle" x="215" y="648">VLM 搜索提示由当前卷 OCR 框确定最终坐标</text>
+  <path class="arrow" d="M 400 665 L 400 690"/>
 
-  <path class="arrow" d="M 400 400 L 400 430"/>
+  <rect class="card-student" x="190" y="690" width="420" height="70"/>
+  <text class="badge" x="215" y="718">08</text>
+  <text class="title" x="260" y="718">答案识别</text>
+  <text class="subtitle" x="215" y="743">教师与学生独立转写 | 选择标记与公式专用路径</text>
+  <path class="arrow" d="M 400 760 L 400 785"/>
 
-  <!-- Step 5: 墨迹分离 -->
-  <rect class="card" x="250" y="430" width="300" height="70"/>
-  <text class="badge" x="270" y="458">05</text>
-  <text class="title" x="310" y="458">墨迹分离</text>
-  <text class="subtitle" x="270" y="482">分离印刷内容和手写内容</text>
+  <rect class="card" x="190" y="785" width="420" height="70"/>
+  <text class="badge" x="215" y="813">09</text>
+  <text class="title" x="260" y="813">自动修复</text>
+  <text class="subtitle" x="215" y="838">按失败类型扩域、重定位、复读 | 重试次数有上限</text>
+  <path class="arrow" d="M 400 855 L 400 880"/>
 
-  <!-- Branch point -->
-  <path class="arrow" d="M 400 500 L 400 540"/>
-  <circle cx="400" cy="540" r="6" fill="#2563EB"/>
+  <rect class="card" x="190" y="880" width="420" height="70"/>
+  <text class="badge" x="215" y="908">10</text>
+  <text class="title" x="260" y="908">结果输出</text>
+  <text class="subtitle" x="215" y="933">JSON | 阶段轨迹 | 错误状态 | 槽位可视化</text>
 
-  <!-- Branch to Teacher -->
-  <path class="arrow-branch" d="M 400 540 L 180 540 L 180 610"/>
-  <text class="label" x="190" y="560">教师卷</text>
+  <path class="arrow" d="M 400 950 L 400 990"/>
+  <rect x="300" y="990" width="200" height="50" rx="8" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
+  <text class="title" x="344" y="1021" fill="#2563EB">ExamPackage v5</text>
 
-  <!-- Branch to Student -->
-  <path class="arrow-branch" d="M 400 540 L 620 540 L 620 610"/>
-  <text class="label" x="550" y="560">学生卷</text>
+  <text class="title" x="190" y="1100">坐标权限</text>
+  <text class="subtitle" x="190" y="1128">VLM：题目树、槽位语义、粗搜索提示</text>
+  <text class="subtitle" x="190" y="1153">OCR：文字框、文字内容与题干锚点证据</text>
+  <text class="subtitle" x="190" y="1178">本地图像算法：最终像素坐标与几何状态</text>
 
-  <!-- Step 6: 教师答案提取 -->
-  <rect class="card-teacher" x="30" y="610" width="300" height="70"/>
-  <text class="badge" x="50" y="638">06</text>
-  <text class="title" x="90" y="638">教师答案提取</text>
-  <text class="subtitle" x="50" y="662">提取标准答案</text>
-
-  <path class="arrow-branch" d="M 180 680 L 180 730"/>
-
-  <!-- Step 7: 题目树生成 -->
-  <rect class="card-teacher" x="30" y="730" width="300" height="70"/>
-  <text class="badge" x="50" y="758">07</text>
-  <text class="title" x="90" y="758">题目树生成</text>
-  <text class="subtitle" x="50" y="782">编译 | 校验 | 锁定 Exam Tree</text>
-
-  <!-- Merge point -->
-  <path class="arrow-branch" d="M 180 800 L 180 900 L 400 900"/>
-
-  <!-- Step 8: 学生答案提取 -->
-  <rect class="card-student" x="470" y="610" width="300" height="70"/>
-  <text class="badge" x="490" y="638">08</text>
-  <text class="title" x="530" y="638">学生答案提取</text>
-  <text class="subtitle" x="490" y="662">基于题目树提取答案</text>
-
-  <path class="arrow-merge" d="M 620 680 L 620 900 L 400 900"/>
-
-  <circle cx="400" cy="900" r="6" fill="#EA580C"/>
-  <path class="arrow-merge" d="M 400 900 L 400 950"/>
-
-  <!-- Step 9: 迭代验证 -->
-  <rect class="card" x="250" y="950" width="300" height="90"/>
-  <text class="badge" x="270" y="980">09</text>
-  <text class="title" x="310" y="980">迭代验证</text>
-  <text class="subtitle" x="270" y="1004">墨迹中心定位 | 笔画安全边距</text>
-  <text class="subtitle" x="270" y="1024">最多三轮动量收敛 | IOU > 0.9</text>
-
-  <path class="arrow" d="M 400 1040 L 400 1080"/>
-
-  <!-- Step 10: 质量评估 -->
-  <rect class="card" x="250" y="1080" width="300" height="70"/>
-  <text class="badge" x="270" y="1108">10</text>
-  <text class="title" x="310" y="1108">质量评估</text>
-  <text class="subtitle" x="270" y="1132">生成审计日志和质量报告</text>
-
-  <!-- Output -->
-  <path class="arrow" d="M 400 1150 L 400 1200"/>
-  <rect x="320" y="1200" width="160" height="50" rx="999" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
-  <text class="title" x="360" y="1230" fill="#2563EB">JSON 输出</text>
-
-  <!-- Legend -->
-  <text class="label" x="30" y="1320">流程说明：</text>
-  <line x1="30" y1="1340" x2="80" y2="1340" stroke="#2563EB" stroke-width="2"/>
-  <text class="label" x="90" y="1345">主流程</text>
-
-  <line x1="30" y1="1360" x2="80" y2="1360" stroke="#059669" stroke-width="2"/>
-  <text class="label" x="90" y="1365">教师卷分支</text>
-
-  <line x1="30" y1="1380" x2="80" y2="1380" stroke="#EA580C" stroke-width="2"/>
-  <text class="label" x="90" y="1385">学生卷分支</text>
+  <line x1="190" y1="1230" x2="245" y2="1230" stroke="#2563EB" stroke-width="2"/>
+  <text class="label" x="260" y="1235">自动主流程，无需人工调框或修订题目树</text>
 </svg>

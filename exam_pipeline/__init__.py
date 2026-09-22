@@ -3,8 +3,6 @@ from .contracts import (DiagramRef, ExamItem, ExamPackage, ExamQuestion, ExamSec
                         OCRBlock, Page, PageRegion, RoIPatchRef, Slot, TriTargetGrounding)
 from .config import PipelineSettings
 from .feedback import GeometryFeedbackProfile, HITLFeedbackReader
-from .ink_separation import NoBlankInkSeparator
-from .cohort_consensus import CohortConsensusBuilder
 from .golden import GoldenTemplateService
 from .exam_tree import ExamTreeService
 from .grounding import GeometryGrounder
@@ -13,14 +11,16 @@ from .quality import validate_item_regions, validate_region
 from .registration import register_page, register_pages
 from .roi import RoIPatchGenerator
 from .scoring import balance_score_tree, grade_objective_items
-from .slots import MultiSlotTopologyEngine
 from .subitems import FineGrainedItemSplitter
-from .verification import (BlankInkGate, IterativeVerificationController,
-                           SlotVerificationService, UniversalInkSnapper)
+from .verification import (OCRCoordinateVerificationController,
+                           SlotVerificationService)
 from .slot_vlm import SlotCoordinateVisionVerifier
 from .teacher_answers import TeacherAnswerExtractionService
 from .tree_llm import ExamTreeLLMClient
-from .cardinality import SlotCardinalityConsensusService
+from .diagram_assets import DiagramAssetService, export_serialized_diagram_assets
+from .performance import PerformanceCollector
+from .visualization import render_slot_overlays
+from .visual_extraction import VisualExamExtractionService
 from .vlm import VLMService
 
 __all__ = [
@@ -29,10 +29,11 @@ __all__ = [
     "PipelineSettings", "GoldenTemplateService", "ExamTreeService", "GeometryGrounder", "HITLExporter",
     "validate_item_regions", "validate_region", "register_page", "register_pages",
     "RoIPatchGenerator", "balance_score_tree", "grade_objective_items",
-    "MultiSlotTopologyEngine", "FineGrainedItemSplitter", "BlankInkGate",
-    "UniversalInkSnapper", "IterativeVerificationController", "SlotVerificationService",
+    "FineGrainedItemSplitter",
+    "OCRCoordinateVerificationController", "SlotVerificationService",
     "SlotCoordinateVisionVerifier",
     "VLMService", "GeometryFeedbackProfile", "HITLFeedbackReader",
-    "NoBlankInkSeparator", "CohortConsensusBuilder", "TeacherAnswerExtractionService",
-    "ExamTreeLLMClient", "SlotCardinalityConsensusService",
+    "TeacherAnswerExtractionService", "ExamTreeLLMClient",
+    "DiagramAssetService", "export_serialized_diagram_assets",
+    "PerformanceCollector", "render_slot_overlays", "VisualExamExtractionService",
 ]

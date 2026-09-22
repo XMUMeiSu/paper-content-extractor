@@ -4,6 +4,8 @@ import re
 from typing import Optional, Tuple
 from difflib import SequenceMatcher
 
+CHOICE_MARKS = {"✓", "✔", "√", "☑", "勾", "check", "tick"}
+
 
 def parse_student_answer(
     recognized_text: str,
@@ -33,23 +35,14 @@ def parse_student_answer(
     text = recognized_text.strip()
 
     # Choice questions: extract single letter
-    if slot_type in ("choice_mark", "single_choice") or item_type in ("choice", "single", "mcq"):
+    if (slot_type in ("choice_mark", "single_choice") or "choice" in str(slot_type).casefold()
+            or item_type in ("choice", "single", "mcq")):
         answer, choice_audit = _extract_choice_answer(text, expected_text, question_text)
         return answer, {**audit, **choice_audit}
 
-    # Fill-in-the-blank: extract short answer
-    if slot_type in ("fill_blank", "blank_line") or item_type in ("fill", "blank", "cloze"):
-        answer, fill_audit = _extract_fill_answer(text, expected_text, question_text)
-        return answer, {**audit, **fill_audit}
-
-    # Large answer areas: keep full text but clean it
-    if slot_type in ("free_response", "essay", "proof") or item_type in ("composition", "essay", "proof"):
-        answer, essay_audit = _extract_essay_answer(text, question_text)
-        return answer, {**audit, **essay_audit}
-
-    # Default: basic cleaning
-    answer = _basic_clean(text, question_text)
-    return answer, {**audit, "method": "basic_clean"}
+    # The recognition layer already rejects contamination. Preserve valid
+    # transcription verbatim, including copied givens, units and proof steps.
+    return text, {**audit, "method": "verbatim_transcription"}
 
 
 def _extract_choice_answer(text: str, expected: Optional[str], question: str) -> Tuple[Optional[str], dict]:
@@ -61,6 +54,10 @@ def _extract_choice_answer(text: str, expected: Optional[str], question: str) ->
         cleaned = _remove_question_fragments(text, question)
     else:
         cleaned = text
+
+    if cleaned.strip().casefold() in CHOICE_MARKS:
+        audit.update(candidate_count=1, candidates=["✓"], marker=True)
+        return "✓", audit
 
     # Find all uppercase letters A-H
     letters = re.findall(r'\b([A-H])\b', cleaned, re.IGNORECASE)
@@ -76,26 +73,22 @@ def _extract_choice_answer(text: str, expected: Optional[str], question: str) ->
     # Normalize to uppercase
     letters = [l.upper() for l in letters]
 
-    # Filter out letters that appear in the question
-    if question:
-        question_letters = set(re.findall(r'\b([A-H])\b', question, re.IGNORECASE))
-        letters = [l for l in letters if l.upper() not in question_letters]
-
     if not letters:
         audit["candidate_count"] = 0
         return None, audit
 
-    # If multiple candidates, prefer the one matching expected answer
+    # Keep candidates only to detect ambiguity; reference text is ignored.
     audit["candidate_count"] = len(letters)
     audit["candidates"] = letters
 
-    if expected and expected.upper() in letters:
-        audit["matched_expected"] = True
-        return expected.upper(), audit
-
-    # Return the first candidate (most likely to be student's answer)
+    # Ambiguous observations stay unresolved; teacher truth is not OCR evidence.
+    candidates = list(dict.fromkeys(letters))
     audit["matched_expected"] = False
-    return letters[0], audit
+    if len(candidates) != 1:
+        audit["warning"] = "ambiguous_choice"
+        return None, audit
+    return candidates[0], audit
+
 
 
 def _extract_fill_answer(text: str, expected: Optional[str], question: str) -> Tuple[Optional[str], dict]:
@@ -113,63 +106,10 @@ def _extract_fill_answer(text: str, expected: Optional[str], question: str) -> T
     cleaned = re.sub(r'答[:：]?', '', cleaned)  # Remove "答："
     cleaned = re.sub(r'解[:：]?', '', cleaned)  # Remove "解："
 
-    # If text is still very long after cleaning, likely wrong OCR region
-    if len(cleaned) > 100:
-        audit["warning"] = "text_too_long_after_cleaning"
-        # Try to extract numbers or short words as fallback
-        numbers = re.findall(r'-?\d+(?:\.\d+)?', cleaned)
-        if numbers:
-            answer = '; '.join(numbers[:3])
-            audit["fallback"] = "numbers_only"
-            return answer, audit
-
-        # Extract first 10 chars as degraded fallback
-        answer = cleaned[:10].strip()
-        audit["fallback"] = "truncated"
-        return answer if answer else None, audit
-
-    # If text is already short, use it directly
-    if len(cleaned) <= 30:
-        answer = cleaned.strip()
-        audit["short_text"] = True
-        return answer if answer else None, audit
-
-    # Try to extract structured content
-
-    # Pattern 1: Number (integer or decimal)
-    numbers = re.findall(r'-?\d+(?:\.\d+)?', cleaned)
-    if numbers and len(numbers) <= 3:
-        answer = '; '.join(numbers)
-        audit["pattern"] = "numbers"
-        return answer, audit
-
-    # Pattern 2: Mathematical expression (preserve operators)
-    math_expr = re.search(r'[-+]?\d+(?:\.\d+)?(?:\s*[+\-*/×÷]\s*\d+(?:\.\d+)?)*', cleaned)
-    if math_expr:
-        answer = math_expr.group(0).strip()
-        audit["pattern"] = "math_expression"
-        return answer, audit
-
-    # Pattern 3: Short phrase (no more than 20 chars, not a full sentence)
-    sentences = re.split(r'[。！？.!?]', cleaned)
-    for sent in sentences:
-        sent = sent.strip()
-        if 1 <= len(sent) <= 20 and not re.search(r'[，,、]', sent):
-            audit["pattern"] = "short_phrase"
-            return sent, audit
-
-    # Pattern 4: Text between quotes
-    quoted = re.findall(r'["""\'\'](.*?)["""\'\']', cleaned)
-    if quoted:
-        answer = quoted[0].strip()
-        audit["pattern"] = "quoted_text"
-        return answer, audit
-
-    # Fallback: return cleaned text (may still be noisy)
-    answer = cleaned[:50].strip()  # Limit to 50 chars
-    audit["pattern"] = "truncated"
-    return answer if answer else None, audit
-
+    # Preserve a complete observation. Never turn a long contaminated crop
+    # into a plausible answer by selecting its first numbers or truncating it.
+    audit["method"] = "verbatim_fill"
+    return cleaned.strip() or None, audit
 
 
 def _extract_essay_answer(text: str, question: str) -> Tuple[Optional[str], dict]:

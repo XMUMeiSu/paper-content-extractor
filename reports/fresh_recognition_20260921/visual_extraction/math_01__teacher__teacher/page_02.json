@@ -1,0 +1,770 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q10",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              75,
+              905,
+              120
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "则$y_1$, $y_2$, $y_3$的大小关系为",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      118,
+                      101,
+                      298,
+                      132
+                    ],
+                    "transcription": "$y_2 > y_1 > y_3$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q11",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              128,
+              825,
+              172
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "那么方程$(x + 1)^2 + 2(x + 1) - 8 = 0$的解是(",
+                "anchor_after": ")",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      828,
+                      126,
+                      892,
+                      176
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q12_1",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              182,
+              902,
+              232
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1) 当$h=3$时, 求函数值的$y$的取值范围;",
+                "anchor_after": "(2)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      48,
+                      236,
+                      442,
+                      386
+                    ],
+                    "transcription": "(1)解: $\\because h=3$\n$\\therefore y=-(x-3)^2$\n当$x=3$时, $y_{max}$\n$y=0$\n当$x=5$时, $y_{min}$\n$y=-4$\n$\\therefore -4 \\leq y \\leq 0$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.96
+                  }
+                ],
+                "confidence": 0.96
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.96
+          },
+          {
+            "item_id": "q12_2",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              182,
+              902,
+              232
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2) 若函数的最大值为-1, 求$h$的值.",
+                "anchor_after": "13.",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      578,
+                      201,
+                      958,
+                      391
+                    ],
+                    "transcription": "(2)解:\n当$x=h$, $y=0$\n获点必过$(h,0)$\n∴顶点在递减范围\n①顶点右侧\n当$x=2$, $y=-1$\n$-1=-(2-h)^2$\n$2-h= \\pm 1$\n$\\therefore h_1=1, h_2=3$(舍去)\n②顶点左侧\n$\\therefore -1=-(5-h)^2$\n$5-h= \\pm 1$\n$\\therefore h_1=4, h_2=6$\n$\\therefore h=1$或$6$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q13_1",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              371,
+              628,
+              411
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1)求t的取值范围;",
+                "anchor_after": "(2)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      78,
+                      416,
+                      242,
+                      491
+                    ],
+                    "transcription": "(1)解:依题意\n$(-2)^2 -4(t-5) \\geq 0$\n$t \\leq 6$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.97
+          },
+          {
+            "item_id": "q13_2",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              371,
+              628,
+              411
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2)若$\\text{x}_1$, $\\text{x}_2$满足$2\\text{x}_1 = |\\text{x}_2| - 1$, 求t的值.",
+                "anchor_after": "14.",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      298,
+                      406,
+                      822,
+                      601
+                    ],
+                    "transcription": "(2)解:① $2x_1 = -x_2 -1$\n$x_1 + x_2 = 2$\n$\\therefore \\frac{x_1 + x_2}{2} +x_2 =2$\n$\\therefore x_2=5, x_1=-3$\n$t-5=x_1 x_2 =-15$\n$\\therefore t=-10$  $x_2<0$.(舍去)\n② $2x_1=x_2 -1$\n$x_1=x_2 +1$\n$x_1 +x_2=2$\n$\\therefore x_1 + 2x_1 +1 =2$\n$\\therefore x_1= \\frac{1}{3}, x_2= \\frac{5}{3}$\n$t-5= x_1 x_2= \\frac{5}{9}$\n$\\therefore t= \\frac{50}{9}$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.94
+                  }
+                ],
+                "confidence": 0.94
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.94
+          },
+          {
+            "item_id": "q14",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              611,
+              908,
+              671
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "则$m$的取值范围是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      633,
+                      636,
+                      752,
+                      676
+                    ],
+                    "transcription": "$\\frac{2}{3} < m < 2\\frac{1}{5}$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q15_1",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              681,
+              802,
+              716
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1) 求此抛物线对应的函数解析式.",
+                "anchor_after": "(2)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      58,
+                      791,
+                      512,
+                      990
+                    ],
+                    "transcription": "(1)解:设: $y=a(x-h)^2 +k$\n∵A为顶点, A(3,0)\n$\\therefore y=a(x-3)^2$\n把B(0,4)代入方程\n$4=9a$\n$a= \\frac{4}{9}$\n$\\therefore y= \\frac{4}{9}(x-3)^2$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                701,
+                706,
+                922,
+                836
+              ]
+            ],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q15_2",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              721,
+              672,
+              746
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "formula_response",
+                "anchor_before": "直接写出此时抛物线对应的函数解析式.",
+                "anchor_after": "(3)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      588,
+                      781,
+                      712,
+                      826
+                    ],
+                    "transcription": "$y= \\frac{4}{9}(x-9)^2$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q15_3",
+            "physical_page_id": "math_01__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              751,
+              678,
+              791
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "若存在, 请直接写出点P的坐标; 若不存在, 请说明理由.",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      612,
+                      836,
+                      728,
+                      886
+                    ],
+                    "transcription": "$P=(6,4)$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q10": {
+      "item_id": "q10",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        75,
+        905,
+        120
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "则$y_1$, $y_2$, $y_3$的大小关系为",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                118,
+                101,
+                298,
+                132
+              ],
+              "transcription": "$y_2 > y_1 > y_3$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q11": {
+      "item_id": "q11",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        128,
+        825,
+        172
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "那么方程$(x + 1)^2 + 2(x + 1) - 8 = 0$的解是(",
+          "anchor_after": ")",
+          "regions": [
+            {
+              "answer_bbox": [
+                828,
+                126,
+                892,
+                176
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q12_1": {
+      "item_id": "q12_1",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        182,
+        902,
+        232
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1) 当$h=3$时, 求函数值的$y$的取值范围;",
+          "anchor_after": "(2)",
+          "regions": [
+            {
+              "answer_bbox": [
+                48,
+                236,
+                442,
+                386
+              ],
+              "transcription": "(1)解: $\\because h=3$\n$\\therefore y=-(x-3)^2$\n当$x=3$时, $y_{max}$\n$y=0$\n当$x=5$时, $y_{min}$\n$y=-4$\n$\\therefore -4 \\leq y \\leq 0$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.96
+            }
+          ],
+          "confidence": 0.96
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.96
+    },
+    "q12_2": {
+      "item_id": "q12_2",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        182,
+        902,
+        232
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(2) 若函数的最大值为-1, 求$h$的值.",
+          "anchor_after": "13.",
+          "regions": [
+            {
+              "answer_bbox": [
+                578,
+                201,
+                958,
+                391
+              ],
+              "transcription": "(2)解:\n当$x=h$, $y=0$\n获点必过$(h,0)$\n∴顶点在递减范围\n①顶点右侧\n当$x=2$, $y=-1$\n$-1=-(2-h)^2$\n$2-h= \\pm 1$\n$\\therefore h_1=1, h_2=3$(舍去)\n②顶点左侧\n$\\therefore -1=-(5-h)^2$\n$5-h= \\pm 1$\n$\\therefore h_1=4, h_2=6$\n$\\therefore h=1$或$6$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q13_1": {
+      "item_id": "q13_1",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        371,
+        628,
+        411
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1)求t的取值范围;",
+          "anchor_after": "(2)",
+          "regions": [
+            {
+              "answer_bbox": [
+                78,
+                416,
+                242,
+                491
+              ],
+              "transcription": "(1)解:依题意\n$(-2)^2 -4(t-5) \\geq 0$\n$t \\leq 6$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.97
+    },
+    "q13_2": {
+      "item_id": "q13_2",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        371,
+        628,
+        411
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(2)若$\\text{x}_1$, $\\text{x}_2$满足$2\\text{x}_1 = |\\text{x}_2| - 1$, 求t的值.",
+          "anchor_after": "14.",
+          "regions": [
+            {
+              "answer_bbox": [
+                298,
+                406,
+                822,
+                601
+              ],
+              "transcription": "(2)解:① $2x_1 = -x_2 -1$\n$x_1 + x_2 = 2$\n$\\therefore \\frac{x_1 + x_2}{2} +x_2 =2$\n$\\therefore x_2=5, x_1=-3$\n$t-5=x_1 x_2 =-15$\n$\\therefore t=-10$  $x_2<0$.(舍去)\n② $2x_1=x_2 -1$\n$x_1=x_2 +1$\n$x_1 +x_2=2$\n$\\therefore x_1 + 2x_1 +1 =2$\n$\\therefore x_1= \\frac{1}{3}, x_2= \\frac{5}{3}$\n$t-5= x_1 x_2= \\frac{5}{9}$\n$\\therefore t= \\frac{50}{9}$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.94
+            }
+          ],
+          "confidence": 0.94
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.94
+    },
+    "q14": {
+      "item_id": "q14",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        611,
+        908,
+        671
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "则$m$的取值范围是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                633,
+                636,
+                752,
+                676
+              ],
+              "transcription": "$\\frac{2}{3} < m < 2\\frac{1}{5}$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q15_1": {
+      "item_id": "q15_1",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        681,
+        802,
+        716
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1) 求此抛物线对应的函数解析式.",
+          "anchor_after": "(2)",
+          "regions": [
+            {
+              "answer_bbox": [
+                58,
+                791,
+                512,
+                990
+              ],
+              "transcription": "(1)解:设: $y=a(x-h)^2 +k$\n∵A为顶点, A(3,0)\n$\\therefore y=a(x-3)^2$\n把B(0,4)代入方程\n$4=9a$\n$a= \\frac{4}{9}$\n$\\therefore y= \\frac{4}{9}(x-3)^2$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [
+        [
+          701,
+          706,
+          922,
+          836
+        ]
+      ],
+      "confidence": 0.95
+    },
+    "q15_2": {
+      "item_id": "q15_2",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        721,
+        672,
+        746
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "formula_response",
+          "anchor_before": "直接写出此时抛物线对应的函数解析式.",
+          "anchor_after": "(3)",
+          "regions": [
+            {
+              "answer_bbox": [
+                588,
+                781,
+                712,
+                826
+              ],
+              "transcription": "$y= \\frac{4}{9}(x-9)^2$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q15_3": {
+      "item_id": "q15_3",
+      "physical_page_id": "math_01__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        751,
+        678,
+        791
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "若存在, 请直接写出点P的坐标; 若不存在, 请说明理由.",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                612,
+                836,
+                728,
+                886
+              ],
+              "transcription": "$P=(6,4)$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    }
+  }
+}

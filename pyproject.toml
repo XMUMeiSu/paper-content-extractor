@@ -20,11 +20,10 @@ dev = ["pytest>=7,<9", "ruff>=0.6,<1"]
 
 [project.scripts]
 exam-extract = "homework_extractor:main"
-exam-hitl-export = "hitl_exporter:main"
 exam-doctor = "exam_pipeline.doctor:main"
 
 [tool.setuptools]
-py-modules = ["homework_extractor", "hitl_exporter", "run_hitl_workbench"]
+py-modules = ["homework_extractor"]
 
 [tool.setuptools.packages.find]
 include = ["exam_pipeline*"]

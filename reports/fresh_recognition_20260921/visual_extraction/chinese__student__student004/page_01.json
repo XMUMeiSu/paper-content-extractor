@@ -1,0 +1,1379 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s1_q1",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              145,
+              900,
+              300
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1. 寒雪日内集：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      218,
+                      166,
+                      416,
+                      191
+                    ],
+                    "transcription": "把家里人聚集在一起",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "与儿女：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      528,
+                      166,
+                      663,
+                      191
+                    ],
+                    "transcription": "家里的小辈",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "3. 讲论文义：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      203,
+                      194,
+                      343,
+                      219
+                    ],
+                    "transcription": "文章的义理",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 4,
+                "label": "blank_response",
+                "anchor_before": "4. 俄而雪骤：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      558,
+                      194,
+                      703,
+                      219
+                    ],
+                    "transcription": "不久，不一会儿",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 5,
+                "label": "blank_response",
+                "anchor_before": "骤：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      763,
+                      194,
+                      808,
+                      219
+                    ],
+                    "transcription": "急",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 6,
+                "label": "blank_response",
+                "anchor_before": "5. 公欣然曰：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      203,
+                      221,
+                      338,
+                      246
+                    ],
+                    "transcription": "高兴的样子",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 7,
+                "label": "blank_response",
+                "anchor_before": "6. 何所似：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      588,
+                      221,
+                      663,
+                      246
+                    ],
+                    "transcription": "像什么",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 8,
+                "label": "blank_response",
+                "anchor_before": "7. 差可拟 差：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      218,
+                      248,
+                      353,
+                      273
+                    ],
+                    "transcription": "大体，差不多",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 9,
+                "label": "blank_response",
+                "anchor_before": "拟：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      398,
+                      248,
+                      458,
+                      273
+                    ],
+                    "transcription": "相比",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 10,
+                "label": "blank_response",
+                "anchor_before": "8. 未若柳絮 未若：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      693,
+                      248,
+                      888,
+                      273
+                    ],
+                    "transcription": "不及，不如，比不上",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 11,
+                "label": "blank_response",
+                "anchor_before": "9. 因风起 因：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      213,
+                      275,
+                      283,
+                      300
+                    ],
+                    "transcription": "乘，趁",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 12,
+                "label": "blank_response",
+                "anchor_before": "10. 即公大兄无奕女 即：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      653,
+                      275,
+                      713,
+                      300
+                    ],
+                    "transcription": "就是",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q2",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              305,
+              595,
+              485
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1.白雪纷纷何所似？（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      113,
+                      353,
+                      408,
+                      383
+                    ],
+                    "transcription": "纷纷扬扬的白雪像什么？",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "2.撒盐空中差可拟。（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      113,
+                      403,
+                      413,
+                      433
+                    ],
+                    "transcription": "在空中撒盐大体可以相比。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "3.未若柳絮因风起。（3分）\n译：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      113,
+                      453,
+                      438,
+                      483
+                    ],
+                    "transcription": "不如比作柳絮乘风飞起。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q3",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              490,
+              445,
+              560
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1.谢太傅寒雪日内集。（2分）",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      520,
+                      445,
+                      555
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "2.未若柳絮因风起。（2分）",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      555,
+                      315,
+                      585
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q4_1",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              570,
+              825,
+              640
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛？（3分）",
+                "anchor_after": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      640,
+                      900,
+                      665
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q4_2",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              650,
+              825,
+              680
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      685,
+                      900,
+                      750
+                    ],
+                    "transcription": "答:我认为“柳絮因风起”更好。因为它能生动地描绘出纷纷白雪轻盈飘逸、柔美的特点，让人联想到春天的来临，更有诗意，神似白雪。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.96
+                  }
+                ],
+                "confidence": 0.96
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.96
+          },
+          {
+            "item_id": "q4_3",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              755,
+              575,
+              785
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "3.学完本文，你认为谢道韫是一个怎么样的人？（4分）",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      788,
+                      900,
+                      818
+                    ],
+                    "transcription": "答:是我认为谢道韫是一个才思敏捷、自信大方的人。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.96
+                  }
+                ],
+                "confidence": 0.96
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.96
+          },
+          {
+            "item_id": "s2_q1",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              830,
+              835,
+              920
+            ],
+            "answer_layout": "mixed",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1.陈太丘与友期行 行：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      278,
+                      870,
+                      363,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "2.期日中 期：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      608,
+                      870,
+                      678,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "日中：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      743,
+                      870,
+                      828,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 4,
+                "label": "blank_response",
+                "anchor_before": "3.过中不至 至：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      218,
+                      900,
+                      298,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 5,
+                "label": "blank_response",
+                "anchor_before": "4.太丘舍去 舍：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      608,
+                      900,
+                      678,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              },
+              {
+                "index": 6,
+                "label": "blank_response",
+                "anchor_before": "去：",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      743,
+                      900,
+                      828,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 3,
+      "item_id": "q4_1",
+      "mode": "empty_region_focus_retry",
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q4_1",
+            "physical_page_id": "chinese__student__student004:p1",
+            "page_index": 1,
+            "question_region": [
+              45,
+              590,
+              825,
+              620
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛？（3分）",
+                "anchor_after": "2用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      50,
+                      630,
+                      902,
+                      655
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "s1_q1": {
+      "item_id": "s1_q1",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        145,
+        900,
+        300
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1. 寒雪日内集：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                218,
+                166,
+                416,
+                191
+              ],
+              "transcription": "把家里人聚集在一起",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "与儿女：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                528,
+                166,
+                663,
+                191
+              ],
+              "transcription": "家里的小辈",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "3. 讲论文义：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                203,
+                194,
+                343,
+                219
+              ],
+              "transcription": "文章的义理",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 4,
+          "label": "blank_response",
+          "anchor_before": "4. 俄而雪骤：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                558,
+                194,
+                703,
+                219
+              ],
+              "transcription": "不久，不一会儿",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 5,
+          "label": "blank_response",
+          "anchor_before": "骤：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                763,
+                194,
+                808,
+                219
+              ],
+              "transcription": "急",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 6,
+          "label": "blank_response",
+          "anchor_before": "5. 公欣然曰：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                203,
+                221,
+                338,
+                246
+              ],
+              "transcription": "高兴的样子",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 7,
+          "label": "blank_response",
+          "anchor_before": "6. 何所似：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                588,
+                221,
+                663,
+                246
+              ],
+              "transcription": "像什么",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 8,
+          "label": "blank_response",
+          "anchor_before": "7. 差可拟 差：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                218,
+                248,
+                353,
+                273
+              ],
+              "transcription": "大体，差不多",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 9,
+          "label": "blank_response",
+          "anchor_before": "拟：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                398,
+                248,
+                458,
+                273
+              ],
+              "transcription": "相比",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 10,
+          "label": "blank_response",
+          "anchor_before": "8. 未若柳絮 未若：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                693,
+                248,
+                888,
+                273
+              ],
+              "transcription": "不及，不如，比不上",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 11,
+          "label": "blank_response",
+          "anchor_before": "9. 因风起 因：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                213,
+                275,
+                283,
+                300
+              ],
+              "transcription": "乘，趁",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 12,
+          "label": "blank_response",
+          "anchor_before": "10. 即公大兄无奕女 即：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                653,
+                275,
+                713,
+                300
+              ],
+              "transcription": "就是",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q2": {
+      "item_id": "s1_q2",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        305,
+        595,
+        485
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1.白雪纷纷何所似？（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                113,
+                353,
+                408,
+                383
+              ],
+              "transcription": "纷纷扬扬的白雪像什么？",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "2.撒盐空中差可拟。（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                113,
+                403,
+                413,
+                433
+              ],
+              "transcription": "在空中撒盐大体可以相比。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "3.未若柳絮因风起。（3分）\n译：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                113,
+                453,
+                438,
+                483
+              ],
+              "transcription": "不如比作柳絮乘风飞起。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q3": {
+      "item_id": "s1_q3",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        490,
+        445,
+        560
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1.谢太傅寒雪日内集。（2分）",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                520,
+                445,
+                555
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "2.未若柳絮因风起。（2分）",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                555,
+                315,
+                585
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q4_1": {
+      "item_id": "q4_1",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        45,
+        590,
+        825,
+        620
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛？（3分）",
+          "anchor_after": "2用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+          "regions": [
+            {
+              "answer_bbox": [
+                50,
+                630,
+                902,
+                655
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q4_2": {
+      "item_id": "q4_2",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        650,
+        825,
+        680
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                685,
+                900,
+                750
+              ],
+              "transcription": "答:我认为“柳絮因风起”更好。因为它能生动地描绘出纷纷白雪轻盈飘逸、柔美的特点，让人联想到春天的来临，更有诗意，神似白雪。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.96
+            }
+          ],
+          "confidence": 0.96
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.96
+    },
+    "q4_3": {
+      "item_id": "q4_3",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        755,
+        575,
+        785
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "3.学完本文，你认为谢道韫是一个怎么样的人？（4分）",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                788,
+                900,
+                818
+              ],
+              "transcription": "答:是我认为谢道韫是一个才思敏捷、自信大方的人。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.96
+            }
+          ],
+          "confidence": 0.96
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.96
+    },
+    "s2_q1": {
+      "item_id": "s2_q1",
+      "physical_page_id": "chinese__student__student004:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        830,
+        835,
+        920
+      ],
+      "answer_layout": "mixed",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "1.陈太丘与友期行 行：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                278,
+                870,
+                363,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "2.期日中 期：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                608,
+                870,
+                678,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "日中：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                743,
+                870,
+                828,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 4,
+          "label": "blank_response",
+          "anchor_before": "3.过中不至 至：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                218,
+                900,
+                298,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 5,
+          "label": "blank_response",
+          "anchor_before": "4.太丘舍去 舍：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                608,
+                900,
+                678,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        },
+        {
+          "index": 6,
+          "label": "blank_response",
+          "anchor_before": "去：",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                743,
+                900,
+                828,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    }
+  }
+}

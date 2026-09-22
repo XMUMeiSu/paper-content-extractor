@@ -338,6 +338,15 @@ class SlotCardinalityConsensusService:
                   and top <= (block.bbox[1]+block.bbox[3])/2 <= bottom]
         open_blocks = [block for block in blocks
                        if re.search(r"[（(]\s*$", str(block.text or ""))]
+        complete = [block for block in blocks if re.search(r"[（(]\s*[）)]", str(block.text or ""))]
+        if not open_blocks and complete:
+            from .slots import SlotCandidate
+            candidates = self.detector._split_choice_cavity(item, page, region)
+            candidates += self.detector._bracket_candidates(item, page.ocr, region)
+            if candidates:
+                best = max(candidates, key=lambda value: value.confidence)
+                return [Slot(1, "choice_response_cavity", item.item_id, list(best.bbox), page.index,
+                             audit={"evidence": "printed_response_brackets"})]
         if open_blocks:
             stem_y = (item.stem_region.bbox[1]+item.stem_region.bbox[3])/2
             opening = min(open_blocks, key=lambda block: abs(
@@ -524,6 +533,13 @@ class SlotCardinalityConsensusService:
             for question in section.questions:
                 for item in question.items:
                     summary["items"] += 1
+                    if self.detector._is_large_writing_item(item):
+                        item.expected_slot_count = 1
+                        item.slot_count_source = "logical_free_response"
+                        item.cardinality_evidence = {"decision": "SEMANTIC_RESPONSE", "resolved_count": 1,
+                            "sources": {"semantic": {"count": 1, "source": "free_response"}}}
+                        summary["insufficient"] += int(not item.slots)
+                        continue
                     llm_count = (int(item.expected_slot_count)
                                  if semantic_is_llm and item.expected_slot_count else None)
                     layout_slots = self._layout_slots(
@@ -549,8 +565,8 @@ class SlotCardinalityConsensusService:
                         elif layout_count == cohort_count:
                             decision = "CONSENSUS_TWO_WAY"
                         # Case 3: Cohort within 80% of layout (allows minor detection variance)
-                        elif cohort_count >= max(1, int(layout_count * 0.8)):
-                            decision = "CONSENSUS_TWO_WAY"
+                        elif cohort_count != layout_count:
+                            decision = "CONFLICT"
                         else:
                             decision = "INSUFFICIENT"
                     else:
@@ -571,6 +587,8 @@ class SlotCardinalityConsensusService:
                     else:
                         resolved_count = None
 
+                    # A configured model or cohort is not required for single-paper extraction.
+                    # Layout-only evidence remains explicitly unconfirmed.
                     item.cardinality_evidence = {
                         "schema_version": "slot_cardinality_consensus.v1",
                         "decision": decision,
@@ -653,6 +671,8 @@ class SlotCardinalityConsensusService:
                             })
                             promoted.append(slot)
                         item.slots = promoted
+                    from .semantic_slots import bind_semantic_slots
+                    bind_semantic_slots(item, pages)
         return summary
 
 

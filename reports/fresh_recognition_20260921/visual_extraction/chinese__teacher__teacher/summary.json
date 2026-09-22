@@ -1,0 +1,13 @@
+{
+  "page_calls": 11,
+  "page_retries": 9,
+  "failed_pages": 0,
+  "items": 11,
+  "slots": 36,
+  "regions": 35,
+  "partial_pages": 1,
+  "accepted_items": 10,
+  "partial_items": 1,
+  "coordinate_authority": "vlm_original_page_pixels",
+  "ocr_used": false
+}

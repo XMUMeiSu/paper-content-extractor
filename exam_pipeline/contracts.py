@@ -14,6 +14,7 @@ class OCRBlock:
     text: str
     bbox: List[float]
     confidence: Optional[float] = None
+    coordinate_format: str = "xyxy"
 
 
 @dataclass
@@ -23,6 +24,17 @@ class Page:
     width: Optional[int]
     height: Optional[int]
     ocr: List[OCRBlock]
+    # Identity is assigned at ingestion and must survive every stage.  The
+    # defaults keep legacy constructors/source fixtures valid.
+    document_id: str = ""
+    physical_page_id: str = ""
+    file_fingerprint: str = ""
+    # Fingerprint of the exact image from which ``ocr`` was produced. It may
+    # differ from ``file_fingerprint`` only while a transformed page is waiting
+    # for fresh OCR; such coordinates must not be used for grounding.
+    ocr_source_fingerprint: str = ""
+    page_index: Optional[int] = None
+    schema_status: str = "VALID"
 
 
 @dataclass
@@ -32,6 +44,8 @@ class PageRegion:
     bbox: List[float]
     confidence: Optional[float] = None
     ocr_text: str = ""
+    coordinate_format: str = "xyxy"
+    coordinate_role: str = "evidence"
 
 
 @dataclass
@@ -40,6 +54,10 @@ class DiagramRef:
     image_url: str = ""
     bbox: List[float] = field(default_factory=list)
     audit: Dict[str, Any] = field(default_factory=dict)
+    # The diagram may be attached to a different physical page than the
+    # first answer slot (for example, a cross-page large question).  Keep the
+    # page identity explicit in the public result.
+    page_index: int = 1
 
 
 @dataclass
@@ -60,6 +78,11 @@ class Slot:
     page_index: int = 1
     expected_text: Optional[str] = None
     handwriting_bbox: Optional[List[int]] = None
+    # Physical ink evidence and the wider crop used for OCR/VLM are kept
+    # separate. ``handwriting_bbox`` remains the canonical final evidence box
+    # for backwards-compatible consumers.
+    evidence_bbox: Optional[List[int]] = None
+    recognition_bbox: Optional[List[int]] = None
     recognized_text: str = ""
     student_answer: Optional[str] = None
     has_ink: bool = False
@@ -73,6 +96,17 @@ class Slot:
     geometry_status: str = "PENDING"
     content_status: str = "PENDING"
     review_status: str = "PENDING"
+    geometry_evidence: Dict[str, Any] = field(default_factory=dict)
+    semantic_id: str = ""
+    anchor_before: str = ""
+    anchor_after: str = ""
+    # Multiple physical fragments may belong to one logical answer.
+    answer_fragments: List[Dict[str, Any]] = field(default_factory=list)
+    errors: List[Dict[str, Any]] = field(default_factory=list)
+    # Existing extraction engines historically use yxyx internally.  This
+    # marker makes that boundary explicit; serialized contracts are converted
+    # to xyxy by ExamPackage.to_dict().
+    runtime_bbox_format: str = "yxyx"
 
 
 @dataclass
@@ -118,6 +152,12 @@ class ExamItem:
     # It deliberately travels with the logical item, while concrete student
     # coordinates remain local to each paper.
     cardinality_evidence: Dict[str, Any] = field(default_factory=dict)
+    semantic_slot_plan: List[Dict[str, Any]] = field(default_factory=list)
+    slot_semantics_audit: Dict[str, Any] = field(default_factory=dict)
+    answer_status: str = "NOT_EVALUATED"
+    answer_parts: List[Dict[str, Any]] = field(default_factory=list)
+    # Slot-level completion is reported separately from whole-item completion.
+    slot_evaluation: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -127,6 +167,8 @@ class ExamQuestion:
     question_title: str
     items: List[ExamItem] = field(default_factory=list)
     question_score: Optional[float] = None
+    # Question-level figures are shared by composite/sub-item answers.
+    diagrams: List[DiagramRef] = field(default_factory=list)
 
 
 @dataclass
@@ -159,10 +201,32 @@ class ExamPackage:
     exam_tree_id: str = ""
     exam_tree_revision: int = 0
     exam_tree_fingerprint: str = ""
+    structure_audit: Dict[str, Any] = field(default_factory=dict)
+    extraction_status: str = "NOT_EVALUATED"
+    extraction_errors: List[Dict[str, Any]] = field(default_factory=list)
     created_at: str = field(default_factory=_now_iso)
+    schema_status: str = "VALID"
+    structure_status: str = "PENDING"
+    geometry_status: str = "PENDING"
+    content_status: str = "PENDING"
+    production_status: str = "PENDING"
+    stage_status: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         data = asdict(self)
+        # Runtime compatibility is isolated here.  Consumers never need to
+        # guess whether a box is yxyx or xyxy.
+        for section in data.get("sections", []):
+            for question in section.get("questions", []):
+                for item in question.get("items", []):
+                    for slot in item.get("slots", []):
+                        if slot.get("runtime_bbox_format") == "yxyx":
+                            for key in ("expected_bbox", "handwriting_bbox",
+                                        "evidence_bbox", "recognition_bbox"):
+                                box = slot.get(key)
+                                if isinstance(box, list) and len(box) == 4:
+                                    slot[key] = [box[1], box[0], box[3], box[2]]
+                            slot["runtime_bbox_format"] = "xyxy"
         data["metadata"] = {
             "exam_id": self.exam_id,
             "exam_title": self.exam_title,
@@ -184,9 +248,19 @@ class ExamPackage:
             "exam_tree_revision": self.exam_tree_revision,
             "exam_tree_fingerprint": self.exam_tree_fingerprint,
         }
-        data["schema_version"] = "exam_package.v4"
-        data["pipeline_version"] = "2.7.0"
+        # Keep the public package version compatible; the coordinate/status
+        # additions are additive and are advertised through contract_revision.
+        data["schema_version"] = "exam_package.v5"
+        data["contract_revision"] = "6"
+        data["pipeline_version"] = "2.12.0"
         data["bbox_format"] = "xyxy"
-        data["slot_bbox_format"] = "yxyx"
+        data["slot_bbox_format"] = "xyxy"
         data["canonical_canvas"] = {"width": 1654, "height": 2338}
+        data["status"] = {
+            "schema_status": self.schema_status,
+            "structure_status": self.structure_status,
+            "geometry_status": self.geometry_status,
+            "content_status": self.content_status,
+            "production_status": self.production_status,
+        }
         return data

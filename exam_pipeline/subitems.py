@@ -4,7 +4,7 @@ import re
 from typing import Any, Dict, List, Sequence
 from .contracts import ExamItem, ExamPackage, Page, PageRegion
 
-_SUB_MARKER = re.compile(r"(?:^|\n)\s*[（(]\s*(\d{1,2})\s*[）)]\s*", re.MULTILINE)
+_SUB_MARKER = re.compile(r"[（(]\s*(\d{1,2})\s*[）)]\s*", re.MULTILINE)
 _SCORE = re.compile(r"[（(]\s*(\d+(?:\.\d+)?)\s*分\s*[）)]")
 _ANSWER_CUE = re.compile(r"_{2,}|\.{4,}|…{2,}|[（(]\s*[）)]|\[\s*\]")
 
@@ -52,7 +52,11 @@ def _physical_marker_regions(markers, pages: Sequence[Page], source_regions):
             if preferred_pages and page.index not in preferred_pages:
                 continue
             for block_index, block in enumerate(page.ocr):
-                if len(block.bbox) >= 4 and pattern.search(block.text or ""):
+                inside = any(r.page_index == page.index and len(r.bbox) == 4
+                             and r.bbox[0] <= (block.bbox[0]+block.bbox[2])/2 <= r.bbox[2]
+                             and r.bbox[1] <= (block.bbox[1]+block.bbox[3])/2 <= r.bbox[3]
+                             for r in source_regions) if len(block.bbox) == 4 else False
+                if inside and pattern.search(block.text or ""):
                     key = (page.index, block_index)
                     if key not in used:
                         choices.append((page, block_index, block))
@@ -92,13 +96,23 @@ class FineGrainedItemSplitter:
                    pages: Sequence[Page]) -> List[ExamItem]:
         text = str(item.question_text or "")
         matches = list(_SUB_MARKER.finditer(text))
+        # Ignore a repeated numbering sequence in handwritten working after
+        # the printed prompts; retain the first increasing sequence.
+        sequence = []
+        for match in matches:
+            value = int(match.group(1))
+            if sequence and value <= int(sequence[-1].group(1)):
+                break
+            sequence.append(match)
+        matches = sequence
         markers = [int(match.group(1)) for match in matches]
         if len(matches) < 2 or len(set(markers)) != len(markers) or any(
                 right <= left for left, right in zip(markers, markers[1:])):
             return [item]
         source_regions = item.student_regions or item.answer_regions
-        bands = (_physical_marker_regions(markers, pages, source_regions)
-                 or _split_regions(source_regions, len(matches), pages))
+        physical = _physical_marker_regions(markers, pages, source_regions)
+        # A semantic split must not invent equal-height physical answers.
+        bands = physical or [copy.deepcopy(source_regions) for _ in matches]
         segments = []
         for index, match in enumerate(matches):
             end = matches[index+1].start() if index+1 < len(matches) else len(text)
@@ -121,12 +135,19 @@ class FineGrainedItemSplitter:
             child = copy.deepcopy(item)
             child.item_id = f"{question_id}_{marker}"
             child.item_name = f"{question_num}.({marker})"
-            child.question_text = segment
+            child.question_text = text[:matches[0].start()].strip() + "\n" + segment
+            child.item_type = "solve"
             child.standard_answer = _answer_for_marker(item.standard_answer, marker)
             score = _SCORE.search(segment)
             child.item_score = float(score.group(1)) if score else None
             child.slots = []; child.roi_patch = None; child.tri_target = None; child.quality = {}
+            child.expected_slot_count = None
+            child.slot_count_source = ""
+            if not physical:
+                child.quality["geometry_status"] = "UNRESOLVED_SUBITEM_BOUNDARY"
             child.answer_regions = copy.deepcopy(bands[index])
+            if physical and bands[index]:
+                child.stem_region = copy.deepcopy(bands[index][0])
             child.student_regions = copy.deepcopy(bands[index]) if item.student_regions else []
             child.option_regions = []
             child.blank_regions = copy.deepcopy(bands[index]) if item.blank_regions else []

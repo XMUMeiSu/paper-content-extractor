@@ -17,6 +17,7 @@ import numpy as np
 from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass, field
 from collections import defaultdict
+from .roi import yxyx_to_xyxy
 
 
 @dataclass
@@ -204,7 +205,7 @@ class StudentAnswerLocalizationService:
         cluster_y = np.mean([r.centroid[1] for r in ink_cluster])
 
         # Get teacher slot center
-        teacher_bbox = teacher_slot["expected_bbox"]
+        teacher_bbox = yxyx_to_xyxy(teacher_slot["expected_bbox"])
         slot_cx = (teacher_bbox[0] + teacher_bbox[2]) / 2
         slot_cy = (teacher_bbox[1] + teacher_bbox[3]) / 2
 
@@ -304,7 +305,7 @@ class StudentAnswerLocalizationService:
                 refined_regions.append(RefinedStudentRegion(
                     slot_id=slot.get("slot_id", ""),
                     item_id=slot.get("parent_item_id", ""),
-                    bbox=slot.get("expected_bbox", [0, 0, 0, 0]),
+                    bbox=yxyx_to_xyxy(slot["expected_bbox"]) if len(slot.get("expected_bbox") or []) == 4 else [],
                     page_index=page_index,
                     confidence=0.2,
                     method="template_fallback"
@@ -318,7 +319,8 @@ class StudentAnswerLocalizationService:
         """Generate fallback regions using template bboxes."""
         regions = []
         for slot in teacher_slots:
-            bbox = slot.get("expected_bbox") or search_area or [0, 0, 0, 0]
+            bbox = (yxyx_to_xyxy(slot["expected_bbox"])
+                    if len(slot.get("expected_bbox") or []) == 4 else [])
             regions.append(RefinedStudentRegion(
                 slot_id=slot.get("slot_id", ""),
                 item_id=slot.get("parent_item_id", ""),
@@ -364,10 +366,10 @@ class StudentAnswerLocalizationService:
 
                     # Get page info
                     page_index = item.slots[0].page_index if item.slots else 0
-                    if page_index >= len(pages):
+                    if page_index not in {p.index for p in pages}:
                         continue
 
-                    page = pages[page_index]
+                    page = next(p for p in pages if p.index == page_index)
                     page_path = page.path
 
                     # Prepare teacher slots for matching

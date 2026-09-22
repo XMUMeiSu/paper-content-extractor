@@ -74,8 +74,8 @@ class GeometryGrounder:
             from .answer_parser import parse_student_answer
 
             # Get expected answer and question for context
-            expected = getattr(item, 'expected_answer', None)
-            question = getattr(item, 'stem', '') or ''
+            expected = None
+            question = item.question_text or ''
             item_type = str(item.item_type or '').lower()
             slot_type = str(getattr(item, 'slot_type', '')).lower()
 
@@ -88,7 +88,7 @@ class GeometryGrounder:
                 question_text=question
             )
 
-            item.student_answer = answer if answer is not None else raw_text
+            item.student_answer = None  # finalized exclusively from verified slots
             item.student_answer_audit = audit
 
             confidences = [block.confidence for block in streak if block.confidence is not None]

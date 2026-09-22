@@ -1,0 +1,623 @@
+{
+  "mode": "vlm_whole_document_topology_and_page_coverage",
+  "provider": "doubao",
+  "status": "COMPLETE",
+  "topology_source": "vlm",
+  "coordinate_authority": "vlm_original_page_pixels",
+  "coverage_scope": "whole_document_vlm_schema_and_page_coverage",
+  "id_authority": "local_deterministic",
+  "views": [
+    {
+      "page_index": 1,
+      "source": "original",
+      "path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_01.jpg"
+    },
+    {
+      "page_index": 2,
+      "source": "original",
+      "path": "reports/fresh_recognition_20260921/normalized/chinese/teacher/teacher/page_02.jpg"
+    }
+  ],
+  "attempts": [
+    {
+      "attempt": 1,
+      "kind": "whole_document_topology",
+      "failures": [
+        {
+          "code": "ITEM_OUTSIDE_QUESTION_PAGES:s2_q1_3",
+          "error_type": "ValueError",
+          "detail": "ITEM_OUTSIDE_QUESTION_PAGES:s2_q1_3"
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "kind": "whole_document_topology",
+      "proposal": {
+        "title": "厦门市音乐学校七年级上语文小测（四）——《世说新语》二则",
+        "sections": [
+          {
+            "section_id": "section_1",
+            "title": "《咏雪》",
+            "questions": [
+              {
+                "question_id": "s1_q1",
+                "number": 1,
+                "text": "一、文言字词解释 (24分)",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释(24分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q1",
+                    "label": "文言字词解释",
+                    "text": "1. 寒雪日内集：\n与儿女：\n3. 讲论文义：\n4. 俄而雪骤：\n骤：\n5. 公欣然曰：\n6. 何所似：\n7. 差可拟\n差：\n拟：\n8. 未若柳絮\n未若：\n9. 因风起\n因：\n10. 即公大兄无奕女\n即：",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1. 寒雪日内集"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s1_q2",
+                "number": 2,
+                "text": "二、句子翻译 (9分)",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "二、句子翻译(9分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q2",
+                    "label": "句子翻译",
+                    "text": "1.白雪纷纷何所似？（3分）\n译：\n2.撒盐空中差可拟。（3分）\n译：\n3.未若柳絮因风起。（3分）\n译：",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.白雪纷纷何所似?"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s1_q3",
+                "number": 3,
+                "text": "三、用 / 给下列句子断句（断两处）（4分）",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "三、用 / 给下列句子断句（断两处）（4分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q3",
+                    "label": "句子断句",
+                    "text": "1.谢太傅寒雪日内集。（2分）\n2.未若柳絮因风起。（2分）",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.谢太傅寒雪日内集"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q4",
+                "number": 4,
+                "text": "四、文意理解（11分）",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "四、文意理解（11分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q4_1",
+                    "label": "(1)",
+                    "text": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛？（3分）",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.文中“寒雪”“内集”“欣然”“大笑乐”"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q4_2",
+                    "label": "(2)",
+                    "text": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.用“撒盐空中”和“柳絮因风起”"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q4_3",
+                    "label": "(3)",
+                    "text": "3.学完本文，你认为谢道韫是一个怎么样的人？（4分）",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.学完本文，你认为谢道韫是一个怎么样的人?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_2",
+            "title": "《陈太丘与友期行》",
+            "questions": [
+              {
+                "question_id": "s2_q1",
+                "number": 1,
+                "text": "一、文言字词解释（30分）\n解释下列划线文言字词：\n5. 去后乃至 乃：______\n6. 尊君在不 尊君：______\n7. 尊君在不 不：______\n8. 入门不顾 顾：______\n9. 相委而去 相委：______ 去：______\n10. 君与家君期日中 家君：______\n11. 友人惭 惭：______\n12. 下车引之 引：______",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释（30分）"
+                  },
+                  {
+                    "page_index": 2,
+                    "anchor": "文言字词解释"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q1",
+                    "label": "文言字词解释",
+                    "text": "1.陈太丘与友期行 行：\n2.期日中 期： 日中：\n3.过中不至 至：\n4.太丘舍去 舍： 去：\n解释下列划线文言字词（共8分）",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.陈太丘与友期行"
+                      },
+                      {
+                        "page_index": 2,
+                        "anchor": "文言字词解释"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s2_q2",
+                "number": 2,
+                "text": "二、句子翻译（12分）",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "句子翻译"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q2",
+                    "label": "句子翻译",
+                    "text": "1. 陈太丘与友期行，期日中。（3分）\n译：________________________________________________\n2. 与人期行，相委而去。（3分）\n译：________________________________________________\n3. 友人惭，下车引之，元方入门不顾。（3分）\n译：________________________________________________\n4. 尊君在不？（3分）\n译：________________________________________________",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "句子翻译"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s2_q3",
+                "number": 3,
+                "text": "三、文意理解（8分）",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "文意理解"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q3_1",
+                    "label": "(1)",
+                    "text": "1. 你认为元方和友人各是怎样的人？（4分）",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "你认为元方和友人各是怎样的人"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q3_2",
+                    "label": "(2)",
+                    "text": "2. 你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "你认为陈元方这样的待客方式"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_3",
+            "title": "根据语境填空",
+            "questions": [
+              {
+                "question_id": "s3_q1",
+                "number": 1,
+                "text": "根据语境填空（13分）",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "根据语境填空"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s3_q1",
+                    "label": "根据语境填空",
+                    "text": "一草一木，一人一事都能引起文人的感触。曹操登高望海心中升起 “________________，\n________________（1）；星汉灿烂，若出其里” 的豪情；李白借杨花、子规诉说着 “我寄愁心与明月，________________（2）” 的忧思愁绪；朱自清以极富神韵的笔触勾勒出美丽的春日图景，在他笔下，“春天像刚落地的娃娃，________________，________________。 春天像小姑娘，________________，________________，________________。 春天像健壮的青年，________________，________________。” 王湾停宿北固山下，借 “鸿雁传书” 表达思乡之情 “（4）乡书何处达，________________。” 马致远骑着一匹瘦马走在荒凉的古道上，看着眼前的萧瑟之景，不禁直抒 “________________，________________”的思乡之情。",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "根据语境填空"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "topology_proposal": {
+        "title": "厦门市音乐学校七年级上语文小测（四）——《世说新语》二则",
+        "sections": [
+          {
+            "title": "《咏雪》",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释(24分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "文言字词解释",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1. 寒雪日内集 ... 10. 即公大兄无奕女 即:"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 2,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "二、句子翻译（9分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "句子翻译",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.白雪纷纷何所似? ... 3.未若柳絮因风起。"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 3,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "三、用 / 给下列句子断句（断两处）（4分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "句子断句",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.谢太傅寒雪日内集 ... 2.未若柳絮因风起。"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 4,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "四、文意理解（11分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.文中“寒雪”...营造了一种怎样的家庭气氛?"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.用“撒盐空中”...你认为哪个更好?"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(3)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.学完本文...谢道韫是一个怎么样的人?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "《陈太丘与友期行》",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释（30分）"
+                  },
+                  {
+                    "page_index": 2,
+                    "anchor": "5.去后乃至 乃: ... 12.下车引之 引:"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "文言字词解释",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.陈太丘与友期行 行: ... 4.太丘舍去 舍: 去:"
+                      },
+                      {
+                        "page_index": 2,
+                        "anchor": "5.去后乃至 乃: ... 12.下车引之 引:"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 2,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "二、句子翻译（12分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "句子翻译",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "1.陈太丘与友期行 ... 4.尊君在不?"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 3,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "三、文意理解（8分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "1.你认为元方和友人各是怎样的人?"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "2.你认为陈元方这样的待客方式...合适不合适?你的理由是什么?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "根据语境填空",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "根据语境填空（13分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "根据语境填空",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "一草一木...的思乡之情。"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "response": {
+        "response_id": "resp_02178999866238859e4692ee8689b9dc112ef0a7e12032ff40168",
+        "status": "completed",
+        "incomplete_details": null,
+        "usage": {
+          "input_tokens": 4013,
+          "output_tokens": 4259,
+          "total_tokens": 8272,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 3279
+          }
+        },
+        "attempts": 1,
+        "retry_reasons": []
+      },
+      "text_enrichment": {
+        "attempts": [
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 1,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_021789998718014f0b662e0a22462bcc30964e8c71cc7661fbe75",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2248,
+                "output_tokens": 3120,
+                "total_tokens": 5368,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 2168
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          },
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 2,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_0217899987524660b63b37cbca791937f2f41fb0469576d99238d",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2186,
+                "output_tokens": 2369,
+                "total_tokens": 4555,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 1499
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          }
+        ],
+        "failures": []
+      },
+      "failures": []
+    }
+  ],
+  "expected_anchors": [],
+  "covered_anchors": [],
+  "non_question_pages": [],
+  "non_question_warnings": [],
+  "validation_deferred": false,
+  "validation_mode": "vlm_schema_page_coverage",
+  "referenced_pages": [
+    1,
+    2
+  ],
+  "covered_pages": [
+    1,
+    2
+  ],
+  "ocr_used": false,
+  "failures": [],
+  "selected_attempt": 2,
+  "ocr_validation_deferred": false
+}

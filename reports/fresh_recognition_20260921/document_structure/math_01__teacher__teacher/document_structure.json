@@ -1,0 +1,962 @@
+{
+  "mode": "vlm_whole_document_topology_and_page_coverage",
+  "provider": "doubao",
+  "status": "COMPLETE",
+  "topology_source": "vlm",
+  "coordinate_authority": "vlm_original_page_pixels",
+  "coverage_scope": "whole_document_vlm_schema_and_page_coverage",
+  "id_authority": "local_deterministic",
+  "views": [
+    {
+      "page_index": 1,
+      "source": "original",
+      "path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_01.jpg"
+    },
+    {
+      "page_index": 2,
+      "source": "original",
+      "path": "reports/fresh_recognition_20260921/normalized/math_01/teacher/teacher/page_02.jpg"
+    }
+  ],
+  "attempts": [
+    {
+      "attempt": 1,
+      "kind": "whole_document_topology",
+      "proposal": {
+        "title": "2026—2027学年第一学期九年级数学校本作业 作业12 二次函数y=a(x-h)²的图象与性质复习2",
+        "sections": [
+          {
+            "section_id": "section_1",
+            "title": "A 基础达标",
+            "questions": [
+              {
+                "question_id": "q1",
+                "number": 1,
+                "text": "In平面直角坐标系中，二次函数$y=(x+1)^2$的图象可能是",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "1.  In平面直角坐标系中"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q1",
+                    "label": "",
+                    "text": "In平面直角坐标系中，二次函数$y=(x+1)^2$的图象可能是（ ）\nA. \nB. \nC. \nD.",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.  In平面直角坐标系中"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q2",
+                "number": 2,
+                "text": "某抛物线与抛物线$y=\\frac{1}{2}x^2$的形状相同，且顶点为$(-6,0)$，开口向下．该抛物线的函数表达式为",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "2.  某抛物线与抛物线"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q2",
+                    "label": "",
+                    "text": "某抛物线与抛物线$y=\\frac{1}{2}x^2$的形状相同，且顶点为$(-6,0)$，开口向下．该抛物线的函数表达式为（ ）\nA. $y=\\frac{1}{2}(x+6)^2$\nB. $y=\\frac{1}{2}(x-6)^2$\nC. $y=-\\frac{1}{2}(x+6)^2$\nD. $y=-\\frac{1}{2}(x-6)^2$",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.  某抛物线与抛物线"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q3",
+                "number": 3,
+                "text": "某种电脑病毒传播非常快，如果一台电脑被感染，经过两轮感染后就会有100台被感染．设每轮感染中平均每一台电脑会感染$x$台其他电脑，由题意列方程应为",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "3.  某种电脑病毒传播非常快"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q3",
+                    "label": "",
+                    "text": "某种电脑病毒传播非常快，如果一台电脑被感染，经过两轮感染后就会有100台被感染．设每轮感染中平均每一台电脑会感染$x$台其他电脑，由题意列方程应为（ ）\nA. $1+2x=100$\nB. $x(1+x)=100$\nC. $(1+x)^2=100$\nD. $1+x+x^2=100$",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.  某种电脑病毒传播非常快"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q4",
+                "number": 4,
+                "text": "若$x_1$，$x_2$是关于$x$的一元二次方程$x^2 - 25x - 1=0$的两个实数根，则代数式$x_1^2 - 24x_1 + x_2$的值为",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "4.  若$x_1$，$x_2$"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q4",
+                    "label": "",
+                    "text": "若$x_1$，$x_2$是关于$x$的一元二次方程$x^2 - 25x - 1=0$的两个实数根，则代数式$x_1^2 - 24x_1 + x_2$的值为",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "4.  若$x_1$，$x_2$"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q5",
+                "number": 5,
+                "text": "某校“研学”活动小组在一次野外实践时，发现一种植物的主干长出若干数目的支干，每个支干又长出相同数目的小分支，主干、支干和小分支的总数是31，则这种植物每个支干长出的小分支个数是",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "5.  某校“研学”活动小组"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q5",
+                    "label": "",
+                    "text": "某校“研学”活动小组在一次野外实践时，发现一种植物的主干长出若干数目的支干，每个支干又长出相同数目的小分支，主干、支干和小分支的总数是31，则这种植物每个支干长出的小分支个数是",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "5.  某校“研学”活动小组"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q6",
+                "number": 6,
+                "text": "抛物线$y=(x+1)^2$的开口方向是向____，对称轴是直线____，顶点坐标是____，它是由抛物线$y=x^2$向____平移____个单位得到的",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "6.  抛物线$y=(x+1)^2$"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q6",
+                    "label": "",
+                    "text": "抛物线$y=(x+1)^2$的开口方向是向____，对称轴是直线____，顶点坐标是____，它是由抛物线$y=x^2$向____平移____个单位得到的",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "6.  抛物线$y=(x+1)^2$"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q7",
+                "number": 7,
+                "text": "写出一个函数____使得该函数在$x<-1$时，$y$随$x$的增大而增大，当$x>-1$时，$y$随$x$的增大而减小",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "7.  写出一个函数"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q7",
+                    "label": "",
+                    "text": "写出一个函数____使得该函数在$x<-1$时，$y$随$x$的增大而增大，当$x>-1$时，$y$随$x$的增大而减小",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "7.  写出一个函数"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q8",
+                "number": 8,
+                "text": "若$A(-4,a), B(-2,b), C(1,c)$，为二次函数$y=\\sqrt{3}(x+1)^2$的图象上的三点，则$a，b，c$的大小关系是",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "8.  若$A(-4,a), B(-2,b)$"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q8",
+                    "label": "",
+                    "text": "若$A(-4,a), B(-2,b), C(1,c)$，为二次函数$y=\\sqrt{3}(x+1)^2$的图象上的三点，则$a，b，c$的大小关系是",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "8.  若$A(-4,a), B(-2,b)$"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q9",
+                "number": 9,
+                "text": "如图，在平面直角坐标系中，$O$为坐标原点，抛物线$y=(x-h)^2$的顶点为$B(2,0)$，与$y$轴交于点$A$，过点$A$作$AC \\perp y$轴，交该抛物线于点$C$，连接$BC$，以$AC、BC$为边作$\\square ACBD$，点$D$在$x$轴的负半轴上",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "9.  如图，在平面直角坐标系中"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q9_1",
+                    "label": "(1)",
+                    "text": "求该抛物线的解析式",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "(1)求该抛物线的解析式"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q9_2",
+                    "label": "(2)",
+                    "text": "求点$D$的坐标及$\\square ACBD$的面积",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "(2)求点$D$的坐标"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_2",
+            "title": "B 能力提升",
+            "questions": [
+              {
+                "question_id": "q10",
+                "number": 10,
+                "text": "已知点$(-4,y_1)$, $(-2,y_2)$和$(-1,y_3)$都在二次函数$y=a(x+2)^2 (a<0)$的图象上，则$y_1$, $y_2$, $y_3$的大小关系为",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "10. 已知点"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q10",
+                    "label": "",
+                    "text": "已知点$(-4,y_1)$, $(-2,y_2)$和$(-1,y_3)$都在二次函数$y=a(x+2)^2 (a<0)$的图象上，则$y_1$, $y_2$, $y_3$的大小关系为__________.",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "10. 已知点"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q11",
+                "number": 11,
+                "text": "已知方程$\\text{x}^2 + 2\\text{x} - 8 = 0$的解是$\\text{x}_1 = 2$, $\\text{x}_2 = - 4$, 那么方程$(\\text{x} + 1)^2 + 2(\\text{x} + 1) - 8 = 0$的解是(",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "11. 已知方程"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q11",
+                    "label": "",
+                    "text": "已知方程$\\text{x}^2 + 2\\text{x} - 8 = 0$的解是$\\text{x}_1 = 2$, $\\text{x}_2 = - 4$, 那么方程$(\\text{x} + 1)^2 + 2(\\text{x} + 1) - 8 = 0$的解是(\nA. $\\text{x}_1 = 1$, $\\text{x}_2 = 5$ \nB. $\\text{x}_1 = 1$, $\\text{x}_2 = - 5$ \nC. $\\text{x}_1 = - 1$, $\\text{x}_2 = 5$ \nD. $\\text{x}_1 = - 1$, $\\text{x}_2 = - 5$)",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "11. 已知方程"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q12",
+                "number": 12,
+                "text": "已知二次函数$y=-(x-h)^2$ ($h$是常数), 且自变量取值范围是$2\\leq x\\leq5$.",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "12. 已知二次函数"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q12_1",
+                    "label": "(1)",
+                    "text": "(1) 当$h=3$时, 求函数值的$y$的取值范围;",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "12. (1) 当"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q12_2",
+                    "label": "(2)",
+                    "text": "(2) 若函数的最大值为-1, 求$h$的值.",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "12. (2) 若"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q13",
+                "number": 13,
+                "text": "已知关于x的一元二次方程$\\text{x}^2 - 2\\text{x} + \\text{t} - 5 = 0$有两个实数根$\\text{x}_1$, $\\text{x}_2$.",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "13. 已知关于x"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q13_1",
+                    "label": "(1)",
+                    "text": "(1)求t的取值范围;",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "13. (1)求"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q13_2",
+                    "label": "(2)",
+                    "text": "(2)若$\\text{x}_1$, $\\text{x}_2$满足$2\\text{x}_1 = |\\text{x}_2| - 1$, 求t的值.",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "13. (2)若"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_3",
+            "title": "C 拓展培优",
+            "questions": [
+              {
+                "question_id": "q14",
+                "number": 14,
+                "text": "已知$a>0$, 设函数$y_1=a(x-1)^2$, $y_2=a(x-2)^2$, $y_3=a(x-3)^2$. 直线$x=m$与函数$y_1$, $y_2$, $y_3$的图象分别交于点$A(m, c_1)$, $B(m, c_2)$, $C(m, c_3)$. 若$c_2 < c_3 < c_1$, 则$m$的取值范围是",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "14. 已知$a>0$"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q14",
+                    "label": "",
+                    "text": "已知$a>0$, 设函数$y_1=a(x-1)^2$, $y_2=a(x-2)^2$, $y_3=a(x-3)^2$. 直线$x=m$与函数$y_1$, $y_2$, $y_3$的图象分别交于点$A(m, c_1)$, $B(m, c_2)$, $C(m, c_3)$. 若$c_2 < c_3 < c_1$, 则$m$的取值范围是__________.",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "14. 已知$a>0$"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q15",
+                "number": 15,
+                "text": "如图, 以A为顶点的抛物线交y轴于点B, A, B两点的坐标分别为$(3, 0)$, $(0, 4)$, 连接AB.",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "15. 如图, 以A"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q15_1",
+                    "label": "(1)",
+                    "text": "(1) 求此抛物线对应的函数解析式.",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "15. (1) 求"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q15_2",
+                    "label": "(2)",
+                    "text": "(2) 若将y轴向右平移6个单位长度, 直接写出此时抛物线对应的函数解析式.",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "15. (2) 若"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q15_3",
+                    "label": "(3)",
+                    "text": "(3) 该抛物线上是否存在一点P, 使得AB=AP? 若存在, 请直接写出点P的坐标; 若不存在, 请说明理由.",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "15. (3) 该抛物线上"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "topology_proposal": {
+        "title": "2026—2027学年第一学期九年级数学校本作业 作业12 二次函数y=a(x-h)²的图象与性质复习2",
+        "sections": [
+          {
+            "title": "A 基础达标",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "1. 在平面直角坐标系中，二次函数y=(x+1)²的图象可能是"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "选项A、B、C、D"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 2,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "2. 某抛物线与抛物线y=½x²的形状相同，且顶点为(-6,0)，开口向下．该抛物线的函数表达式为"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "选项A、B、C、D"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 3,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "3. 某种电脑病毒传播非常快...由题意列方程应为"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "选项A、B、C、D"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 4,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "4. 若x₁，x₂是关于x的一元二次方程x² - 25x - 1=0的两个实数根，则代数式x₁² - 24x₁ + x₂的值为"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "则代数式x₁² - 24x₁ + x₂的值为"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 5,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "5. 某校“研学”活动小组...则这种植物每个支干长出的小分支个数是"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "则这种植物每个支干长出的小分支个数是"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 6,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "6. 抛物线y=(x+1)²的开口方向是向...它是由抛物线y=x²平移得到的"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "抛物线y=(x+1)²的开口方向是向...平移___个单位得到的"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 7,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "7. 写出一个函数使得该函数在x<-1时，y随x的增大而增大，当x>-1时，y随x的增大而减小"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "写出一个函数使得该函数在x<-1时，y随x的增大而增大，当x>-1时，y随x的增大而减小"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 8,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "8. 若A(-4,a), B(-2,b), C(1,c),为二次函数y=√3(x+1)²的图象上的三点，则a，b，c的大小关系是"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "则a，b，c的大小关系是"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 9,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "9. 如图，在平面直角坐标系中...点D在x轴的负半轴上"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "(1)求该抛物线的解析式"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "(2)求点D的坐标及▱ACBD的面积"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "B 能力提升",
+            "questions": [
+              {
+                "number": 10,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "10. 已知点(-4,y₁), (-2,y₂)和(-1,y₃)都在二次函数y=a(x+2)² (a<0)的图象上，则y₁，y₂，y₃的大小关系为"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "则y₁，y₂，y₃的大小关系为"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 11,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "11. 已知方程x² + 2x - 8 = 0的解是x₁ = 2，x₂ = - 4，那么方程(x+1)² + 2(x+1) - 8 = 0的解是"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "choice",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "选项A、B、C、D"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 12,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "12. 已知二次函数y=-(x-h)² (h是常数)，且自变量取值范围是2≤x≤5"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1)当h=3时，函数值的y的取值范围"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(2)若函数的最大值为-1，求h的值"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 13,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "13. 已知关于x的一元二次方程x² - 2x + t - 5 = 0有两个实数根x₁，x₂"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1)求t的取值范围"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(2)若x₁，x₂满足2x₁=|x₂|-1，求t的值"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "C 拓展培优",
+            "questions": [
+              {
+                "number": 14,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "14. 已知a>0...若c₂ < c₃ < c₁，则m的取值范围是"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "若c₂ < c₃ < c₁，则m的取值范围是"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 15,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "15. 如图，以A为顶点的抛物线交y轴于点B，A，B两点的坐标分别为(3，0)，(0，4)，连接AB"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1)求此抛物线对应的函数解析式"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(2)若将y轴向右平移6个单位长度，直接写出此时抛物线对应的函数解析式"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(3)",
+                    "type": "solve",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(3)该抛物线上是否存在一点P，使得AB=AP？若存在，请直接写出点P的坐标；若不存在，请说明理由"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "response": {
+        "response_id": "resp_0217900009918113d0449b03f13da7ad7c0359f0f1d760c4fe2b2",
+        "status": "completed",
+        "incomplete_details": null,
+        "usage": {
+          "input_tokens": 3973,
+          "output_tokens": 5393,
+          "total_tokens": 9366,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 2547
+          }
+        },
+        "attempts": 1,
+        "retry_reasons": []
+      },
+      "text_enrichment": {
+        "attempts": [
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 1,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_02179000105192939b5b0f4b57789945865e795386c35304da167",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2347,
+                "output_tokens": 3720,
+                "total_tokens": 6067,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 1812
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          },
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 2,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_021790001090506d1a31addd6d38d14c8141e1e64f1efaa483925",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2329,
+                "output_tokens": 4827,
+                "total_tokens": 7156,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 3212
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          }
+        ],
+        "failures": []
+      },
+      "failures": []
+    }
+  ],
+  "expected_anchors": [],
+  "covered_anchors": [],
+  "non_question_pages": [],
+  "non_question_warnings": [],
+  "validation_deferred": false,
+  "validation_mode": "vlm_schema_page_coverage",
+  "referenced_pages": [
+    1,
+    2
+  ],
+  "covered_pages": [
+    1,
+    2
+  ],
+  "ocr_used": false,
+  "failures": [],
+  "selected_attempt": 1,
+  "ocr_validation_deferred": false
+}

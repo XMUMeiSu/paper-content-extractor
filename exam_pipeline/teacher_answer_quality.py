@@ -11,8 +11,9 @@ class TeacherAnswerQualityAssessor:
 
     # 高置信度答案模式（选择题）
     CHOICE_PATTERNS = {
-        'single': re.compile(r'^[A-D]$'),
-        'multiple': re.compile(r'^[A-D]{2,4}$'),
+        'single': re.compile(r'^[A-H]$'),
+        'multiple': re.compile(r'^[A-H]{2,4}$'),
+        'mark': re.compile(r'^[✓✔√☑勾]$'),
     }
 
     # 常见 OCR 错误映射
@@ -59,10 +60,13 @@ class TeacherAnswerQualityAssessor:
         corrected_text = corrected_text.strip()
 
         # 2. 应用 OCR 常见错误修正
-        for wrong, right in cls.OCR_CORRECTIONS.items():
-            if wrong in corrected_text:
-                corrected_text = corrected_text.replace(wrong, right)
-                auto_corrected = True
+        # Only normalize choice presentation; never change lexical content.
+        if item_type == 'choice':
+            import re
+            match = re.fullmatch(r'\s*([A-Ha-h])\s*[.、]?\s*', corrected_text)
+            if match:
+                corrected_text = match.group(1).upper()
+                auto_corrected = corrected_text != text.strip()
 
         # 3. 根据题目类型评估
         if item_type == 'choice':
@@ -100,6 +104,16 @@ class TeacherAnswerQualityAssessor:
             confidence = 0.90 if ocr_conf and ocr_conf > 0.7 else 0.75
             return {
                 'confidence': confidence,
+                'quality': 'high',
+                'auto_corrected': auto_corrected,
+                'corrected_text': text,
+                'needs_review': False,
+                'issues': issues,
+            }
+
+        if cls.CHOICE_PATTERNS['mark'].match(text):
+            return {
+                'confidence': 0.85 if ocr_conf is None or ocr_conf >= .65 else 0.75,
                 'quality': 'high',
                 'auto_corrected': auto_corrected,
                 'corrected_text': text,

@@ -1,0 +1,1800 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s2_q1_5",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              48,
+              210,
+              72
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "乃:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      220,
+                      50,
+                      305,
+                      72
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_6",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              475,
+              50,
+              635,
+              75
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "尊君:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      645,
+                      52,
+                      730,
+                      73
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_7",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              80,
+              220,
+              103
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "不:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      230,
+                      82,
+                      305,
+                      101
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_8",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              475,
+              80,
+              610,
+              103
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "顾:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      618,
+                      82,
+                      695,
+                      101
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_9",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              110,
+              455,
+              133
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "相委:",
+                "anchor_after": "去:",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      230,
+                      112,
+                      305,
+                      131
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "去:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      365,
+                      112,
+                      448,
+                      131
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_10",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              475,
+              110,
+              690,
+              133
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "家君:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      700,
+                      112,
+                      790,
+                      131
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_11",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              138,
+              205,
+              161
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "惭:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      215,
+                      140,
+                      290,
+                      160
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q1_12",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              475,
+              138,
+              615,
+              161
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "引:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      625,
+                      140,
+                      710,
+                      160
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q2_1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              185,
+              385,
+              230
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      215,
+                      590,
+                      232
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q2_2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              240,
+              355,
+              282
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      268,
+                      590,
+                      285
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q2_3",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              292,
+              470,
+              340
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      325,
+                      590,
+                      342
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q2_4",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              350,
+              265,
+              392
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      375,
+                      575,
+                      392
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q3_1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              420,
+              465,
+              445
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      75,
+                      455,
+                      895,
+                      510
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s2_q3_2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              525,
+              790,
+              550
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      75,
+                      565,
+                      900,
+                      645
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s3_q1_1",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              75,
+              680,
+              915,
+              710
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "\"",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      695,
+                      682,
+                      885,
+                      708
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": ",",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      80,
+                      718,
+                      230,
+                      742
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s3_q1_2",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              80,
+              722,
+              920,
+              748
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "我寄愁心与明月，",
+                "anchor_after": "(2)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      120,
+                      750,
+                      275,
+                      775
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s3_q1_3",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              80,
+              758,
+              925,
+              832
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "娃娃，",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      395,
+                      778,
+                      565,
+                      802
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": ", ",
+                "anchor_after": "。",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      600,
+                      778,
+                      775,
+                      802
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "姑娘，",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      120,
+                      810,
+                      375,
+                      835
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 4,
+                "label": "blank_response",
+                "anchor_before": ", ",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      410,
+                      810,
+                      555,
+                      835
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 5,
+                "label": "blank_response",
+                "anchor_before": ", ",
+                "anchor_after": "。",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      590,
+                      810,
+                      745,
+                      835
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 6,
+                "label": "blank_response",
+                "anchor_before": "青年，",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      130,
+                      842,
+                      325,
+                      867
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 7,
+                "label": "blank_response",
+                "anchor_before": ", ",
+                "anchor_after": ".\"",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      350,
+                      842,
+                      555,
+                      867
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s3_q1_4",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              80,
+              840,
+              920,
+              870
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "乡书何处达，",
+                "anchor_after": ".\"",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      370,
+                      872,
+                      575,
+                      896
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "s3_q1_5",
+            "physical_page_id": "chinese__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              80,
+              880,
+              920,
+              905
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "直抒 \"",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      410,
+                      908,
+                      585,
+                      930
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": ", ",
+                "anchor_after": "\"的思乡",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      615,
+                      908,
+                      800,
+                      930
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "s2_q1_5": {
+      "item_id": "s2_q1_5",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        48,
+        210,
+        72
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "乃:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                220,
+                50,
+                305,
+                72
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_6": {
+      "item_id": "s2_q1_6",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        475,
+        50,
+        635,
+        75
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "尊君:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                645,
+                52,
+                730,
+                73
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_7": {
+      "item_id": "s2_q1_7",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        80,
+        220,
+        103
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "不:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                230,
+                82,
+                305,
+                101
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_8": {
+      "item_id": "s2_q1_8",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        475,
+        80,
+        610,
+        103
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "顾:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                618,
+                82,
+                695,
+                101
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_9": {
+      "item_id": "s2_q1_9",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        110,
+        455,
+        133
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "相委:",
+          "anchor_after": "去:",
+          "regions": [
+            {
+              "answer_bbox": [
+                230,
+                112,
+                305,
+                131
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "去:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                365,
+                112,
+                448,
+                131
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_10": {
+      "item_id": "s2_q1_10",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        475,
+        110,
+        690,
+        133
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "家君:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                700,
+                112,
+                790,
+                131
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_11": {
+      "item_id": "s2_q1_11",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        138,
+        205,
+        161
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "惭:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                215,
+                140,
+                290,
+                160
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q1_12": {
+      "item_id": "s2_q1_12",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        475,
+        138,
+        615,
+        161
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "引:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                625,
+                140,
+                710,
+                160
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q2_1": {
+      "item_id": "s2_q2_1",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        185,
+        385,
+        230
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                215,
+                590,
+                232
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q2_2": {
+      "item_id": "s2_q2_2",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        240,
+        355,
+        282
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                268,
+                590,
+                285
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q2_3": {
+      "item_id": "s2_q2_3",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        292,
+        470,
+        340
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                325,
+                590,
+                342
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q2_4": {
+      "item_id": "s2_q2_4",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        350,
+        265,
+        392
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                375,
+                575,
+                392
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q3_1": {
+      "item_id": "s2_q3_1",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        420,
+        465,
+        445
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                75,
+                455,
+                895,
+                510
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s2_q3_2": {
+      "item_id": "s2_q3_2",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        525,
+        790,
+        550
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                75,
+                565,
+                900,
+                645
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1_1": {
+      "item_id": "s3_q1_1",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        75,
+        680,
+        915,
+        710
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "\"",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                695,
+                682,
+                885,
+                708
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": ",",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                80,
+                718,
+                230,
+                742
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1_2": {
+      "item_id": "s3_q1_2",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        80,
+        722,
+        920,
+        748
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "我寄愁心与明月，",
+          "anchor_after": "(2)",
+          "regions": [
+            {
+              "answer_bbox": [
+                120,
+                750,
+                275,
+                775
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1_3": {
+      "item_id": "s3_q1_3",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        80,
+        758,
+        925,
+        832
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "娃娃，",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                395,
+                778,
+                565,
+                802
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": ", ",
+          "anchor_after": "。",
+          "regions": [
+            {
+              "answer_bbox": [
+                600,
+                778,
+                775,
+                802
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "姑娘，",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                120,
+                810,
+                375,
+                835
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 4,
+          "label": "blank_response",
+          "anchor_before": ", ",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                410,
+                810,
+                555,
+                835
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 5,
+          "label": "blank_response",
+          "anchor_before": ", ",
+          "anchor_after": "。",
+          "regions": [
+            {
+              "answer_bbox": [
+                590,
+                810,
+                745,
+                835
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 6,
+          "label": "blank_response",
+          "anchor_before": "青年，",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                130,
+                842,
+                325,
+                867
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 7,
+          "label": "blank_response",
+          "anchor_before": ", ",
+          "anchor_after": ".\"",
+          "regions": [
+            {
+              "answer_bbox": [
+                350,
+                842,
+                555,
+                867
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1_4": {
+      "item_id": "s3_q1_4",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        80,
+        840,
+        920,
+        870
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "乡书何处达，",
+          "anchor_after": ".\"",
+          "regions": [
+            {
+              "answer_bbox": [
+                370,
+                872,
+                575,
+                896
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "s3_q1_5": {
+      "item_id": "s3_q1_5",
+      "physical_page_id": "chinese__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        80,
+        880,
+        920,
+        905
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "直抒 \"",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                410,
+                908,
+                585,
+                930
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": ", ",
+          "anchor_after": "\"的思乡",
+          "regions": [
+            {
+              "answer_bbox": [
+                615,
+                908,
+                800,
+                930
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    }
+  }
+}

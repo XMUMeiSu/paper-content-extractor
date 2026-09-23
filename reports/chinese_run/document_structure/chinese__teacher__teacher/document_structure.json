@@ -1,0 +1,1319 @@
+{
+  "mode": "vlm_whole_document_topology_and_page_coverage",
+  "provider": "doubao",
+  "status": "COMPLETE",
+  "topology_source": "vlm",
+  "coordinate_authority": "vlm_original_page_pixels",
+  "coverage_scope": "whole_document_vlm_schema_and_page_coverage",
+  "id_authority": "local_deterministic",
+  "views": [
+    {
+      "page_index": 1,
+      "source": "original",
+      "path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_01.jpg"
+    },
+    {
+      "page_index": 2,
+      "source": "original",
+      "path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_02.jpg"
+    }
+  ],
+  "attempts": [
+    {
+      "attempt": 1,
+      "kind": "whole_document_topology",
+      "failures": [
+        {
+          "code": "ITEM_OUTSIDE_QUESTION_PAGES:s2_q1_5",
+          "error_type": "ValueError",
+          "detail": "ITEM_OUTSIDE_QUESTION_PAGES:s2_q1_5"
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "kind": "whole_document_topology",
+      "proposal": {
+        "title": "厦门市音乐学校七年级上语文小测（四）——《世说新语》二则",
+        "sections": [
+          {
+            "section_id": "section_1",
+            "title": "《咏雪》",
+            "questions": [
+              {
+                "question_id": "s1_q1",
+                "number": 1,
+                "text": "一、文言字词解释(24分)",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "文言字词解释"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q1_1",
+                    "label": "寒雪日内集",
+                    "text": "寒雪日内集 内:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "寒雪日内集"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_2",
+                    "label": "与儿女",
+                    "text": "与儿女 儿女:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "与儿女"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_3",
+                    "label": "讲论文义",
+                    "text": "讲论文义 文义:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "讲论文义"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_4",
+                    "label": "俄而雪骤",
+                    "text": "俄而雪骤 俄而:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "俄而雪骤"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_5",
+                    "label": "骤",
+                    "text": "骤:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "骤"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_6",
+                    "label": "公欣然曰",
+                    "text": "公欣然曰 欣然:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "公欣然曰"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_7",
+                    "label": "何所似",
+                    "text": "何所似:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "何所似"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_8",
+                    "label": "差",
+                    "text": "差可拟 差:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "差"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_9",
+                    "label": "拟",
+                    "text": "拟:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "拟"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_10",
+                    "label": "未若",
+                    "text": "未若柳絮 未若:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "未若"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_11",
+                    "label": "因",
+                    "text": "因风起 因:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "因"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q1_12",
+                    "label": "即",
+                    "text": "即公大兄无奕女 即:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "即"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s1_q2",
+                "number": 2,
+                "text": "二、句子翻译（9分）",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "句子翻译"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q2_1",
+                    "label": "1",
+                    "text": "1.白雪纷纷何所似？（3分）译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.白雪纷纷何所似"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q2_2",
+                    "label": "2",
+                    "text": "2.撒盐空中差可拟。（3分）译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.撒盐空中差可拟"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q2_3",
+                    "label": "3",
+                    "text": "3.未若柳絮因风起。（3分）译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.未若柳絮因风起"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s1_q3",
+                "number": 3,
+                "text": "三、用 / 给下列句子断句（断两处）（4分）",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "用 / 给下列句子断句"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s1_q3_1",
+                    "label": "1",
+                    "text": "1.谢太傅寒雪日内集。（2分）",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.谢太傅寒雪日内集"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s1_q3_2",
+                    "label": "2",
+                    "text": "2.未若柳絮因风起。（2分）",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.未若柳絮因风起"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "q4",
+                "number": 4,
+                "text": "四、文意理解（11分）",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "文意理解"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "q4_1",
+                    "label": "(1)",
+                    "text": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛？（3分）",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.文中“寒雪”"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q4_2",
+                    "label": "(2)",
+                    "text": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好？ （4分）",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.用“撒盐空中”"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "q4_3",
+                    "label": "(3)",
+                    "text": "3.学完本文，你认为谢道韫是一个怎么样的人？（4分）",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.学完本文"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_2",
+            "title": "《陈太丘与友期行》",
+            "questions": [
+              {
+                "question_id": "s2_q1",
+                "number": 1,
+                "text": "《陈太丘与友期行》 一、文言字词解释（30分）\n解释下列句中加点的词",
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "文言字词解释"
+                  },
+                  {
+                    "page_index": 2,
+                    "anchor": "去后乃至"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q1_1",
+                    "label": "行",
+                    "text": "1.陈太丘与友期行 行:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "行"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_2",
+                    "label": "期日中",
+                    "text": "2.期日中 期: 日中:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "期日中"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_3",
+                    "label": "至",
+                    "text": "3.过中不至 至:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "至"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_4",
+                    "label": "舍去",
+                    "text": "4.太丘舍去 舍: 去:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "舍去"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_5",
+                    "label": "乃",
+                    "text": "去后乃至 乃:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "乃"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_6",
+                    "label": "尊君",
+                    "text": "尊君在不 尊君:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "尊君"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_7",
+                    "label": "不",
+                    "text": "尊君在不 不:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "不"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_8",
+                    "label": "顾",
+                    "text": "入门不顾 顾:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "顾"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_9",
+                    "label": "相委而去",
+                    "text": "相委而去 相委: 去:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "相委而去"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_10",
+                    "label": "家君",
+                    "text": "君与家君期日中 家君:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "家君"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_11",
+                    "label": "惭",
+                    "text": "友人惭 惭:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "惭"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q1_12",
+                    "label": "引",
+                    "text": "下车引之 引:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "引"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s2_q2",
+                "number": 2,
+                "text": "二、句子翻译（12分）",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "句子翻译"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q2_1",
+                    "label": "1",
+                    "text": "1.陈太丘与友期行，期日中。（3分）\n译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q2_2",
+                    "label": "2",
+                    "text": "2.与人期行，相委而去。（3分）\n译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "2"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q2_3",
+                    "label": "3",
+                    "text": "3.友人惭，下车引之，元方入门不顾。（3分）\n译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "3"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q2_4",
+                    "label": "4",
+                    "text": "4.尊君在不？（3分）\n译:",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "4"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "question_id": "s2_q3",
+                "number": 3,
+                "text": "三、文意理解（8分）",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "文意理解"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s2_q3_1",
+                    "label": "(1)",
+                    "text": "1.你认为元方和友人各是怎样的人？（4分）",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1)"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s2_q3_2",
+                    "label": "(2)",
+                    "text": "2.你认为陈元方这样的待客方式和待客态度合适不合适？你的理由是什么？（4分）",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(2)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "section_id": "section_3",
+            "title": "根据语境填空",
+            "questions": [
+              {
+                "question_id": "s3_q1",
+                "number": 1,
+                "text": "根据语境填空（13分）\n一草一木，一人一事都能引起文人的感触。曹操登高望海心中升起 “______，______（1）；星汉灿烂，若出其里” 的豪情；李白借杨花、子规诉说着 “我寄愁心与明月，______（2）” 的忧思愁绪；朱自清以极富神韵的笔触勾勒出美丽的春日图景，在他笔下，“春天像刚落地的娃娃，______，______。春天像小姑娘，______，______，______。春天像健壮的青年，______，______。”王湾停宿北固山下，借 “鸿雁传书” 表达思乡之情 “（4）乡书何处达，______ 。” 马致远骑着一匹瘦马走在荒凉的古道上，看着眼前的萧瑟之景，不禁直抒 “______，______“的思乡之情。",
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "根据语境填空"
+                  }
+                ],
+                "items": [
+                  {
+                    "item_id": "s3_q1_1",
+                    "label": "(1)",
+                    "text": "(1) 曹操登高望海心中升起 “____________，____________；星汉灿烂，若出其里” 的豪情",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1)"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s3_q1_2",
+                    "label": "(2)",
+                    "text": "(2) 李白借杨花、子规诉说着 “我寄愁心与明月，____________” 的忧思愁绪",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(2)"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s3_q1_3",
+                    "label": "春赞",
+                    "text": "朱自清以极富神韵的笔触勾勒出美丽的春日图景，在他笔下，“春天像刚落地的娃娃，____________，____________。春天像小姑娘，____________，____________，____________。春天像健壮的青年，____________，____________。”",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "春赞"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s3_q1_4",
+                    "label": "(4)",
+                    "text": "(4) 王湾停宿北固山下，借 “鸿雁传书” 表达思乡之情 “乡书何处达，____________ 。”",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(4)"
+                      }
+                    ]
+                  },
+                  {
+                    "item_id": "s3_q1_5",
+                    "label": "天净沙思乡",
+                    "text": "马致远骑着一匹瘦马走在荒凉的古道上，看着眼前的萧瑟之景，不禁直抒 “____________，____________“的思乡之情。",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "天净沙思乡"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "topology_proposal": {
+        "title": "厦门市音乐学校七年级上语文小测（四）——《世说新语》二则",
+        "sections": [
+          {
+            "title": "《咏雪》",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释(24分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "寒雪日内集",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1. 寒雪日内集:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "与儿女",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "与儿女:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "讲论文义",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3. 讲论文义:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "俄而雪骤",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "4. 俄而雪骤:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "骤",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "骤: __"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "公欣然曰",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "5. 公欣然曰:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "何所似",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "6. 何所似:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "差",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "7. 差可拟 差:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "拟",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "拟: __"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "未若",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "8. 未若柳絮 未若:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "因",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "9. 因风起 因:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "即",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "10. 即公大兄无奕女 即:"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 2,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "二、句子翻译(9分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "1",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.白雪纷纷何所似? (3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "2",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.撒盐空中差可拟。(3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "3",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.未若柳絮因风起。(3分)"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 3,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "三、用/给下列句子断句（断两处）(4分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "1",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.谢太傅寒雪日内集。(2分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "2",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.未若柳絮因风起。(2分)"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 4,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "四、文意理解(11分)"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.文中“寒雪”“内集”“欣然”“大笑乐”等词语营造了一种怎样的家庭气氛? (3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.用“撒盐空中”和“柳絮因风起”来比拟“白雪纷纷”，你认为哪个更好? (4分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(3)",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.学完本文，你认为谢道韫是一个怎么样的人? (4分)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "《陈太丘与友期行》",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 1,
+                    "anchor": "一、文言字词解释（30分）"
+                  },
+                  {
+                    "page_index": 2,
+                    "anchor": "12.下车引之 引:"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "行",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "1.陈太丘与友期行 行:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "期日中",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "2.期日中 期: 日中:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "至",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "3.过中不至 至:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "舍去",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 1,
+                        "anchor": "4.太丘舍去 舍: 去:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "乃",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "5.去后乃至 乃:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "尊君",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "6.尊君在不 尊君:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "不",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "7.尊君在不 不:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "顾",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "8.入门不顾 顾:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "相委而去",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "9.相委而去 相委: 去:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "家君",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "10.君与家君日中 家君:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "惭",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "11.友人惭 惭:"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "引",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "12.下车引之 引:"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 2,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "二、句子翻译（12分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "1",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "1.陈太丘与友期行，期日中。(3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "2",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "2.与人期行，相委而去。(3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "3",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "3.友人惭，下车引之，元方入门不顾。(3分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "4",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "4.尊君在不? (3分)"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "number": 3,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "三、文意理解（8分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "1.你认为元方和友人各是怎样的人? (4分)"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "large_writing",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "2.你认为陈元方这样的待客方式和待客态度合适不合适?你的理由是什么? (4分)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "根据语境填空",
+            "questions": [
+              {
+                "number": 1,
+                "references": [
+                  {
+                    "page_index": 2,
+                    "anchor": "根据语境填空（13分）"
+                  }
+                ],
+                "items": [
+                  {
+                    "label": "(1)",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(1); 星汉灿烂，若出其里"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(2)",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "“我寄愁心与明月，______ (2) ”的忧思愁绪"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "春赞",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "“春天像刚落地的娃娃，______，______。春天像小姑娘"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "(4)",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "(4) 乡书何处达，______ 。"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "天净沙思乡",
+                    "type": "fill",
+                    "references": [
+                      {
+                        "page_index": 2,
+                        "anchor": "不禁直抒“______，______“的思乡之情。"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "non_question_pages": []
+      },
+      "response": {
+        "response_id": "resp_021790069422738682583ac3749be18cdf4b3a38443303761fcaa",
+        "status": "completed",
+        "incomplete_details": null,
+        "usage": {
+          "input_tokens": 3993,
+          "output_tokens": 7561,
+          "total_tokens": 11554,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 5290
+          }
+        },
+        "attempts": 1,
+        "retry_reasons": []
+      },
+      "text_enrichment": {
+        "attempts": [
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 1,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_02179006952772496de9f55314d9c1d75ac853e3e9cad7efc8738",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2681,
+                "output_tokens": 3769,
+                "total_tokens": 6450,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 2693
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          },
+          {
+            "phase": "page_text_enrichment",
+            "page_index": 2,
+            "attempt": 1,
+            "status": "ACCEPTED",
+            "response": {
+              "response_id": "resp_02179006958223720244bbcebb250bf80b1bc04ef464017c133c7",
+              "status": "completed",
+              "incomplete_details": null,
+              "usage": {
+                "input_tokens": 2538,
+                "output_tokens": 3189,
+                "total_tokens": 5727,
+                "input_tokens_details": {
+                  "cached_tokens": 0
+                },
+                "output_tokens_details": {
+                  "reasoning_tokens": 1749
+                }
+              },
+              "attempts": 1,
+              "retry_reasons": []
+            }
+          }
+        ],
+        "failures": []
+      },
+      "failures": []
+    }
+  ],
+  "expected_anchors": [],
+  "covered_anchors": [],
+  "non_question_pages": [],
+  "non_question_warnings": [],
+  "validation_deferred": false,
+  "validation_mode": "vlm_schema_page_coverage",
+  "referenced_pages": [
+    1,
+    2
+  ],
+  "covered_pages": [
+    1,
+    2
+  ],
+  "ocr_used": false,
+  "failures": [],
+  "selected_attempt": 2,
+  "page_validation_deferred": false
+}

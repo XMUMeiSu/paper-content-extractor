@@ -15,6 +15,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
@@ -96,7 +97,7 @@ DOUBAO_MODEL = os.getenv("DOUBAO_MODEL", "doubao-seed-2.0-lite")
 DOUBAO_RESPONSES_ENDPOINT = os.getenv(
     "DOUBAO_RESPONSES_ENDPOINT", DOUBAO_BASE_URL.rstrip("/") + "/responses"
 )
-EXAM_REQUEST_TIMEOUT = int(os.getenv("EXAM_REQUEST_TIMEOUT", "60"))
+EXAM_REQUEST_TIMEOUT = int(os.getenv("EXAM_REQUEST_TIMEOUT", "180"))
 
 
 OCRBlock = ModularOCRBlock
@@ -1116,7 +1117,7 @@ def _prepare_paths(paths: Sequence[Path], output: Path, subject: str, role: str)
     return normalized, metadata, warnings
 
 
-def process(
+def _process_serial(
         dataset: Path, output: Path, model: str = DOUBAO_MODEL,
         api_key: Optional[str] = DOUBAO_API_KEY,
         endpoint: str = DOUBAO_RESPONSES_ENDPOINT, *, dry_run: bool = False,
@@ -1125,7 +1126,13 @@ def process(
         subject_filter: Optional[str] = None,
         student_id_filter: Optional[str] = None,
         exam_tree_overrides: Optional[Path] = None,
-        production_mode: bool = False) -> Dict[str, Any]:
+        production_mode: bool = False,
+        _student_only: bool = False,
+        _write_manifest: bool = True,
+        _return_context: bool = False,
+        _page_workers: int = 1,
+        _shared_teacher_packages: Optional[Dict[str, ExamPackage]] = None,
+        _shared_teacher_pages: Optional[Dict[str, List[Page]]] = None) -> Dict[str, Any]:
     from exam_pipeline.golden import GoldenTemplateService
     from exam_pipeline.exam_tree import ExamTreeService, resolve_override
     from exam_pipeline.performance import PerformanceCollector, set_active_collector
@@ -1166,7 +1173,8 @@ def process(
         if visual_extraction_base is not None else None
     )
     visual_extraction_service = VisualExamExtractionService(
-        visual_extraction_request, visual_extraction_provider
+        visual_extraction_request, visual_extraction_provider,
+        page_workers=max(1, int(_page_workers or 1)),
     )
     vlm_only = True
 
@@ -1211,8 +1219,13 @@ def process(
             raise ValueError(f"{scope}未找到学生卷或教师卷: {student_id_filter}")
     teacher_subjects = {subject for subject, role, _ in docs if role == "teacher"}
     teachers: Dict[str, Dict[str, Any]] = {}
-    teacher_packages: Dict[str, ExamPackage] = {}
-    teacher_pages: Dict[str, List[Page]] = {}
+    teacher_packages: Dict[str, ExamPackage] = dict(_shared_teacher_packages or {})
+    teacher_pages: Dict[str, List[Page]] = {
+        subject: list(pages) for subject, pages in (_shared_teacher_pages or {}).items()
+    }
+    teacher_subjects.update(teacher_packages)
+    if _student_only:
+        docs = [entry for entry in docs if entry[1] == "student"]
     exam_trees: Dict[str, Dict[str, Any]] = {}
     applied_tree_overrides: Dict[str, Dict[str, Any]] = {}
     golden_service = GoldenTemplateService()
@@ -1286,6 +1299,7 @@ def process(
                 "fallback": "page_local_vlm_retry",
             },
             "dry_run": dry_run,
+            "concurrency": {"page_workers": int(_page_workers or 1)},
             "cache_policy": {
                 "root": str(cache_root),
                 "dataset_cache_id": dataset_cache_id,
@@ -1759,6 +1773,216 @@ def process(
             if document.get("quality_status") == "NEED_REVIEW"
         ),
     }
+    if _write_manifest:
+        from exam_pipeline.io_utils import atomic_write_json
+        atomic_write_json(output / "manifest.json", manifest)
+    if _return_context:
+        return manifest, teacher_packages, teacher_pages
+    return manifest
+
+
+def _merge_performance_reports(reports: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
+    """Combine per-worker telemetry without mixing document identities."""
+    operations: Dict[str, Dict[str, Any]] = {}
+    request_count = cumulative = failures = 0
+    for report in reports:
+        if not isinstance(report, dict):
+            continue
+        request_count += int(report.get("request_count", 0) or 0)
+        cumulative += float(report.get("cumulative_operation_seconds", 0) or 0)
+        failures += int(report.get("failures", 0) or 0)
+        for name, source in (report.get("operations") or {}).items():
+            target = operations.setdefault(name, {
+                "request_count": 0, "duration_seconds": 0.0,
+                "image_count": 0, "image_bytes": 0, "attempts": 0,
+                "failures": 0, "cache_hits": 0,
+            })
+            for key in ("request_count", "image_count", "image_bytes", "attempts",
+                        "failures", "cache_hits"):
+                target[key] += int(source.get(key, 0) or 0)
+            target["duration_seconds"] += float(source.get("duration_seconds", 0) or 0)
+    for value in operations.values():
+        value["duration_seconds"] = round(value["duration_seconds"], 4)
+        value["cache_hit_rate"] = round(
+            value["cache_hits"] / max(1, value["request_count"]), 4)
+    return {
+        "request_count": request_count,
+        "cumulative_operation_seconds": round(cumulative, 4),
+        "failures": failures,
+        "operations": dict(sorted(operations.items())),
+    }
+
+
+def process(
+        dataset: Path, output: Path, model: str = DOUBAO_MODEL,
+        api_key: Optional[str] = DOUBAO_API_KEY,
+        endpoint: str = DOUBAO_RESPONSES_ENDPOINT, *, dry_run: bool = False,
+        include_scan: bool = False, timeout: int = EXAM_REQUEST_TIMEOUT,
+        limit: Optional[int] = None,
+        subject_filter: Optional[str] = None,
+        student_id_filter: Optional[str] = None,
+        exam_tree_overrides: Optional[Path] = None,
+        production_mode: bool = False,
+        student_workers: Optional[int] = None,
+        page_workers: Optional[int] = None) -> Dict[str, Any]:
+    """Run teachers first, then process independent student documents concurrently."""
+    workers = int(student_workers if student_workers is not None else os.getenv(
+        "EXAM_STUDENT_WORKERS", "3"))
+    if workers < 1:
+        raise ValueError("student_workers 必须大于 0")
+    pages_in_flight = int(page_workers if page_workers is not None else os.getenv(
+        "EXAM_PAGE_WORKERS", "2"))
+    if pages_in_flight < 1:
+        raise ValueError("page_workers 必须大于 0")
+
+    all_docs = discover_documents(dataset, include_scan)
+    if subject_filter:
+        all_docs = [entry for entry in all_docs if entry[0] == subject_filter]
+        if not all_docs:
+            raise ValueError(f"未找到学科: {subject_filter}")
+    selected_students = [entry for entry in all_docs if entry[1] == "student"]
+    if student_id_filter and student_id_filter != "teacher":
+        selected_students = [
+            entry for entry in selected_students
+            if entry[2][0].parent.name == student_id_filter
+        ]
+        if not selected_students:
+            scope = f"学科 {subject_filter} 中" if subject_filter else ""
+            raise ValueError(f"{scope}未找到学生卷或教师卷: {student_id_filter}")
+
+    # Preserve the existing global --limit semantics in the serial path. A
+    # limited run is commonly used for debugging and should not silently skip
+    # the teacher or reorder the selected documents.
+    if dry_run or workers == 1 or limit is not None or not selected_students:
+        return _process_serial(
+            dataset, output, model, api_key, endpoint,
+            dry_run=dry_run, include_scan=include_scan, timeout=timeout,
+            limit=limit, subject_filter=subject_filter,
+            student_id_filter=student_id_filter,
+            exam_tree_overrides=exam_tree_overrides,
+            production_mode=production_mode,
+            _page_workers=pages_in_flight,
+        )
+
+    started = time.monotonic()
+    # The teacher pass is deliberately complete before any student worker is
+    # started. Its in-memory packages carry the Golden geometry and semantic
+    # slot plan used by all student workers.
+    teacher_result = _process_serial(
+        dataset, output, model, api_key, endpoint,
+        dry_run=False, include_scan=include_scan, timeout=timeout,
+        subject_filter=subject_filter, student_id_filter="teacher",
+        exam_tree_overrides=exam_tree_overrides,
+        production_mode=production_mode, _return_context=True,
+        _page_workers=pages_in_flight,
+    )
+    teacher_manifest, teacher_packages, teacher_pages = teacher_result
+    teacher_manifest.setdefault("runtime", {}).setdefault("concurrency", {}).update({
+        "student_workers": workers,
+        "page_workers": pages_in_flight,
+    })
+
+    worker_args = []
+    for subject, _, paths in selected_students:
+        worker_args.append((subject, paths[0].parent.name))
+
+    def run_student(subject: str, student_id: str):
+        return _process_serial(
+            dataset, output, model, api_key, endpoint,
+            dry_run=False, include_scan=include_scan, timeout=timeout,
+            subject_filter=subject, student_id_filter=student_id,
+            exam_tree_overrides=exam_tree_overrides,
+            production_mode=production_mode, _student_only=True,
+            _write_manifest=False,
+            _page_workers=pages_in_flight,
+            _shared_teacher_packages=teacher_packages,
+            _shared_teacher_pages=teacher_pages,
+        )
+
+    worker_manifests = []
+    with ThreadPoolExecutor(max_workers=workers,
+                            thread_name_prefix="exam-student") as pool:
+        futures = {
+            pool.submit(run_student, subject, student_id): (subject, student_id)
+            for subject, student_id in worker_args
+        }
+        for future in as_completed(futures):
+            subject, student_id = futures[future]
+            try:
+                worker_manifests.append(future.result())
+            except Exception as exc:
+                # _process_serial normally captures document errors in its
+                # manifest. This guard also records worker-level failures.
+                teacher_manifest.setdefault("errors", []).append({
+                    "id": f"{subject}__student__{student_id}",
+                    "error": str(exc),
+                    "error_type": type(exc).__name__,
+                    "stage": "student_worker",
+                })
+
+    manifest = teacher_manifest
+    manifest.setdefault("runtime", {})["input_filter"] = {
+        "subject": subject_filter,
+        "student_id": student_id_filter,
+    }
+    manifest["documents"].extend(
+        document for worker in worker_manifests
+        for document in worker.get("documents", [])
+    )
+    document_order = {
+        f"{subject}__student__{student_id}": index
+        for index, (subject, student_id) in enumerate(worker_args)
+    }
+    manifest["documents"].sort(
+        key=lambda document: (
+            0 if document.get("role") == "teacher" else 1,
+            document_order.get(document.get("id"), len(document_order)),
+        )
+    )
+    manifest["errors"].extend(
+        error for worker in worker_manifests
+        for error in worker.get("errors", [])
+    )
+    manifest["duration_seconds"] = round(time.monotonic() - started, 3)
+    manifest["completed_at"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+    manifest["performance"] = _merge_performance_reports(
+        [teacher_manifest.get("performance", {})]
+        + [worker.get("performance", {}) for worker in worker_manifests]
+    )
+    manifest["visual_extraction_summary"] = {
+        "documents": len(manifest["documents"]),
+        "page_calls": sum(
+            (entry.get("summary") or {}).get("page_calls", 0)
+            for document in manifest["documents"]
+            for entry in document.get("phase_trace", [])
+            if entry.get("phase") == "visual_page_extraction"
+            and entry.get("status") == "COMPLETED"
+        ),
+        "page_retries": sum(
+            (entry.get("summary") or {}).get("page_retries", 0)
+            for document in manifest["documents"]
+            for entry in document.get("phase_trace", [])
+            if entry.get("phase") == "visual_page_extraction"
+            and entry.get("status") == "COMPLETED"
+        ),
+        "failed_pages": sum(
+            (entry.get("summary") or {}).get("failed_pages", 0)
+            for document in manifest["documents"]
+            for entry in document.get("phase_trace", [])
+            if entry.get("phase") == "visual_page_extraction"
+            and entry.get("status") == "COMPLETED"
+        ),
+        "ocr_used": False,
+    }
+    manifest["status"] = "COMPLETED_WITH_ERRORS" if manifest["errors"] else "COMPLETED"
+    manifest["summary"] = {
+        "documents_succeeded": len(manifest["documents"]),
+        "documents_failed": len(manifest["errors"]),
+        "documents_needing_review": sum(
+            document.get("quality_status") == "NEED_REVIEW"
+            for document in manifest["documents"]
+        ),
+    }
     from exam_pipeline.io_utils import atomic_write_json
     atomic_write_json(output / "manifest.json", manifest)
     return manifest
@@ -1775,6 +1999,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--include-scan", action="store_true", help="教师目录同时处理扫描_ 图片")
     parser.add_argument("--dry-run", action="store_true", help="只扫描分组并生成占位 JSON，不调用模型")
     parser.add_argument("--timeout", type=int, default=EXAM_REQUEST_TIMEOUT)
+    parser.add_argument(
+        "--student-workers", type=int,
+        default=int(os.getenv("EXAM_STUDENT_WORKERS", "3")),
+        help="学生卷并发数；默认 3，设置为 1 可关闭学生卷并发",
+    )
+    parser.add_argument(
+        "--page-workers", type=int,
+        default=int(os.getenv("EXAM_PAGE_WORKERS", "2")),
+        help="单份卷页面并发数；默认 2，设置为 1 可关闭页面并发",
+    )
     parser.add_argument("--limit", type=int, help="只处理前 N 份文档，用于小规模验证；默认处理全部文档")
     parser.add_argument("--subject", help="只处理指定学科")
     parser.add_argument("--student-id", help="只处理指定学生卷；会同时加载该学科教师卷以建立题目拓扑")
@@ -1815,6 +2049,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         student_id_filter=args.student_id,
         exam_tree_overrides=args.exam_tree_overrides,
         production_mode=args.production,
+        student_workers=args.student_workers,
+        page_workers=args.page_workers,
     )
     if args.hitl_workspace and not manifest["errors"]:
         from exam_pipeline.hitl_export import HITLExporter

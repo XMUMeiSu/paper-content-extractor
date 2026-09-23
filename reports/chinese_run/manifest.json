@@ -1,0 +1,1367 @@
+{
+  "schema_version": "exam_manifest.v4",
+  "status": "COMPLETED",
+  "started_at": "2026-09-22T17:28:51+08:00",
+  "dataset": "dataset",
+  "documents": [
+    {
+      "id": "chinese__teacher__teacher",
+      "role": "teacher",
+      "subject": "chinese",
+      "student_id": null,
+      "output": "reports/chinese_run/chinese__teacher__teacher.json",
+      "structured_file": "reports/chinese_run/chinese__teacher__teacher.json",
+      "normalized_pages": [
+        "reports/chinese_run/normalized/chinese/teacher/teacher/page_01.jpg",
+        "reports/chinese_run/normalized/chinese/teacher/teacher/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": true,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "strategy": "whole_document_vlm",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 9,
+      "diagram_asset_count": 1,
+      "slot_visualization": "reports/chinese_run/visualizations/teacher_slots.jpg",
+      "slot_count": 54,
+      "answer_verification": null,
+      "input_fingerprint": "sha256:67c37e9439dba1f44cddb6d63e6405f2bc50c866e0796e0652471c380bbbd040",
+      "source_pages": [
+        "dataset/chinese/teacher/page_01.jpg",
+        "dataset/chinese/teacher/page_02.jpg"
+      ],
+      "duration_seconds": 684.249,
+      "performance": {
+        "request_count": 8,
+        "cumulative_operation_seconds": 680.2521,
+        "failures": 1,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 4,
+            "duration_seconds": 399.225,
+            "image_count": 5,
+            "image_bytes": 2355531,
+            "attempts": 4,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          },
+          "structure_request": {
+            "request_count": 4,
+            "duration_seconds": 281.0271,
+            "image_count": 6,
+            "image_bytes": 3026010,
+            "attempts": 4,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:28:51+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/teacher/page_01.jpg",
+            "dataset/chinese/teacher/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-22T17:28:51+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:28:54+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/teacher/page_01.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_01.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_01_mask.png",
+              "original_size": {
+                "width": 2477,
+                "height": 3510
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.667743,
+              "scale_y": 0.666097,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/teacher/teacher/page_01.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/teacher/teacher/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/teacher/page_02.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_02.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/teacher/teacher/page_02_mask.png",
+              "original_size": {
+                "width": 2483,
+                "height": 3505
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.66613,
+              "scale_y": 0.667047,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/teacher/teacher/page_02.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/teacher/teacher/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 2.904
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "STARTED",
+          "at": "2026-09-22T17:28:54+08:00",
+          "evidence": "original_preprocessed_images"
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:33:35+08:00",
+          "source": "whole_document_vlm",
+          "duration_seconds": 281.136
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-22T17:33:35+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:14+08:00",
+          "summary": {
+            "page_calls": 4,
+            "page_retries": 2,
+            "failed_pages": 0,
+            "items": 43,
+            "slots": 54,
+            "regions": 54,
+            "accepted_items": 43,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 399.391
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:14+08:00",
+          "retries": 2,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-22T17:40:14+08:00",
+          "role": "teacher"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:14+08:00",
+          "summary": {
+            "total_logical_slots": 54,
+            "answers_extracted": 17,
+            "blank_slots": 37,
+            "unresolved_slots": 0,
+            "physical_regions": 54,
+            "geometry": {
+              "ALIGNED": 54
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 37
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:15+08:00",
+          "assets": 1,
+          "items": 1,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:15+08:00",
+          "contact_sheet": "reports/chinese_run/visualizations/teacher_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:15+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student001",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student001",
+      "output": "reports/chinese_run/chinese__student__student001.json",
+      "structured_file": "reports/chinese_run/chinese__student__student001.json",
+      "normalized_pages": [
+        "reports/chinese_run/normalized/chinese/student/student001/page_01.jpg",
+        "reports/chinese_run/normalized/chinese/student/student001/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 9,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/chinese_run/visualizations/student001_slots.jpg",
+      "slot_count": 54,
+      "answer_verification": {
+        "total_logical_slots": 54,
+        "answers_extracted": 19,
+        "blank_slots": 35,
+        "unresolved_slots": 0,
+        "physical_regions": 54,
+        "geometry": {
+          "ALIGNED": 54
+        },
+        "content": {
+          "RECOGNIZED": 19,
+          "BLANK": 35
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:283cc1a8a0c43e636780dd17ba5a7c7db1e73cc901ba79ed7001eff585e18f9c",
+      "source_pages": [
+        "dataset/chinese/student001/page_01.jpg",
+        "dataset/chinese/student001/page_02.jpg"
+      ],
+      "duration_seconds": 406.901,
+      "performance": {
+        "request_count": 4,
+        "cumulative_operation_seconds": 402.7201,
+        "failures": 1,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 4,
+            "duration_seconds": 402.7201,
+            "image_count": 5,
+            "image_bytes": 2204819,
+            "attempts": 4,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:15+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student001/page_01.jpg",
+            "dataset/chinese/student001/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-22T17:40:15+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:19+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student001/page_01.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student001/page_01.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student001/page_01_mask.png",
+              "original_size": {
+                "width": 2470,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.669636,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student001/page_01.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student001/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student001/page_02.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student001/page_02.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student001/page_02_mask.png",
+              "original_size": {
+                "width": 2483,
+                "height": 3500
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.66613,
+              "scale_y": 0.668,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student001/page_02.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student001/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 3.627
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:19+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-22T17:40:19+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "summary": {
+            "page_calls": 4,
+            "page_retries": 2,
+            "failed_pages": 0,
+            "items": 43,
+            "slots": 54,
+            "regions": 54,
+            "accepted_items": 43,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 402.867
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "retries": 2,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "summary": {
+            "total_logical_slots": 54,
+            "answers_extracted": 19,
+            "blank_slots": 35,
+            "unresolved_slots": 0,
+            "physical_regions": 54,
+            "geometry": {
+              "ALIGNED": 54
+            },
+            "content": {
+              "RECOGNIZED": 19,
+              "BLANK": 35
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "contact_sheet": "reports/chinese_run/visualizations/student001_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student002",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student002",
+      "output": "reports/chinese_run/chinese__student__student002.json",
+      "structured_file": "reports/chinese_run/chinese__student__student002.json",
+      "normalized_pages": [
+        "reports/chinese_run/normalized/chinese/student/student002/page_01.jpg",
+        "reports/chinese_run/normalized/chinese/student/student002/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 9,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/chinese_run/visualizations/student002_slots.jpg",
+      "slot_count": 54,
+      "answer_verification": {
+        "total_logical_slots": 54,
+        "answers_extracted": 17,
+        "blank_slots": 37,
+        "unresolved_slots": 0,
+        "physical_regions": 54,
+        "geometry": {
+          "ALIGNED": 53,
+          "ALIGNED_WITH_WARNING": 1
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 37
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:66c11d99b88f23ee3fb273312ff07cb946d008de2b6a01b0cf3f16f331669a47",
+      "source_pages": [
+        "dataset/chinese/student002/page_01.jpg",
+        "dataset/chinese/student002/page_02.jpg"
+      ],
+      "duration_seconds": 248.786,
+      "performance": {
+        "request_count": 3,
+        "cumulative_operation_seconds": 244.044,
+        "failures": 0,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 3,
+            "duration_seconds": 244.044,
+            "image_count": 4,
+            "image_bytes": 1701824,
+            "attempts": 3,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:15+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student002/page_01.jpg",
+            "dataset/chinese/student002/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-22T17:40:15+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:20+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student002/page_01.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student002/page_01.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student002/page_01_mask.png",
+              "original_size": {
+                "width": 2481,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.666667,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student002/page_01.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student002/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student002/page_02.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student002/page_02.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student002/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3506
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.666857,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student002/page_02.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student002/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 4.216
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:40:20+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-22T17:40:20+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "summary": {
+            "page_calls": 3,
+            "page_retries": 1,
+            "failed_pages": 0,
+            "items": 43,
+            "slots": 54,
+            "regions": 54,
+            "accepted_items": 43,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 244.184
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "retries": 1,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "summary": {
+            "total_logical_slots": 54,
+            "answers_extracted": 17,
+            "blank_slots": 37,
+            "unresolved_slots": 0,
+            "physical_regions": 54,
+            "geometry": {
+              "ALIGNED": 53,
+              "ALIGNED_WITH_WARNING": 1
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 37
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "contact_sheet": "reports/chinese_run/visualizations/student002_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student003",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student003",
+      "output": "reports/chinese_run/chinese__student__student003.json",
+      "structured_file": "reports/chinese_run/chinese__student__student003.json",
+      "normalized_pages": [
+        "reports/chinese_run/normalized/chinese/student/student003/page_01.jpg",
+        "reports/chinese_run/normalized/chinese/student/student003/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 9,
+      "diagram_asset_count": 0,
+      "slot_visualization": "reports/chinese_run/visualizations/student003_slots.jpg",
+      "slot_count": 54,
+      "answer_verification": {
+        "total_logical_slots": 54,
+        "answers_extracted": 17,
+        "blank_slots": 37,
+        "unresolved_slots": 0,
+        "physical_regions": 54,
+        "geometry": {
+          "ALIGNED": 54
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 37
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:f2717958cfb791606e088732c24e8c5722f4215bb26112891a93d42fb4ebc7d3",
+      "source_pages": [
+        "dataset/chinese/student003/page_01.jpg",
+        "dataset/chinese/student003/page_02.jpg"
+      ],
+      "duration_seconds": 284.206,
+      "performance": {
+        "request_count": 3,
+        "cumulative_operation_seconds": 281.1561,
+        "failures": 0,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 3,
+            "duration_seconds": 281.1561,
+            "image_count": 4,
+            "image_bytes": 1783364,
+            "attempts": 3,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:24+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student003/page_01.jpg",
+            "dataset/chinese/student003/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-22T17:44:24+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:27+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student003/page_01.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student003/page_01.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student003/page_01_mask.png",
+              "original_size": {
+                "width": 2479,
+                "height": 3510
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.667205,
+              "scale_y": 0.666097,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student003/page_01.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student003/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student003/page_02.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student003/page_02.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student003/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3507
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.666667,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student003/page_02.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student003/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 2.522
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:44:27+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-22T17:44:27+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "summary": {
+            "page_calls": 3,
+            "page_retries": 1,
+            "failed_pages": 0,
+            "items": 43,
+            "slots": 54,
+            "regions": 54,
+            "accepted_items": 43,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 281.292
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "retries": 1,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "summary": {
+            "total_logical_slots": 54,
+            "answers_extracted": 17,
+            "blank_slots": 37,
+            "unresolved_slots": 0,
+            "physical_regions": 54,
+            "geometry": {
+              "ALIGNED": 54
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 37
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "assets": 0,
+          "items": 0,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "contact_sheet": "reports/chinese_run/visualizations/student003_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:49:08+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "chinese__student__student004",
+      "role": "student",
+      "subject": "chinese",
+      "student_id": "student004",
+      "output": "reports/chinese_run/chinese__student__student004.json",
+      "structured_file": "reports/chinese_run/chinese__student__student004.json",
+      "normalized_pages": [
+        "reports/chinese_run/normalized/chinese/student/student004/page_01.jpg",
+        "reports/chinese_run/normalized/chinese/student/student004/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher:chinese__teacher__teacher",
+      "topology_locked": true,
+      "exam_tree_id": "chinese:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 9,
+      "diagram_asset_count": 1,
+      "slot_visualization": "reports/chinese_run/visualizations/student004_slots.jpg",
+      "slot_count": 54,
+      "answer_verification": {
+        "total_logical_slots": 54,
+        "answers_extracted": 17,
+        "blank_slots": 37,
+        "unresolved_slots": 0,
+        "physical_regions": 54,
+        "geometry": {
+          "ALIGNED": 54
+        },
+        "content": {
+          "RECOGNIZED": 17,
+          "BLANK": 37
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:674241ad17857d1e643a5af3f02f76cd36585ca9b48306ecc3cc108a6cfdd2bd",
+      "source_pages": [
+        "dataset/chinese/student004/page_01.jpg",
+        "dataset/chinese/student004/page_02.jpg"
+      ],
+      "duration_seconds": 230.699,
+      "performance": {
+        "request_count": 3,
+        "cumulative_operation_seconds": 227.3377,
+        "failures": 0,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 3,
+            "duration_seconds": 227.3377,
+            "image_count": 4,
+            "image_bytes": 1756130,
+            "attempts": 3,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:02+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/chinese/student004/page_01.jpg",
+            "dataset/chinese/student004/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-22T17:47:02+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:05+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/chinese/student004/page_01.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student004/page_01.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student004/page_01_mask.png",
+              "original_size": {
+                "width": 2471,
+                "height": 3513
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.669365,
+              "scale_y": 0.665528,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student004/page_01.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student004/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/chinese/student004/page_02.jpg",
+              "normalized_path": "reports/chinese_run/normalized/chinese/student/student004/page_02.jpg",
+              "geometry_mask_path": "reports/chinese_run/normalized/chinese/student/student004/page_02_mask.png",
+              "original_size": {
+                "width": 2484,
+                "height": 3501
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 0.665862,
+              "scale_y": 0.667809,
+              "dual_track": {
+                "recognition": "reports/chinese_run/normalized/chinese/student/student004/page_02.jpg",
+                "geometry": "reports/chinese_run/normalized/chinese/student/student004/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 2.835
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:47:05+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-22T17:47:05+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "summary": {
+            "page_calls": 3,
+            "page_retries": 1,
+            "failed_pages": 0,
+            "items": 43,
+            "slots": 54,
+            "regions": 54,
+            "accepted_items": 43,
+            "partial_items": 0,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false
+          },
+          "duration_seconds": 227.467
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "retries": 1,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "summary": {
+            "total_logical_slots": 54,
+            "answers_extracted": 17,
+            "blank_slots": 37,
+            "unresolved_slots": 0,
+            "physical_regions": 54,
+            "geometry": {
+              "ALIGNED": 54
+            },
+            "content": {
+              "RECOGNIZED": 17,
+              "BLANK": 37
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "assets": 1,
+          "items": 1,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "contact_sheet": "reports/chinese_run/visualizations/student004_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-22T17:50:53+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    }
+  ],
+  "errors": [],
+  "generated_goldens": {
+    "chinese": "reports/chinese_run/generated_golden/chinese.json"
+  },
+  "exam_trees": {
+    "chinese": {
+      "path": "reports/chinese_run/exam_trees/chinese.json",
+      "tree_id": "chinese:exam_tree",
+      "revision": 1,
+      "fingerprint": "sha256:0141cb6eac0ca680286e40504574a9352f801bc1eb593c8f02f5476c5536e99f",
+      "validation": {
+        "ready_to_lock": true,
+        "readiness_issues": [],
+        "status": "VALID",
+        "production_strict": false,
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "sections": 3,
+          "questions": 8,
+          "items": 43,
+          "slot_blueprints": 54
+        },
+        "validated_at": "2026-09-22T17:40:14+08:00"
+      }
+    }
+  },
+  "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, diagrams, page_files)",
+  "canonical_canvas": {
+    "width": 1654,
+    "height": 2338
+  },
+  "runtime": {
+    "pipeline_version": "2.12.0",
+    "pipeline_order": [
+      "document_discovery",
+      "image_preprocessing",
+      "question_tree_generation",
+      "visual_page_extraction",
+      "answer_recognition",
+      "visual_page_retry",
+      "diagram_asset_export",
+      "slot_visualization",
+      "result_output"
+    ],
+    "recognition_mode": "vlm_only",
+    "production_mode": false,
+    "model": "doubao-seed-2.0-lite",
+    "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+    "ocr_used": false,
+    "structure_vlm": {
+      "active": "doubao",
+      "model": "doubao-seed-2.0-lite",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+      "scope": "lightweight_whole_document_topology_then_page_text_enrichment",
+      "primary_evidence": "all_original_pages",
+      "proposal_stage": "original_images",
+      "validation": "vlm_schema_page_coverage",
+      "max_semantic_attempts": 2,
+      "page_fallback": "bounded_per_page_topology_and_text_recovery",
+      "id_authority": "local_deterministic",
+      "response_diagnostics": "status_incomplete_details_usage_parse_position_raw_artifact",
+      "geometry_authority": "vlm_original_page_pixels",
+      "model_geometry_policy": "final"
+    },
+    "slot_semantics": {
+      "provider": "doubao",
+      "enabled": true,
+      "authority": "question_slots_coordinates_and_answers",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "max_semantic_attempts_per_item": 2,
+      "batch_size": "one_physical_page_all_items",
+      "batch_policy": "one_page_batch_then_item_retry",
+      "candidate_visual_review": false,
+      "answer_visual_transcription": true,
+      "answer_authority": "vlm_original_page",
+      "fallback": "page_local_vlm_retry_then_unresolved",
+      "ocr_used": false
+    },
+    "question_localization": {
+      "enabled": true,
+      "provider": "doubao",
+      "stage": "visual_page_extraction",
+      "authority": "vlm_final_question_region",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "fallback": "page_local_vlm_retry"
+    },
+    "dry_run": false,
+    "concurrency": {
+      "page_workers": 1,
+      "student_workers": 2
+    },
+    "cache_policy": {
+      "root": "/home/hzh/paper-content-extractor/.exam_pipeline_cache/datasets/8c96d303318125a1",
+      "dataset_cache_id": "8c96d303318125a1",
+      "exam_tree": "teacher_fingerprint_locked_vlm_only_v1",
+      "roi": "question_topology_fingerprint",
+      "retry_scope": "failed_slot_or_item_only"
+    },
+    "input_filter": {
+      "subject": "chinese",
+      "student_id": null
+    },
+    "exam_tree_overrides": null
+  },
+  "visual_extraction_summary": {
+    "documents": 5,
+    "page_calls": 17,
+    "page_retries": 7,
+    "failed_pages": 0,
+    "ocr_used": false
+  },
+  "completed_at": "2026-09-22T17:50:53+08:00",
+  "duration_seconds": 1322.179,
+  "performance": {
+    "request_count": 21,
+    "cumulative_operation_seconds": 1835.51,
+    "failures": 2,
+    "operations": {
+      "page_joint_extraction": {
+        "request_count": 17,
+        "duration_seconds": 1554.4829,
+        "image_count": 22,
+        "image_bytes": 9801668,
+        "attempts": 17,
+        "failures": 2,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      },
+      "structure_request": {
+        "request_count": 4,
+        "duration_seconds": 281.0271,
+        "image_count": 6,
+        "image_bytes": 3026010,
+        "attempts": 4,
+        "failures": 0,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      }
+    }
+  },
+  "summary": {
+    "documents_succeeded": 5,
+    "documents_failed": 0,
+    "documents_needing_review": 1
+  }
+}

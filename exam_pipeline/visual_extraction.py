@@ -4,6 +4,9 @@ from __future__ import annotations
 import copy
 import json
 import math
+import shutil
+import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from .contracts import DiagramRef, PageRegion, Slot
@@ -157,10 +160,12 @@ def _focus_crop(page, question_box, output_dir, item_id):
 class VisualExamExtractionService:
     """Read final item/slot geometry and answers directly from original pages."""
 
-    def __init__(self, request, provider='none', max_attempts=2):
+    def __init__(self, request, provider='none', max_attempts=2,
+                 page_workers=1):
         self.request = request
         self.provider = provider
         self.max_attempts = max(1, min(3, int(max_attempts)))
+        self.page_workers = max(1, int(page_workers or 1))
         self.metrics = {'page_calls': 0, 'page_retries': 0, 'failed_pages': 0,
                         'partial_pages': 0, 'items': 0, 'slots': 0, 'regions': 0}
 
@@ -257,10 +262,12 @@ class VisualExamExtractionService:
             for previous, current in zip(template_centers, template_centers[1:])
         )
         template_complete = len(template_centers) >= max(1, math.ceil(len(page_items) * .80))
-        if not template_ordered or not template_complete:
+        # An incomplete teacher response must not poison independent student
+        # geometry. Keep student-local VLM boxes in that case; the teacher
+        # report remains NEED_REVIEW and no template recovery is attempted.
+        if not template_ordered:
             unverified = copy.deepcopy(accepted)
-            reason = ('INVALID_TEACHER_TEMPLATE_ORDER' if not template_ordered
-                      else 'INCOMPLETE_TEACHER_TEMPLATE_GEOMETRY')
+            reason = 'INVALID_TEACHER_TEMPLATE_ORDER'
             for entry in unverified.values():
                 entry['_coordinate_validation'] = {
                     'status': 'UNVERIFIED', 'reason': reason,
@@ -269,9 +276,10 @@ class VisualExamExtractionService:
                 }
             return unverified
         page_wide_mismatch = (
-            compared >= 4 and aligned / compared < .40 and template_ordered)
+            template_complete and compared >= 4 and aligned / compared < .40
+            and template_ordered)
         recover_ids = set(accepted) if page_wide_mismatch else set()
-        if template_ordered and not page_wide_mismatch:
+        if template_complete and template_ordered and not page_wide_mismatch:
             # Recover an isolated stale frame only when two independent
             # geometry signals disagree: its printed question region and all
             # visible answer regions. Handwriting placed outside a printed
@@ -470,9 +478,163 @@ class VisualExamExtractionService:
                             continue
         return found
 
+    def _extract_parallel(self, package, pages, output_dir):
+        """Run page requests concurrently and apply accepted pages in order.
+
+        Each worker receives an isolated package copy.  Model calls and
+        validation therefore cannot race on shared item state; the original
+        package is updated only by the ordered reduction below.
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        page_map = {page.index: page for page in pages}
+        page_ids = set(page_map)
+        all_items = _items(package)
+        sibling_groups = [[item.item_id for item in question.items]
+                          for section in package.sections
+                          for question in section.questions]
+        by_page = {page.index: [] for page in pages}
+        teacher_expected = {}
+        for item in all_items:
+            for page_index in _item_pages(item, page_ids):
+                by_page.setdefault(page_index, []).append(item)
+            expected_by_slot = {}
+            for semantic in item.semantic_slot_plan:
+                value = semantic.get('expected_text')
+                key = str(semantic.get('slot_id') or '')
+                if key and value is not None:
+                    expected_by_slot.setdefault(key, []).append(str(value))
+            for old_slot in item.slots:
+                value = old_slot.expected_text
+                if value is None:
+                    continue
+                key = old_slot.semantic_id or '{}:slot:{}'.format(
+                    item.item_id, old_slot.slot_idx)
+                expected_by_slot.setdefault(key, [])
+                if str(value) not in expected_by_slot[key]:
+                    expected_by_slot[key].append(str(value))
+            teacher_expected[item.item_id] = {
+                key: '\n'.join(values) for key, values in expected_by_slot.items()
+            }
+            item.slots = []
+            item.stem_region = None
+            item.answer_regions = []
+            item.student_regions = []
+            item.option_regions = []
+            item.blank_regions = []
+            item.writing_regions = []
+            item.diagrams = []
+            item.quality['localization'] = {
+                'status': 'PENDING_VLM', 'contexts': [], 'evidence': [],
+                'coordinate_source': 'vlm_original_page',
+            }
+            if package.document_type == 'teacher':
+                item.semantic_slot_plan = []
+                item.expected_slot_count = None
+                item.standard_answer = None
+            item.slot_semantics_audit = {
+                'provider': self.provider,
+                'mode': 'vlm_direct_geometry_and_transcription',
+                'status': 'FALLBACK',
+                'coordinate_authority': 'vlm_original_page_pixels',
+                'attempts': [],
+            }
+
+        def run_page(page_index, page_items):
+            # The temporary directory prevents page JSON files from colliding
+            # while preserving the same persisted page-result contract.
+            worker_dir = Path(tempfile.mkdtemp(prefix='visual-page-'))
+            try:
+                isolated = copy.deepcopy(package)
+                wanted = {item.item_id for item in page_items}
+                for section in isolated.sections:
+                    for question in section.questions:
+                        question.items = [item for item in question.items
+                                          if item.item_id in wanted]
+                        for item in question.items:
+                            # The parent package has already cleared runtime
+                            # geometry before workers start. Restore a routing
+                            # anchor so the isolated service assigns the item
+                            # to this physical page.
+                            if item.stem_region is None:
+                                item.stem_region = PageRegion(
+                                    page_index, page_map[page_index].path,
+                                    [0, 0, 1, 1], None, item.question_text)
+                    section.questions = [question for question in section.questions
+                                         if question.items]
+                service = VisualExamExtractionService(
+                    self.request, self.provider, self.max_attempts, page_workers=1)
+                service.extract(isolated, [page_map[page_index]], worker_dir)
+                result_path = worker_dir / 'page_{:02d}.json'.format(page_index)
+                if not result_path.is_file():
+                    candidates = sorted(worker_dir.glob('page_*.json'))
+                    if candidates:
+                        result_path = candidates[0]
+                if not result_path.is_file():
+                    raise RuntimeError(
+                        'VISUAL_PAGE_RESULT_MISSING:{}'.format(page_index))
+                page_result = json.loads(result_path.read_text(encoding='utf-8'))
+                return page_index, page_result, service.metrics
+            finally:
+                shutil.rmtree(worker_dir, ignore_errors=True)
+
+        page_results = {}
+        page_metrics = {}
+        with ThreadPoolExecutor(max_workers=self.page_workers,
+                                thread_name_prefix='exam-page') as pool:
+            futures = {
+                pool.submit(run_page, page_index, page_items): page_index
+                for page_index, page_items in sorted(by_page.items())
+                if page_items
+            }
+            for future in as_completed(futures):
+                page_index, page_result, metrics = future.result()
+                page_results[page_index] = page_result
+                page_metrics[page_index] = metrics
+
+        totals = {'page_calls': 0, 'page_retries': 0, 'failed_pages': 0,
+                  'partial_pages': 0, 'items': len(all_items), 'slots': 0,
+                  'regions': 0}
+        for page_index in sorted(page_results):
+            page = page_map[page_index]
+            page_items = by_page[page_index]
+            page_result = page_results[page_index]
+            accepted = page_result.get('items') or None
+            attempts = page_result.get('attempts') or []
+            if accepted is None:
+                for item in page_items:
+                    item.slot_semantics_audit['attempts'].extend(copy.deepcopy(attempts))
+            else:
+                self._apply_page(package, page, page_items, accepted, attempts,
+                                 teacher_expected)
+            atomic_write_json(output_dir / 'page_{:02d}.json'.format(page_index),
+                              page_result)
+            metrics = page_metrics[page_index]
+            for key in ('page_calls', 'page_retries', 'failed_pages', 'partial_pages'):
+                totals[key] += int(metrics.get(key, 0) or 0)
+        self._finalize_items(package, pages)
+        totals['slots'] = sum(len(item.slots) for item in all_items)
+        totals['regions'] = sum(bool(slot.expected_bbox)
+                                for item in all_items for slot in item.slots)
+        totals['coordinate_authority'] = 'vlm_original_page_pixels'
+        totals['ocr_used'] = False
+        totals['accepted_items'] = sum(
+            item.slot_semantics_audit.get('status') == 'ACCEPTED'
+            for item in all_items
+        )
+        totals['partial_items'] = sum(
+            item.slot_semantics_audit.get('status') == 'PARTIAL'
+            for item in all_items
+        )
+        self.metrics = dict(totals)
+        atomic_write_json(output_dir / 'summary.json', totals)
+        return totals
+
     def extract(self, package, pages, output_dir):
         if self.request is None:
             raise ValueError('VISUAL_EXTRACTION_BACKEND_UNAVAILABLE')
+        if self.page_workers > 1:
+            return self._extract_parallel(package, pages, output_dir)
         self.metrics = {'page_calls': 0, 'page_retries': 0, 'failed_pages': 0,
                         'items': 0, 'slots': 0, 'regions': 0}
         output_dir = Path(output_dir)
@@ -561,6 +723,7 @@ class VisualExamExtractionService:
                 self.metrics['page_calls'] += 1
                 if attempt > 1:
                     self.metrics['page_retries'] += 1
+                raw = None
                 try:
                     raw = self.request(prompt, [Path(page.path)],
                                        VISUAL_PAGE_EXTRACTION_SCHEMA)
@@ -578,11 +741,30 @@ class VisualExamExtractionService:
                     attempts.append(record)
                     if attempt == self.max_attempts:
                         # A failed page is retried as independent item views.
-                        # This preserves successful answers when one item has a
-                        # malformed page echo, empty region, or sibling overlap.
-                        focused = {}
+                        # First salvage entries that are individually valid from
+                        # the failed combined response. Only unresolved items
+                        # receive focused retries, so one malformed item does
+                        # not multiply requests for the whole page.
+                        partial_found = {}
+                        if isinstance(raw, dict) and isinstance(raw.get('items'), list):
+                            by_item_id = {item.item_id: item for item in page_items}
+                            for candidate in raw['items']:
+                                item_id = candidate.get('item_id') if isinstance(candidate, dict) else None
+                                item = by_item_id.get(item_id)
+                                if item is None:
+                                    continue
+                                try:
+                                    partial_found.update(self._validate(
+                                        {'items': [candidate]}, page, [item],
+                                        package.document_type == 'student',
+                                        sibling_groups))
+                                except Exception:
+                                    continue
+                        retry_items = [item for item in page_items
+                                       if item.item_id not in partial_found]
+                        focused = dict(partial_found)
                         focused_records = []
-                        for item in page_items:
+                        for item in retry_items:
                             focused_context = self._page_context(
                                 package, page, [item], failures)
                             focused_prompt = (

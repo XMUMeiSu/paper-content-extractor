@@ -1,0 +1,704 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q13_1",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              154,
+              860,
+              220
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      465,
+                      171,
+                      985,
+                      259
+                    ],
+                    "transcription": "4600 - (-277) - (-603) -\n2000 - (-70) - 350 - 1900\n= 1300 (元)\n盈利 1300",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q13_2",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              197,
+              860,
+              222
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      178,
+                      220,
+                      493,
+                      259
+                    ],
+                    "transcription": "3 \\times 3 + (-2) \\times 3 + (-1) \\times 2 + 5 \\times 4 = 21 \\text{ (万元)}\n\\text{盈 } 21 \\text{ 万元}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q14",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              261,
+              850,
+              282
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      320,
+                      261,
+                      345,
+                      278
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q15",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              284,
+              780,
+              321
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "其中一定成立的结论是",
+                "anchor_after": "（填序号）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      166,
+                      306,
+                      221,
+                      319
+                    ],
+                    "transcription": "③",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                323,
+                297,
+                502,
+                310
+              ]
+            ],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q16_1",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              323,
+              750,
+              340
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "线段AB的中点M对应的数为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      209,
+                      329,
+                      257,
+                      341
+                    ],
+                    "transcription": "30",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q16_2",
+            "physical_page_id": "math_02__student__student005:p2",
+            "page_index": 2,
+            "question_region": [
+              42,
+              342,
+              880,
+              364
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      360,
+                      790,
+                      410
+                    ],
+                    "transcription": "\\text{解:设 } x \\text{ 秒相遇。}\n-10+3x = 70-2x\n5x = 80\nx = 16\n\\text{则 } C = -10 + 3 \\times 16 = -10 + 48 = 38",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                370,
+                370,
+                490,
+                385
+              ]
+            ],
+            "confidence": 0.95
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q13_1": {
+      "item_id": "q13_1",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        355.0042771599658,
+        830.1088270858525,
+        475.1924721984602
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                65.2962515114873,
+                509.83746792130023,
+                590.0846432889964,
+                615.0556030795552
+              ],
+              "transcription": "4600 - (-277) - (-603) -\n2000 - (-70) - 350 - 1900\n= 1300 (元)\n盈利 1300",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          154,
+          860,
+          220
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  465,
+                  171,
+                  985,
+                  259
+                ],
+                "transcription": "4600 - (-277) - (-603) -\n2000 - (-70) - 350 - 1900\n= 1300 (元)\n盈利 1300",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              65.2962515114873,
+              509.83746792130023,
+              590.0846432889964,
+              615.0556030795552
+            ]
+          }
+        ]
+      }
+    },
+    "q13_2": {
+      "item_id": "q13_2",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        475.1924721984602,
+        880.2902055622733,
+        520.1026518391787
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                619.7097944377267,
+                509.83746792130023,
+                984.8851269649335,
+                644.9957228400342
+              ],
+              "transcription": "3 \\times 3 + (-2) \\times 3 + (-1) \\times 2 + 5 \\times 4 = 21 \\text{ (万元)}\n\\text{盈 } 21 \\text{ 万元}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          197,
+          860,
+          222
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  178,
+                  220,
+                  493,
+                  259
+                ],
+                "transcription": "3 \\times 3 + (-2) \\times 3 + (-1) \\times 2 + 5 \\times 4 = 21 \\text{ (万元)}\n\\text{盈 } 21 \\text{ 万元}",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              619.7097944377267,
+              509.83746792130023,
+              984.8851269649335,
+              644.9957228400342
+            ]
+          }
+        ]
+      }
+    },
+    "q14": {
+      "item_id": "q14",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        609.9230111206159,
+        759.975816203144,
+        654.8331907613344
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                524.7883917775091,
+                612.0615911035072,
+                559.8548972188634,
+                638.1522668947819
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          261,
+          850,
+          282
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  320,
+                  261,
+                  345,
+                  278
+                ],
+                "transcription": "B",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              524.7883917775091,
+              612.0615911035072,
+              559.8548972188634,
+              638.1522668947819
+            ]
+          }
+        ]
+      }
+    },
+    "q15": {
+      "item_id": "q15",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        665.098374679213,
+        839.7823458282951,
+        745.0812660393499
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "其中一定成立的结论是",
+          "anchor_after": "（填序号）",
+          "regions": [
+            {
+              "answer_bbox": [
+                270.2539298669891,
+                719.8460222412318,
+                370.012091898428,
+                745.0812660393499
+              ],
+              "transcription": "③",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [
+        [
+          323,
+          297,
+          502,
+          310
+        ]
+      ],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          284,
+          780,
+          321
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  166,
+                  306,
+                  221,
+                  319
+                ],
+                "transcription": "③",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              270.2539298669891,
+              719.8460222412318,
+              370.012091898428,
+              745.0812660393499
+            ]
+          }
+        ]
+      }
+    },
+    "q16_1": {
+      "item_id": "q16_1",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        750.2138579982891,
+        720.0725513905683,
+        795.1240376390077
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "线段AB的中点M对应的数为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                339.78234582829504,
+                769.8887938408897,
+                425.0302297460701,
+                792.9854576561163
+              ],
+              "transcription": "30",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          323,
+          750,
+          340
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  209,
+                  329,
+                  257,
+                  341
+                ],
+                "transcription": "30",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              339.78234582829504,
+              769.8887938408897,
+              425.0302297460701,
+              792.9854576561163
+            ]
+          }
+        ]
+      }
+    },
+    "q16_2": {
+      "item_id": "q16_2",
+      "physical_page_id": "math_02__student__student005:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        799.8289136013686,
+        880.2902055622733,
+        849.8716852010265
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                55.01813784764208,
+                845.1668092386656,
+                880.2902055622733,
+                990.1625320786998
+              ],
+              "transcription": "\\text{解:设 } x \\text{ 秒相遇。}\n-10+3x = 70-2x\n5x = 80\nx = 16\n\\text{则 } C = -10 + 3 \\times 16 = -10 + 48 = 38",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [
+        [
+          370,
+          370,
+          490,
+          385
+        ]
+      ],
+      "confidence": 0.95,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          42,
+          342,
+          880,
+          364
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  70,
+                  360,
+                  790,
+                  410
+                ],
+                "transcription": "\\text{解:设 } x \\text{ 秒相遇。}\n-10+3x = 70-2x\n5x = 80\nx = 16\n\\text{则 } C = -10 + 3 \\times 16 = -10 + 48 = 38",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              55.01813784764208,
+              845.1668092386656,
+              880.2902055622733,
+              990.1625320786998
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

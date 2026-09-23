@@ -1,0 +1,1972 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q1",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              152,
+              892,
+              179
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "ab=",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      282,
+                      153,
+                      338,
+                      174
+                    ],
+                    "transcription": "ba",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "(ab)c=",
+                "anchor_after": ",",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      542,
+                      152,
+                      608,
+                      174
+                    ],
+                    "transcription": "a(bc)",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "a(b+c)=",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      811,
+                      149,
+                      901,
+                      173
+                    ],
+                    "transcription": "ab+ac",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q2",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              181,
+              852,
+              223
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "积的符号是由",
+                "anchor_after": "个数所决定的",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      430,
+                      177,
+                      526,
+                      201
+                    ],
+                    "transcription": "负乘数",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "当负的乘数的个数是",
+                "anchor_after": "时，积为正数",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      302,
+                      201,
+                      376,
+                      224
+                    ],
+                    "transcription": "偶数",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "当负的乘数的个数是",
+                "anchor_after": "时，积为负数",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      658,
+                      196,
+                      730,
+                      223
+                    ],
+                    "transcription": "奇数",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q3",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              226,
+              845,
+              274
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "下列各式中化简或计算结果为正的是",
+                "anchor_after": ")",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      444,
+                      225,
+                      474,
+                      249
+                    ],
+                    "transcription": "D",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q4",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              274,
+              752,
+              316
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "那么这 4 个数中正数有",
+                "anchor_after": ")",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      558,
+                      271,
+                      589,
+                      297
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q5",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              319,
+              778,
+              436
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "下列变形不正确的是",
+                "anchor_after": ")",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      313,
+                      321,
+                      347,
+                      350
+                    ],
+                    "transcription": "C",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q6_1",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              441,
+              612,
+              471
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "=[5×(",
+                "anchor_after": ")]×(-6)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      425,
+                      438,
+                      467,
+                      469
+                    ],
+                    "transcription": "-\\frac{1}{5}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "=",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      562,
+                      440,
+                      589,
+                      469
+                    ],
+                    "transcription": "6",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q6_2",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              181,
+              476,
+              662,
+              506
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "\\frac{1}{3}×[(-0.01) ×(",
+                "anchor_after": ")]=",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      543,
+                      477,
+                      591,
+                      500
+                    ],
+                    "transcription": "(-200)",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "=",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      617,
+                      470,
+                      649,
+                      507
+                    ],
+                    "transcription": "\\frac{2}{3}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q6_3",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              181,
+              510,
+              852,
+              541
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "24×(\\frac{1}{3}-\\frac{1}{6}+\\frac{1}{4}) =",
+                "anchor_after": "=",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      375,
+                      504,
+                      606,
+                      540
+                    ],
+                    "transcription": "24×\\frac{1}{3}+24×(-\\frac{1}{6})+24×\\frac{1}{4}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "=",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      792,
+                      511,
+                      836,
+                      541
+                    ],
+                    "transcription": "10",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q7",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              546,
+              792,
+              586
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "-15 的倒数是",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      254,
+                      549,
+                      306,
+                      586
+                    ],
+                    "transcription": "-\\frac{1}{15}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "-\\frac{5}{9}的倒数是",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      459,
+                      546,
+                      506,
+                      583
+                    ],
+                    "transcription": "-\\frac{9}{5}",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "-0.125 的倒数是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      674,
+                      554,
+                      716,
+                      577
+                    ],
+                    "transcription": "-8",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q8",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              589,
+              842,
+              616
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "倒数是它本身的数是",
+                "anchor_after": ",相反数是它本身的数是",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      299,
+                      588,
+                      346,
+                      616
+                    ],
+                    "transcription": "\\pm 1",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "相反数是它本身的数是",
+                "anchor_after": ",绝对值是它本身的数是",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      544,
+                      587,
+                      576,
+                      613
+                    ],
+                    "transcription": "0",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "绝对值是它本身的数是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      764,
+                      585,
+                      839,
+                      614
+                    ],
+                    "transcription": "非负数",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q9",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              617,
+              772,
+              641
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "其中最小的积等于",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      679,
+                      609,
+                      756,
+                      634
+                    ],
+                    "transcription": "-40",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q10",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              642,
+              942,
+              686
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "则最后输出的结果是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      359,
+                      656,
+                      401,
+                      683
+                    ],
+                    "transcription": "13",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [
+              [
+                470,
+                641,
+                950,
+                676
+              ]
+            ],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q11_1",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              684,
+              572,
+              704
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "数轴上表示 3 和 7 的两点之间的距离为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      490,
+                      676,
+                      531,
+                      704
+                    ],
+                    "transcription": "4",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q11_2",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              151,
+              704,
+              592,
+              724
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "数轴上表示 -3 和 -7 的两点之间的距离为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      520,
+                      701,
+                      556,
+                      725
+                    ],
+                    "transcription": "4",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q11_3",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              151,
+              723,
+              582,
+              743
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "数轴上表示 3 和 -7 的两点之间的距离为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      515,
+                      722,
+                      551,
+                      746
+                    ],
+                    "transcription": "10",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q11_4",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              151,
+              742,
+              712,
+              762
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "则 a 值为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      624,
+                      733,
+                      696,
+                      760
+                    ],
+                    "transcription": "2或-8",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q11_5",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              151,
+              761,
+              622,
+              781
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "数轴上表示 a 和 b 的两点之间的距离为",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      504,
+                      759,
+                      576,
+                      791
+                    ],
+                    "transcription": "|a-b|",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q12_1",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              108,
+              784,
+              332,
+              824
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1) (-85)×(-25)×(-4)",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      100,
+                      826,
+                      426,
+                      926
+                    ],
+                    "transcription": "解:原式=(-85)×[(-25)×(-4)]= (-85)×100= -8500",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.97
+          },
+          {
+            "item_id": "q12_2",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              410,
+              799,
+              622,
+              824
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2) (-\\frac{7}{8})×15×(-1\\frac{1}{7})",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      420,
+                      824,
+                      681,
+                      956
+                    ],
+                    "transcription": "解:原式=(-\\frac{7}{8})×(15×(-\\frac{8}{7}))= (-\\frac{7}{8})×(-\\frac{8}{7})×15= 1×15= 15",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.97
+          },
+          {
+            "item_id": "q12_3",
+            "physical_page_id": "math_02__student__student005:p1",
+            "page_index": 1,
+            "question_region": [
+              670,
+              799,
+              872,
+              824
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(3) (-1\\frac{1}{3})×3×(-\\frac{3}{4})",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      676,
+                      824,
+                      976,
+                      926
+                    ],
+                    "transcription": "解:原式= (-\\frac{4}{3})×3×(-\\frac{3}{4})= (-\\frac{4}{3})×(-\\frac{3}{4})×3= 3",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.97
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q1": {
+      "item_id": "q1",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        152,
+        892,
+        179
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "ab=",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                282,
+                153,
+                338,
+                174
+              ],
+              "transcription": "ba",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "(ab)c=",
+          "anchor_after": ",",
+          "regions": [
+            {
+              "answer_bbox": [
+                542,
+                152,
+                608,
+                174
+              ],
+              "transcription": "a(bc)",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "a(b+c)=",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                811,
+                149,
+                901,
+                173
+              ],
+              "transcription": "ab+ac",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q2": {
+      "item_id": "q2",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        181,
+        852,
+        223
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "积的符号是由",
+          "anchor_after": "个数所决定的",
+          "regions": [
+            {
+              "answer_bbox": [
+                430,
+                177,
+                526,
+                201
+              ],
+              "transcription": "负乘数",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "当负的乘数的个数是",
+          "anchor_after": "时，积为正数",
+          "regions": [
+            {
+              "answer_bbox": [
+                302,
+                201,
+                376,
+                224
+              ],
+              "transcription": "偶数",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "当负的乘数的个数是",
+          "anchor_after": "时，积为负数",
+          "regions": [
+            {
+              "answer_bbox": [
+                658,
+                196,
+                730,
+                223
+              ],
+              "transcription": "奇数",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q3": {
+      "item_id": "q3",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        226,
+        845,
+        274
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "下列各式中化简或计算结果为正的是",
+          "anchor_after": ")",
+          "regions": [
+            {
+              "answer_bbox": [
+                444,
+                225,
+                474,
+                249
+              ],
+              "transcription": "D",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q4": {
+      "item_id": "q4",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        274,
+        752,
+        316
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "那么这 4 个数中正数有",
+          "anchor_after": ")",
+          "regions": [
+            {
+              "answer_bbox": [
+                558,
+                271,
+                589,
+                297
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q5": {
+      "item_id": "q5",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        319,
+        778,
+        436
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "下列变形不正确的是",
+          "anchor_after": ")",
+          "regions": [
+            {
+              "answer_bbox": [
+                313,
+                321,
+                347,
+                350
+              ],
+              "transcription": "C",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q6_1": {
+      "item_id": "q6_1",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        441,
+        612,
+        471
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "=[5×(",
+          "anchor_after": ")]×(-6)",
+          "regions": [
+            {
+              "answer_bbox": [
+                425,
+                438,
+                467,
+                469
+              ],
+              "transcription": "-\\frac{1}{5}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "=",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                562,
+                440,
+                589,
+                469
+              ],
+              "transcription": "6",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q6_2": {
+      "item_id": "q6_2",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        181,
+        476,
+        662,
+        506
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "\\frac{1}{3}×[(-0.01) ×(",
+          "anchor_after": ")]=",
+          "regions": [
+            {
+              "answer_bbox": [
+                543,
+                477,
+                591,
+                500
+              ],
+              "transcription": "(-200)",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "=",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                617,
+                470,
+                649,
+                507
+              ],
+              "transcription": "\\frac{2}{3}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q6_3": {
+      "item_id": "q6_3",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        181,
+        510,
+        852,
+        541
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "24×(\\frac{1}{3}-\\frac{1}{6}+\\frac{1}{4}) =",
+          "anchor_after": "=",
+          "regions": [
+            {
+              "answer_bbox": [
+                375,
+                504,
+                606,
+                540
+              ],
+              "transcription": "24×\\frac{1}{3}+24×(-\\frac{1}{6})+24×\\frac{1}{4}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "=",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                792,
+                511,
+                836,
+                541
+              ],
+              "transcription": "10",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q7": {
+      "item_id": "q7",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        546,
+        792,
+        586
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "-15 的倒数是",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                254,
+                549,
+                306,
+                586
+              ],
+              "transcription": "-\\frac{1}{15}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "-\\frac{5}{9}的倒数是",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                459,
+                546,
+                506,
+                583
+              ],
+              "transcription": "-\\frac{9}{5}",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "-0.125 的倒数是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                674,
+                554,
+                716,
+                577
+              ],
+              "transcription": "-8",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q8": {
+      "item_id": "q8",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        589,
+        842,
+        616
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "倒数是它本身的数是",
+          "anchor_after": ",相反数是它本身的数是",
+          "regions": [
+            {
+              "answer_bbox": [
+                299,
+                588,
+                346,
+                616
+              ],
+              "transcription": "\\pm 1",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "相反数是它本身的数是",
+          "anchor_after": ",绝对值是它本身的数是",
+          "regions": [
+            {
+              "answer_bbox": [
+                544,
+                587,
+                576,
+                613
+              ],
+              "transcription": "0",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "绝对值是它本身的数是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                764,
+                585,
+                839,
+                614
+              ],
+              "transcription": "非负数",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q9": {
+      "item_id": "q9",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        617,
+        772,
+        641
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "其中最小的积等于",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                679,
+                609,
+                756,
+                634
+              ],
+              "transcription": "-40",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q10": {
+      "item_id": "q10",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        642,
+        942,
+        686
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "则最后输出的结果是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                359,
+                656,
+                401,
+                683
+              ],
+              "transcription": "13",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [
+        [
+          470,
+          641,
+          950,
+          676
+        ]
+      ],
+      "confidence": 0.98
+    },
+    "q11_1": {
+      "item_id": "q11_1",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        684,
+        572,
+        704
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "数轴上表示 3 和 7 的两点之间的距离为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                490,
+                676,
+                531,
+                704
+              ],
+              "transcription": "4",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q11_2": {
+      "item_id": "q11_2",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        151,
+        704,
+        592,
+        724
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "数轴上表示 -3 和 -7 的两点之间的距离为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                520,
+                701,
+                556,
+                725
+              ],
+              "transcription": "4",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q11_3": {
+      "item_id": "q11_3",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        151,
+        723,
+        582,
+        743
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "数轴上表示 3 和 -7 的两点之间的距离为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                515,
+                722,
+                551,
+                746
+              ],
+              "transcription": "10",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q11_4": {
+      "item_id": "q11_4",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        151,
+        742,
+        712,
+        762
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "则 a 值为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                624,
+                733,
+                696,
+                760
+              ],
+              "transcription": "2或-8",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q11_5": {
+      "item_id": "q11_5",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        151,
+        761,
+        622,
+        781
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "数轴上表示 a 和 b 的两点之间的距离为",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                504,
+                759,
+                576,
+                791
+              ],
+              "transcription": "|a-b|",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q12_1": {
+      "item_id": "q12_1",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        108,
+        784,
+        332,
+        824
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1) (-85)×(-25)×(-4)",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                100,
+                826,
+                426,
+                926
+              ],
+              "transcription": "解:原式=(-85)×[(-25)×(-4)]= (-85)×100= -8500",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.97
+    },
+    "q12_2": {
+      "item_id": "q12_2",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        410,
+        799,
+        622,
+        824
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(2) (-\\frac{7}{8})×15×(-1\\frac{1}{7})",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                420,
+                824,
+                681,
+                956
+              ],
+              "transcription": "解:原式=(-\\frac{7}{8})×(15×(-\\frac{8}{7}))= (-\\frac{7}{8})×(-\\frac{8}{7})×15= 1×15= 15",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.97
+    },
+    "q12_3": {
+      "item_id": "q12_3",
+      "physical_page_id": "math_02__student__student005:p1",
+      "page_index": 1,
+      "question_region": [
+        670,
+        799,
+        872,
+        824
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(3) (-1\\frac{1}{3})×3×(-\\frac{3}{4})",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                676,
+                824,
+                976,
+                926
+              ],
+              "transcription": "解:原式= (-\\frac{4}{3})×3×(-\\frac{3}{4})= (-\\frac{4}{3})×(-\\frac{3}{4})×3= 3",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.97
+    }
+  }
+}

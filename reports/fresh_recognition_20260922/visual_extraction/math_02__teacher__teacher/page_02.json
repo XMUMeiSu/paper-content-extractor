@@ -1,0 +1,488 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q13_1",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              355,
+              830,
+              475
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      65,
+                      510,
+                      590,
+                      615
+                    ],
+                    "transcription": "解: (1) \\(2000 + 350 + 1900 - 277 - 603 - 70 = 3300\\) (元) \\(4600 - 3300 = 1300\\) (元) 答：星期四盈利1300元",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q13_2",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              475,
+              880,
+              520
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      620,
+                      510,
+                      985,
+                      645
+                    ],
+                    "transcription": "(2) \\(3 \\times 3 = 9\\) (万元) \\((-2) \\times 3 = -6\\) (万元) \\((-1) \\times 2 = -2\\) (万元) \\(4 \\times 5 = 20\\) (万元) \\(9 - 6 - 2 + 20 = 21\\) (万元) 答：去年总盈利21万元",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q14",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              610,
+              760,
+              655
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      525,
+                      612,
+                      560,
+                      638
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q15",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              665,
+              840,
+              745
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "其中一定成立的结论是",
+                "anchor_after": "（填序号）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      270,
+                      720,
+                      370,
+                      745
+                    ],
+                    "transcription": "②④",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [
+              [
+                535,
+                700,
+                835,
+                725
+              ]
+            ],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q16_1",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              750,
+              720,
+              795
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "线段AB的中点M对应的数为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      340,
+                      770,
+                      425,
+                      793
+                    ],
+                    "transcription": "30",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q16_2",
+            "physical_page_id": "math_02__teacher__teacher:p2",
+            "page_index": 2,
+            "question_region": [
+              70,
+              800,
+              880,
+              850
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      55,
+                      845,
+                      880,
+                      990
+                    ],
+                    "transcription": "解: \\(P: -10 + 3t\\) \\(Q: 70 - 2t\\) \\(|(-10+3t) -(70 - 2t)| = 80\\) \\(|5t - 80| = 80\\) \\(5t = 80\\) \\(t = 16\\) \\(70 - 2 \\times 16 = 38\\) 答：点C对应38",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.97
+                  }
+                ],
+                "confidence": 0.97
+              }
+            ],
+            "diagram_regions": [
+              [
+                605,
+                860,
+                810,
+                890
+              ]
+            ],
+            "confidence": 0.97
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q13_1": {
+      "item_id": "q13_1",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        355,
+        830,
+        475
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                65,
+                510,
+                590,
+                615
+              ],
+              "transcription": "解: (1) \\(2000 + 350 + 1900 - 277 - 603 - 70 = 3300\\) (元) \\(4600 - 3300 = 1300\\) (元) 答：星期四盈利1300元",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q13_2": {
+      "item_id": "q13_2",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        475,
+        880,
+        520
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                620,
+                510,
+                985,
+                645
+              ],
+              "transcription": "(2) \\(3 \\times 3 = 9\\) (万元) \\((-2) \\times 3 = -6\\) (万元) \\((-1) \\times 2 = -2\\) (万元) \\(4 \\times 5 = 20\\) (万元) \\(9 - 6 - 2 + 20 = 21\\) (万元) 答：去年总盈利21万元",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q14": {
+      "item_id": "q14",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        610,
+        760,
+        655
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                525,
+                612,
+                560,
+                638
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q15": {
+      "item_id": "q15",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        665,
+        840,
+        745
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "其中一定成立的结论是",
+          "anchor_after": "（填序号）",
+          "regions": [
+            {
+              "answer_bbox": [
+                270,
+                720,
+                370,
+                745
+              ],
+              "transcription": "②④",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [
+        [
+          535,
+          700,
+          835,
+          725
+        ]
+      ],
+      "confidence": 0.98
+    },
+    "q16_1": {
+      "item_id": "q16_1",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        750,
+        720,
+        795
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "线段AB的中点M对应的数为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                340,
+                770,
+                425,
+                793
+              ],
+              "transcription": "30",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99
+    },
+    "q16_2": {
+      "item_id": "q16_2",
+      "physical_page_id": "math_02__teacher__teacher:p2",
+      "page_index": 2,
+      "question_region": [
+        70,
+        800,
+        880,
+        850
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                55,
+                845,
+                880,
+                990
+              ],
+              "transcription": "解: \\(P: -10 + 3t\\) \\(Q: 70 - 2t\\) \\(|(-10+3t) -(70 - 2t)| = 80\\) \\(|5t - 80| = 80\\) \\(5t = 80\\) \\(t = 16\\) \\(70 - 2 \\times 16 = 38\\) 答：点C对应38",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.97
+            }
+          ],
+          "confidence": 0.97
+        }
+      ],
+      "diagram_regions": [
+        [
+          605,
+          860,
+          810,
+          890
+        ]
+      ],
+      "confidence": 0.97
+    }
+  }
+}

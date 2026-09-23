@@ -1,0 +1,704 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q13_1",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              154,
+              820,
+              205
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      48,
+                      214,
+                      193,
+                      252
+                    ],
+                    "transcription": "4250-277-603-700=3300(元)\n4600-3300=1300(元)\n答：星期四盈1300元。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q13_2",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              205,
+              870,
+              240
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      215,
+                      214,
+                      465,
+                      244
+                    ],
+                    "transcription": "3×3 - 3×2 - 2×1 + 4×5 = 24(万元)\n答：去年全年盈24万元。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q14",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              255,
+              850,
+              285
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      510,
+                      260,
+                      540,
+                      285
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q15",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              285,
+              840,
+              325
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "其中一定成立的结论是",
+                "anchor_after": "（填序号）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      280,
+                      315,
+                      350,
+                      335
+                    ],
+                    "transcription": "③",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [
+              [
+                535,
+                305,
+                830,
+                320
+              ]
+            ],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q16_1",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              335,
+              720,
+              360
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "线段AB的中点M对应的数为",
+                "anchor_after": ";",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      345,
+                      340,
+                      390,
+                      360
+                    ],
+                    "transcription": "30",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.99
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.99
+          },
+          {
+            "item_id": "q16_2",
+            "physical_page_id": "math_02__student__student001:p2",
+            "page_index": 2,
+            "question_region": [
+              48,
+              360,
+              880,
+              400
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      110,
+                      395,
+                      540,
+                      445
+                    ],
+                    "transcription": "[70 - (-10)]÷(3+2)=16(s)\n70 - 16×2 = 38\n答：点对应38。",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                610,
+                380,
+                810,
+                405
+              ]
+            ],
+            "confidence": 0.98
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q13_1": {
+      "item_id": "q13_1",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        355.0042771599658,
+        830.1088270858525,
+        475.1924721984602
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                65.2962515114873,
+                509.83746792130023,
+                590.0846432889964,
+                615.0556030795552
+              ],
+              "transcription": "4250-277-603-700=3300(元)\n4600-3300=1300(元)\n答：星期四盈1300元。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          154,
+          820,
+          205
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  48,
+                  214,
+                  193,
+                  252
+                ],
+                "transcription": "4250-277-603-700=3300(元)\n4600-3300=1300(元)\n答：星期四盈1300元。",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              65.2962515114873,
+              509.83746792130023,
+              590.0846432889964,
+              615.0556030795552
+            ]
+          }
+        ]
+      }
+    },
+    "q13_2": {
+      "item_id": "q13_2",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        475.1924721984602,
+        880.2902055622733,
+        520.1026518391787
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                619.7097944377267,
+                509.83746792130023,
+                984.8851269649335,
+                644.9957228400342
+              ],
+              "transcription": "3×3 - 3×2 - 2×1 + 4×5 = 24(万元)\n答：去年全年盈24万元。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          205,
+          870,
+          240
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  215,
+                  214,
+                  465,
+                  244
+                ],
+                "transcription": "3×3 - 3×2 - 2×1 + 4×5 = 24(万元)\n答：去年全年盈24万元。",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              619.7097944377267,
+              509.83746792130023,
+              984.8851269649335,
+              644.9957228400342
+            ]
+          }
+        ]
+      }
+    },
+    "q14": {
+      "item_id": "q14",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        609.9230111206159,
+        759.975816203144,
+        654.8331907613344
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                524.7883917775091,
+                612.0615911035072,
+                559.8548972188634,
+                638.1522668947819
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          255,
+          850,
+          285
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  510,
+                  260,
+                  540,
+                  285
+                ],
+                "transcription": "B",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.99
+              }
+            ],
+            "recovered_bbox": [
+              524.7883917775091,
+              612.0615911035072,
+              559.8548972188634,
+              638.1522668947819
+            ]
+          }
+        ]
+      }
+    },
+    "q15": {
+      "item_id": "q15",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        665.098374679213,
+        839.7823458282951,
+        745.0812660393499
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "其中一定成立的结论是",
+          "anchor_after": "（填序号）",
+          "regions": [
+            {
+              "answer_bbox": [
+                270.2539298669891,
+                719.8460222412318,
+                370.012091898428,
+                745.0812660393499
+              ],
+              "transcription": "③",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [
+        [
+          535,
+          305,
+          830,
+          320
+        ]
+      ],
+      "confidence": 0.98,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          285,
+          840,
+          325
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  280,
+                  315,
+                  350,
+                  335
+                ],
+                "transcription": "③",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.98
+              }
+            ],
+            "recovered_bbox": [
+              270.2539298669891,
+              719.8460222412318,
+              370.012091898428,
+              745.0812660393499
+            ]
+          }
+        ]
+      }
+    },
+    "q16_1": {
+      "item_id": "q16_1",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        750.2138579982891,
+        720.0725513905683,
+        795.1240376390077
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "线段AB的中点M对应的数为",
+          "anchor_after": ";",
+          "regions": [
+            {
+              "answer_bbox": [
+                339.78234582829504,
+                769.8887938408897,
+                425.0302297460701,
+                792.9854576561163
+              ],
+              "transcription": "30",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.99
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.99,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          335,
+          720,
+          360
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  345,
+                  340,
+                  390,
+                  360
+                ],
+                "transcription": "30",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.99
+              }
+            ],
+            "recovered_bbox": [
+              339.78234582829504,
+              769.8887938408897,
+              425.0302297460701,
+              792.9854576561163
+            ]
+          }
+        ]
+      }
+    },
+    "q16_2": {
+      "item_id": "q16_2",
+      "physical_page_id": "math_02__student__student001:p2",
+      "page_index": 2,
+      "question_region": [
+        70.13301088270859,
+        799.8289136013686,
+        880.2902055622733,
+        849.8716852010265
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                55.01813784764208,
+                845.1668092386656,
+                880.2902055622733,
+                990.1625320786998
+              ],
+              "transcription": "[70 - (-10)]÷(3+2)=16(s)\n70 - 16×2 = 38\n答：点对应38。",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [
+        [
+          610,
+          380,
+          810,
+          405
+        ]
+      ],
+      "confidence": 0.98,
+      "_coordinate_recovery": {
+        "reason": "PAGE_WIDE_VLM_COORDINATE_FRAME_MISMATCH",
+        "compared_slots": 6,
+        "aligned_slots": 0,
+        "original_question_region": [
+          48,
+          360,
+          880,
+          400
+        ],
+        "replacements": [
+          {
+            "slot_index": 1,
+            "original_regions": [
+              {
+                "answer_bbox": [
+                  110,
+                  395,
+                  540,
+                  445
+                ],
+                "transcription": "[70 - (-10)]÷(3+2)=16(s)\n70 - 16×2 = 38\n答：点对应38。",
+                "legible": true,
+                "content_kind": "handwriting",
+                "confidence": 0.95
+              }
+            ],
+            "recovered_bbox": [
+              55.01813784764208,
+              845.1668092386656,
+              880.2902055622733,
+              990.1625320786998
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,1882 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "s1_q1_1",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              60,
+              160,
+              380,
+              190
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "内:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      215,
+                      165,
+                      375,
+                      190
+                    ],
+                    "transcription": "把家里人聚集在一起",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_2",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              420,
+              165,
+              755,
+              190
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "儿女:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      530,
+                      165,
+                      755,
+                      190
+                    ],
+                    "transcription": "泛指家里的小辈,包括侄子侄女",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_3",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              195,
+              345,
+              220
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "文义:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      200,
+                      195,
+                      300,
+                      220
+                    ],
+                    "transcription": "文章的义理",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_4",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              420,
+              195,
+              545,
+              220
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "俄而:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      540,
+                      195,
+                      700,
+                      220
+                    ],
+                    "transcription": "不久后雪下得急了",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_5",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              730,
+              195,
+              895,
+              220
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "骤:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      770,
+                      195,
+                      810,
+                      220
+                    ],
+                    "transcription": "急",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_6",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              225,
+              355,
+              250
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "欣然:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      205,
+                      225,
+                      290,
+                      250
+                    ],
+                    "transcription": "高兴地说",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_7",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              465,
+              225,
+              735,
+              250
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "何所似:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      585,
+                      225,
+                      645,
+                      250
+                    ],
+                    "transcription": "像什么",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_8",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              250,
+              325,
+              275
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "差:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      210,
+                      250,
+                      255,
+                      275
+                    ],
+                    "transcription": "大体",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_9",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              350,
+              250,
+              495,
+              275
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "拟:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      405,
+                      250,
+                      455,
+                      275
+                    ],
+                    "transcription": "相比",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_10",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              515,
+              250,
+              845,
+              275
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "未若:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      685,
+                      250,
+                      750,
+                      275
+                    ],
+                    "transcription": "不如",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_11",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              70,
+              275,
+              365,
+              300
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "因:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      210,
+                      275,
+                      250,
+                      300
+                    ],
+                    "transcription": "趁",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q1_12",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              425,
+              275,
+              810,
+              300
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "即:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      650,
+                      275,
+                      705,
+                      300
+                    ],
+                    "transcription": "就是",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q2_1",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              335,
+              310,
+              360
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      110,
+                      357,
+                      315,
+                      382
+                    ],
+                    "transcription": "这纷纷的大雪像什么呢?",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q2_2",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              385,
+              305,
+              410
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      410,
+                      345,
+                      435
+                    ],
+                    "transcription": "把盐撒到空中大体能相比.",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q2_3",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              435,
+              295,
+              460
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "译:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      115,
+                      460,
+                      310,
+                      485
+                    ],
+                    "transcription": "不如比作柳絮乘风而起.",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q3_1",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              515,
+              325,
+              540
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      145,
+                      515,
+                      220,
+                      540
+                    ],
+                    "transcription": "谢太傅/寒雪日/内集",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s1_q3_2",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              545,
+              305,
+              570
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      140,
+                      545,
+                      180,
+                      570
+                    ],
+                    "transcription": "未若柳絮/因风起",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q4_1",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              595,
+              815,
+              620
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      625,
+                      895,
+                      650
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q4_2",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              655,
+              800,
+              680
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      675,
+                      895,
+                      750
+                    ],
+                    "transcription": "我认为\"柳絮因风起\"更好, 因为柳絮能生动形象地体现雪的柔美,轻盈,还能让人引发对春之美的联想,营造了具有诗意的氛围。这个比喻更神似,更诗意,所以我认为\"柳絮因风起\"更好,优美委婉",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "q4_3",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              755,
+              550,
+              780
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      70,
+                      780,
+                      895,
+                      835
+                    ],
+                    "transcription": "从谢道韫的\"柳絮因风起\"这优美生动的比拟中,我认为她是个才思敏捷的人。善于思考与观察.",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.98
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s2_q1_1",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              865,
+              365,
+              890
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "行:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      280,
+                      870,
+                      360,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s2_q1_2",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              470,
+              865,
+              830,
+              890
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "期:",
+                "anchor_after": "日中:",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      610,
+                      870,
+                      675,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "日中:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      750,
+                      870,
+                      830,
+                      890
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s2_q1_3",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              65,
+              895,
+              300,
+              920
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "至:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      215,
+                      900,
+                      295,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          },
+          {
+            "item_id": "s2_q1_4",
+            "physical_page_id": "chinese__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              470,
+              895,
+              830,
+              920
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "舍:",
+                "anchor_after": "去:",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      605,
+                      900,
+                      660,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "去:",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      720,
+                      900,
+                      825,
+                      920
+                    ],
+                    "transcription": "",
+                    "legible": true,
+                    "content_kind": "blank",
+                    "confidence": 0.99
+                  }
+                ],
+                "confidence": 0.98
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.98
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 3,
+      "item_id": "q4_1",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    }
+  ],
+  "items": {
+    "s1_q1_1": {
+      "item_id": "s1_q1_1",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        60,
+        160,
+        380,
+        190
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "内:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                215,
+                165,
+                375,
+                190
+              ],
+              "transcription": "把家里人聚集在一起",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_2": {
+      "item_id": "s1_q1_2",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        420,
+        165,
+        755,
+        190
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "儿女:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                530,
+                165,
+                755,
+                190
+              ],
+              "transcription": "泛指家里的小辈,包括侄子侄女",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_3": {
+      "item_id": "s1_q1_3",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        195,
+        345,
+        220
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "文义:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                200,
+                195,
+                300,
+                220
+              ],
+              "transcription": "文章的义理",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_4": {
+      "item_id": "s1_q1_4",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        420,
+        195,
+        545,
+        220
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "俄而:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                540,
+                195,
+                700,
+                220
+              ],
+              "transcription": "不久后雪下得急了",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_5": {
+      "item_id": "s1_q1_5",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        730,
+        195,
+        895,
+        220
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "骤:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                770,
+                195,
+                810,
+                220
+              ],
+              "transcription": "急",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_6": {
+      "item_id": "s1_q1_6",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        225,
+        355,
+        250
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "欣然:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                205,
+                225,
+                290,
+                250
+              ],
+              "transcription": "高兴地说",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_7": {
+      "item_id": "s1_q1_7",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        465,
+        225,
+        735,
+        250
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "何所似:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                585,
+                225,
+                645,
+                250
+              ],
+              "transcription": "像什么",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_8": {
+      "item_id": "s1_q1_8",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        250,
+        325,
+        275
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "差:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                210,
+                250,
+                255,
+                275
+              ],
+              "transcription": "大体",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_9": {
+      "item_id": "s1_q1_9",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        350,
+        250,
+        495,
+        275
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "拟:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                405,
+                250,
+                455,
+                275
+              ],
+              "transcription": "相比",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_10": {
+      "item_id": "s1_q1_10",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        515,
+        250,
+        845,
+        275
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "未若:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                685,
+                250,
+                750,
+                275
+              ],
+              "transcription": "不如",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_11": {
+      "item_id": "s1_q1_11",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        70,
+        275,
+        365,
+        300
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "因:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                210,
+                275,
+                250,
+                300
+              ],
+              "transcription": "趁",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q1_12": {
+      "item_id": "s1_q1_12",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        425,
+        275,
+        810,
+        300
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "即:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                650,
+                275,
+                705,
+                300
+              ],
+              "transcription": "就是",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q2_1": {
+      "item_id": "s1_q2_1",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        335,
+        310,
+        360
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                110,
+                357,
+                315,
+                382
+              ],
+              "transcription": "这纷纷的大雪像什么呢?",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q2_2": {
+      "item_id": "s1_q2_2",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        385,
+        305,
+        410
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                410,
+                345,
+                435
+              ],
+              "transcription": "把盐撒到空中大体能相比.",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q2_3": {
+      "item_id": "s1_q2_3",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        435,
+        295,
+        460
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "译:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                115,
+                460,
+                310,
+                485
+              ],
+              "transcription": "不如比作柳絮乘风而起.",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q3_1": {
+      "item_id": "s1_q3_1",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        515,
+        325,
+        540
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                145,
+                515,
+                220,
+                540
+              ],
+              "transcription": "谢太傅/寒雪日/内集",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s1_q3_2": {
+      "item_id": "s1_q3_2",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        545,
+        305,
+        570
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                140,
+                545,
+                180,
+                570
+              ],
+              "transcription": "未若柳絮/因风起",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q4_1": {
+      "item_id": "q4_1",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        595,
+        815,
+        620
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                625,
+                895,
+                650
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q4_2": {
+      "item_id": "q4_2",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        655,
+        800,
+        680
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                675,
+                895,
+                750
+              ],
+              "transcription": "我认为\"柳絮因风起\"更好, 因为柳絮能生动形象地体现雪的柔美,轻盈,还能让人引发对春之美的联想,营造了具有诗意的氛围。这个比喻更神似,更诗意,所以我认为\"柳絮因风起\"更好,优美委婉",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "q4_3": {
+      "item_id": "q4_3",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        755,
+        550,
+        780
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                70,
+                780,
+                895,
+                835
+              ],
+              "transcription": "从谢道韫的\"柳絮因风起\"这优美生动的比拟中,我认为她是个才思敏捷的人。善于思考与观察.",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.98
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s2_q1_1": {
+      "item_id": "s2_q1_1",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        865,
+        365,
+        890
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "行:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                280,
+                870,
+                360,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s2_q1_2": {
+      "item_id": "s2_q1_2",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        470,
+        865,
+        830,
+        890
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "期:",
+          "anchor_after": "日中:",
+          "regions": [
+            {
+              "answer_bbox": [
+                610,
+                870,
+                675,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "日中:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                750,
+                870,
+                830,
+                890
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s2_q1_3": {
+      "item_id": "s2_q1_3",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        65,
+        895,
+        300,
+        920
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "至:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                215,
+                900,
+                295,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    },
+    "s2_q1_4": {
+      "item_id": "s2_q1_4",
+      "physical_page_id": "chinese__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        470,
+        895,
+        830,
+        920
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "舍:",
+          "anchor_after": "去:",
+          "regions": [
+            {
+              "answer_bbox": [
+                605,
+                900,
+                660,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "去:",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                720,
+                900,
+                825,
+                920
+              ],
+              "transcription": "",
+              "legible": true,
+              "content_kind": "blank",
+              "confidence": 0.99
+            }
+          ],
+          "confidence": 0.98
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.98
+    }
+  }
+}

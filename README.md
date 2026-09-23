@@ -90,6 +90,17 @@ python3 homework_extractor.py dataset \
   -o reports/math_01_run
 ```
 
+默认情况下，教师卷先完成并建立题目树，同学科学生卷最多 3 份并发处理；单份卷的页面最多 2 页并发请求，结果仍按原页顺序写回。可按接口限流情况调整：
+
+```bash
+python3 homework_extractor.py dataset \
+  --student-workers 2 \
+  --page-workers 1 \
+  -o reports/math_01_run
+```
+
+将 `--student-workers 1` 设为 1 可关闭学生卷并发；`--page-workers 1` 可关闭页面并发。并发请求只影响调度，教师题目树、页面校验和最终产物写回顺序不变。
+
 只处理一个学生时，程序仍会先加载对应教师卷：
 
 ```bash

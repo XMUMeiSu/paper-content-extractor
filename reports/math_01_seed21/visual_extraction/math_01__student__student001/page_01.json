@@ -1,0 +1,1002 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q1",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              190,
+              790,
+              315
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "（",
+                "anchor_after": "）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      590,
+                      190,
+                      655,
+                      228
+                    ],
+                    "transcription": "D",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [
+              [
+                145,
+                235,
+                265,
+                310
+              ],
+              [
+                325,
+                235,
+                445,
+                310
+              ],
+              [
+                500,
+                235,
+                625,
+                310
+              ],
+              [
+                680,
+                235,
+                790,
+                310
+              ]
+            ],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q2",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              320,
+              925,
+              398
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "（",
+                "anchor_after": "）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      862,
+                      312,
+                      918,
+                      352
+                    ],
+                    "transcription": "C",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q3",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              400,
+              950,
+              458
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "应为（",
+                "anchor_after": "）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      572,
+                      412,
+                      618,
+                      437
+                    ],
+                    "transcription": "C",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.9
+          },
+          {
+            "item_id": "q4",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              458,
+              945,
+              482
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "的值为",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      883,
+                      447,
+                      933,
+                      478
+                    ],
+                    "transcription": "26",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q5",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              483,
+              945,
+              525
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "个数是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      888,
+                      497,
+                      923,
+                      523
+                    ],
+                    "transcription": "5",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.9
+          },
+          {
+            "item_id": "q6",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              530,
+              945,
+              605
+            ],
+            "answer_layout": "horizontal",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "开口方向是向",
+                "anchor_after": "，对称轴是直线",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      425,
+                      548,
+                      460,
+                      570
+                    ],
+                    "transcription": "上",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              },
+              {
+                "index": 2,
+                "label": "blank_response",
+                "anchor_before": "对称轴是直线",
+                "anchor_after": "，顶点坐标是",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      595,
+                      545,
+                      660,
+                      575
+                    ],
+                    "transcription": "$x=-1$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              },
+              {
+                "index": 3,
+                "label": "blank_response",
+                "anchor_before": "顶点坐标是",
+                "anchor_after": "，它是由抛物线",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      735,
+                      543,
+                      835,
+                      570
+                    ],
+                    "transcription": "$(-1,0)$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              },
+              {
+                "index": 4,
+                "label": "blank_response",
+                "anchor_before": "它是由抛物线$y=x^2$向",
+                "anchor_after": "平移",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      290,
+                      578,
+                      325,
+                      603
+                    ],
+                    "transcription": "左",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              },
+              {
+                "index": 5,
+                "label": "blank_response",
+                "anchor_before": "平移",
+                "anchor_after": "个单位得到的",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      345,
+                      576,
+                      370,
+                      600
+                    ],
+                    "transcription": "1",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.9
+          },
+          {
+            "item_id": "q7",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              583,
+              945,
+              615
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "写出一个函数",
+                "anchor_after": "使得该函数",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      238,
+                      582,
+                      353,
+                      613
+                    ],
+                    "transcription": "$y=-(x+1)^2$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.85
+                  }
+                ],
+                "confidence": 0.85
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.85
+          },
+          {
+            "item_id": "q8",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              616,
+              965,
+              642
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "大小关系是",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      868,
+                      610,
+                      958,
+                      638
+                    ],
+                    "transcription": "$b<c<a$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.9
+          },
+          {
+            "item_id": "q9_1",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              655,
+              965,
+              715
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1)求该抛物线的解析式;",
+                "anchor_after": "(2)",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      175,
+                      742,
+                      308,
+                      776
+                    ],
+                    "transcription": "$y=(x-2)^2$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.9
+              }
+            ],
+            "diagram_regions": [
+              [
+                775,
+                712,
+                968,
+                838
+              ]
+            ],
+            "confidence": 0.9
+          },
+          {
+            "item_id": "q9_2",
+            "physical_page_id": "math_01__student__student001:p1",
+            "page_index": 1,
+            "question_region": [
+              95,
+              695,
+              965,
+              720
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2)求点$D$的坐标及$\\square ACBD$的面积.",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      130,
+                      790,
+                      380,
+                      975
+                    ],
+                    "transcription": "(2)当$x=0$时\n$y=(-2)^2$\n$=4$\n$2-(2+2)=-2$\n$D(-2,0)$\n$S_{\\triangle ACBD}=4\\times4=16$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.8
+                  }
+                ],
+                "confidence": 0.8
+              }
+            ],
+            "diagram_regions": [
+              [
+                775,
+                712,
+                968,
+                838
+              ]
+            ],
+            "confidence": 0.8
+          }
+        ]
+      }
+    }
+  ],
+  "items": {
+    "q1": {
+      "item_id": "q1",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        190,
+        790,
+        315
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "（",
+          "anchor_after": "）",
+          "regions": [
+            {
+              "answer_bbox": [
+                590,
+                190,
+                655,
+                228
+              ],
+              "transcription": "D",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [
+        [
+          145,
+          235,
+          265,
+          310
+        ],
+        [
+          325,
+          235,
+          445,
+          310
+        ],
+        [
+          500,
+          235,
+          625,
+          310
+        ],
+        [
+          680,
+          235,
+          790,
+          310
+        ]
+      ],
+      "confidence": 0.95
+    },
+    "q2": {
+      "item_id": "q2",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        320,
+        925,
+        398
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "（",
+          "anchor_after": "）",
+          "regions": [
+            {
+              "answer_bbox": [
+                862,
+                312,
+                918,
+                352
+              ],
+              "transcription": "C",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q3": {
+      "item_id": "q3",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        400,
+        950,
+        458
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "应为（",
+          "anchor_after": "）",
+          "regions": [
+            {
+              "answer_bbox": [
+                572,
+                412,
+                618,
+                437
+              ],
+              "transcription": "C",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.9
+    },
+    "q4": {
+      "item_id": "q4",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        458,
+        945,
+        482
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "的值为",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                883,
+                447,
+                933,
+                478
+              ],
+              "transcription": "26",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q5": {
+      "item_id": "q5",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        483,
+        945,
+        525
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "个数是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                888,
+                497,
+                923,
+                523
+              ],
+              "transcription": "5",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.9
+    },
+    "q6": {
+      "item_id": "q6",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        530,
+        945,
+        605
+      ],
+      "answer_layout": "horizontal",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "开口方向是向",
+          "anchor_after": "，对称轴是直线",
+          "regions": [
+            {
+              "answer_bbox": [
+                425,
+                548,
+                460,
+                570
+              ],
+              "transcription": "上",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        },
+        {
+          "index": 2,
+          "label": "blank_response",
+          "anchor_before": "对称轴是直线",
+          "anchor_after": "，顶点坐标是",
+          "regions": [
+            {
+              "answer_bbox": [
+                595,
+                545,
+                660,
+                575
+              ],
+              "transcription": "$x=-1$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        },
+        {
+          "index": 3,
+          "label": "blank_response",
+          "anchor_before": "顶点坐标是",
+          "anchor_after": "，它是由抛物线",
+          "regions": [
+            {
+              "answer_bbox": [
+                735,
+                543,
+                835,
+                570
+              ],
+              "transcription": "$(-1,0)$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        },
+        {
+          "index": 4,
+          "label": "blank_response",
+          "anchor_before": "它是由抛物线$y=x^2$向",
+          "anchor_after": "平移",
+          "regions": [
+            {
+              "answer_bbox": [
+                290,
+                578,
+                325,
+                603
+              ],
+              "transcription": "左",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        },
+        {
+          "index": 5,
+          "label": "blank_response",
+          "anchor_before": "平移",
+          "anchor_after": "个单位得到的",
+          "regions": [
+            {
+              "answer_bbox": [
+                345,
+                576,
+                370,
+                600
+              ],
+              "transcription": "1",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.9
+    },
+    "q7": {
+      "item_id": "q7",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        583,
+        945,
+        615
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "写出一个函数",
+          "anchor_after": "使得该函数",
+          "regions": [
+            {
+              "answer_bbox": [
+                238,
+                582,
+                353,
+                613
+              ],
+              "transcription": "$y=-(x+1)^2$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.85
+            }
+          ],
+          "confidence": 0.85
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.85
+    },
+    "q8": {
+      "item_id": "q8",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        616,
+        965,
+        642
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "大小关系是",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                868,
+                610,
+                958,
+                638
+              ],
+              "transcription": "$b<c<a$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.9
+    },
+    "q9_1": {
+      "item_id": "q9_1",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        655,
+        965,
+        715
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1)求该抛物线的解析式;",
+          "anchor_after": "(2)",
+          "regions": [
+            {
+              "answer_bbox": [
+                175,
+                742,
+                308,
+                776
+              ],
+              "transcription": "$y=(x-2)^2$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "diagram_regions": [
+        [
+          775,
+          712,
+          968,
+          838
+        ]
+      ],
+      "confidence": 0.9
+    },
+    "q9_2": {
+      "item_id": "q9_2",
+      "physical_page_id": "math_01__student__student001:p1",
+      "page_index": 1,
+      "question_region": [
+        95,
+        695,
+        965,
+        720
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(2)求点$D$的坐标及$\\square ACBD$的面积.",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                130,
+                790,
+                380,
+                975
+              ],
+              "transcription": "(2)当$x=0$时\n$y=(-2)^2$\n$=4$\n$2-(2+2)=-2$\n$D(-2,0)$\n$S_{\\triangle ACBD}=4\\times4=16$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.8
+            }
+          ],
+          "confidence": 0.8
+        }
+      ],
+      "diagram_regions": [
+        [
+          775,
+          712,
+          968,
+          838
+        ]
+      ],
+      "confidence": 0.8
+    }
+  }
+}

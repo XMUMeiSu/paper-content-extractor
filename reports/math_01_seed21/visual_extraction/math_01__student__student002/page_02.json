@@ -1,0 +1,750 @@
+{
+  "status": "ACCEPTED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "failures_in": [],
+      "status": "ACCEPTED",
+      "response": {
+        "items": [
+          {
+            "item_id": "q10",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              45,
+              75,
+              915,
+              125
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "大小关系为",
+                "anchor_after": ".",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      100,
+                      95,
+                      300,
+                      130
+                    ],
+                    "transcription": "$y_1<y_2<y_3$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q11",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              45,
+              130,
+              900,
+              175
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "choice_response",
+                "anchor_before": "解是（",
+                "anchor_after": "）",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      840,
+                      132,
+                      880,
+                      165
+                    ],
+                    "transcription": "B",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.95
+                  }
+                ],
+                "confidence": 0.95
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.95
+          },
+          {
+            "item_id": "q12_1",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              90,
+              186,
+              910,
+              228
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "（1）当$h=3$时，求函数值的$y$的",
+                "anchor_after": "取值范围；",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      220,
+                      240,
+                      410,
+                      280
+                    ],
+                    "transcription": "(1) $y \\le 0$",
+                    "legible": false,
+                    "content_kind": "handwriting",
+                    "confidence": 0.6
+                  }
+                ],
+                "confidence": 0.7
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.8
+          },
+          {
+            "item_id": "q12_2",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              90,
+              216,
+              500,
+              236
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "（2）若函数的最大值为-1，求$h$的值",
+                "anchor_after": "13.",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      220,
+                      295,
+                      400,
+                      345
+                    ],
+                    "transcription": "(2) $h=1/6$",
+                    "legible": true,
+                    "content_kind": "handwriting",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.8
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.8
+          },
+          {
+            "item_id": "q13_1",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              45,
+              370,
+              240,
+              408
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1)求",
+                "anchor_after": "的取值范围；",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      90,
+                      415,
+                      600,
+                      470
+                    ],
+                    "transcription": "",
+                    "legible": false,
+                    "content_kind": "blank",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.8
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.8
+          },
+          {
+            "item_id": "q13_2",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              270,
+              370,
+              620,
+              408
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(2)若$x_1$，$x_2$满足$2x_1=|x_2|-1$，求",
+                "anchor_after": "的值.",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      90,
+                      470,
+                      600,
+                      560
+                    ],
+                    "transcription": "",
+                    "legible": false,
+                    "content_kind": "blank",
+                    "confidence": 0.9
+                  }
+                ],
+                "confidence": 0.8
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.8
+          },
+          {
+            "item_id": "q14",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              45,
+              605,
+              915,
+              675
+            ],
+            "answer_layout": "single",
+            "slots": [
+              {
+                "index": 1,
+                "label": "blank_response",
+                "anchor_before": "则$m$的取值范围是",
+                "anchor_after": "",
+                "regions": [
+                  {
+                    "answer_bbox": [
+                      630,
+                      645,
+                      745,
+                      680
+                    ],
+                    "transcription": "$2<m<5$",
+                    "legible": false,
+                    "content_kind": "handwriting",
+                    "confidence": 0.5
+                  }
+                ],
+                "confidence": 0.6
+              }
+            ],
+            "diagram_regions": [],
+            "confidence": 0.6
+          },
+          {
+            "item_id": "q15_1",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              60,
+              700,
+              340,
+              720
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "working_response",
+                "anchor_before": "(1)求此抛物线对应的函数解析式",
+                "anchor_after": "(2)",
+                "regions": [],
+                "confidence": 0.5
+              }
+            ],
+            "diagram_regions": [
+              [
+                720,
+                710,
+                930,
+                840
+              ]
+            ],
+            "confidence": 0.7
+          },
+          {
+            "item_id": "q15_2",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              60,
+              725,
+              670,
+              745
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "(2)若将y轴向右平移6个单位长度，直接写出此时抛物线对应的函数解析式",
+                "anchor_after": "(3)",
+                "regions": [],
+                "confidence": 0.5
+              }
+            ],
+            "diagram_regions": [
+              [
+                720,
+                710,
+                930,
+                840
+              ]
+            ],
+            "confidence": 0.7
+          },
+          {
+            "item_id": "q15_3",
+            "physical_page_id": "math_01__student__student002:p2",
+            "page_index": 2,
+            "question_region": [
+              60,
+              748,
+              680,
+              790
+            ],
+            "answer_layout": "vertical",
+            "slots": [
+              {
+                "index": 1,
+                "label": "short_response",
+                "anchor_before": "(3)该抛物线上是否存在一点P，使得AB=AP？若存在，请直接写出点P的坐标；若不存在，请说明理由.",
+                "anchor_after": "",
+                "regions": [],
+                "confidence": 0.5
+              }
+            ],
+            "diagram_regions": [
+              [
+                720,
+                710,
+                930,
+                840
+              ]
+            ],
+            "confidence": 0.7
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 3,
+      "item_id": "q13_1",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    },
+    {
+      "attempt": 3,
+      "item_id": "q13_2",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    },
+    {
+      "attempt": 3,
+      "item_id": "q15_1",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    },
+    {
+      "attempt": 3,
+      "item_id": "q15_2",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    },
+    {
+      "attempt": 3,
+      "item_id": "q15_3",
+      "mode": "empty_region_focus_retry",
+      "status": "EMPTY"
+    }
+  ],
+  "items": {
+    "q10": {
+      "item_id": "q10",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        45,
+        75,
+        915,
+        125
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "大小关系为",
+          "anchor_after": ".",
+          "regions": [
+            {
+              "answer_bbox": [
+                100,
+                95,
+                300,
+                130
+              ],
+              "transcription": "$y_1<y_2<y_3$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q11": {
+      "item_id": "q11",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        45,
+        130,
+        900,
+        175
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "choice_response",
+          "anchor_before": "解是（",
+          "anchor_after": "）",
+          "regions": [
+            {
+              "answer_bbox": [
+                840,
+                132,
+                880,
+                165
+              ],
+              "transcription": "B",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.95
+            }
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.95
+    },
+    "q12_1": {
+      "item_id": "q12_1",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        90,
+        186,
+        910,
+        228
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "（1）当$h=3$时，求函数值的$y$的",
+          "anchor_after": "取值范围；",
+          "regions": [
+            {
+              "answer_bbox": [
+                220,
+                240,
+                410,
+                280
+              ],
+              "transcription": "(1) $y \\le 0$",
+              "legible": false,
+              "content_kind": "handwriting",
+              "confidence": 0.6
+            }
+          ],
+          "confidence": 0.7
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.8
+    },
+    "q12_2": {
+      "item_id": "q12_2",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        90,
+        216,
+        500,
+        236
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "（2）若函数的最大值为-1，求$h$的值",
+          "anchor_after": "13.",
+          "regions": [
+            {
+              "answer_bbox": [
+                220,
+                295,
+                400,
+                345
+              ],
+              "transcription": "(2) $h=1/6$",
+              "legible": true,
+              "content_kind": "handwriting",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.8
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.8
+    },
+    "q13_1": {
+      "item_id": "q13_1",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        45,
+        370,
+        240,
+        408
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1)求",
+          "anchor_after": "的取值范围；",
+          "regions": [
+            {
+              "answer_bbox": [
+                90,
+                415,
+                600,
+                470
+              ],
+              "transcription": "",
+              "legible": false,
+              "content_kind": "blank",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.8
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.8
+    },
+    "q13_2": {
+      "item_id": "q13_2",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        270,
+        370,
+        620,
+        408
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(2)若$x_1$，$x_2$满足$2x_1=|x_2|-1$，求",
+          "anchor_after": "的值.",
+          "regions": [
+            {
+              "answer_bbox": [
+                90,
+                470,
+                600,
+                560
+              ],
+              "transcription": "",
+              "legible": false,
+              "content_kind": "blank",
+              "confidence": 0.9
+            }
+          ],
+          "confidence": 0.8
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.8
+    },
+    "q14": {
+      "item_id": "q14",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        45,
+        605,
+        915,
+        675
+      ],
+      "answer_layout": "single",
+      "slots": [
+        {
+          "index": 1,
+          "label": "blank_response",
+          "anchor_before": "则$m$的取值范围是",
+          "anchor_after": "",
+          "regions": [
+            {
+              "answer_bbox": [
+                630,
+                645,
+                745,
+                680
+              ],
+              "transcription": "$2<m<5$",
+              "legible": false,
+              "content_kind": "handwriting",
+              "confidence": 0.5
+            }
+          ],
+          "confidence": 0.6
+        }
+      ],
+      "diagram_regions": [],
+      "confidence": 0.6
+    },
+    "q15_1": {
+      "item_id": "q15_1",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        60,
+        700,
+        340,
+        720
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "working_response",
+          "anchor_before": "(1)求此抛物线对应的函数解析式",
+          "anchor_after": "(2)",
+          "regions": [],
+          "confidence": 0.5
+        }
+      ],
+      "diagram_regions": [
+        [
+          720,
+          710,
+          930,
+          840
+        ]
+      ],
+      "confidence": 0.7
+    },
+    "q15_2": {
+      "item_id": "q15_2",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        60,
+        725,
+        670,
+        745
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "(2)若将y轴向右平移6个单位长度，直接写出此时抛物线对应的函数解析式",
+          "anchor_after": "(3)",
+          "regions": [],
+          "confidence": 0.5
+        }
+      ],
+      "diagram_regions": [
+        [
+          720,
+          710,
+          930,
+          840
+        ]
+      ],
+      "confidence": 0.7
+    },
+    "q15_3": {
+      "item_id": "q15_3",
+      "physical_page_id": "math_01__student__student002:p2",
+      "page_index": 2,
+      "question_region": [
+        60,
+        748,
+        680,
+        790
+      ],
+      "answer_layout": "vertical",
+      "slots": [
+        {
+          "index": 1,
+          "label": "short_response",
+          "anchor_before": "(3)该抛物线上是否存在一点P，使得AB=AP？若存在，请直接写出点P的坐标；若不存在，请说明理由.",
+          "anchor_after": "",
+          "regions": [],
+          "confidence": 0.5
+        }
+      ],
+      "diagram_regions": [
+        [
+          720,
+          710,
+          930,
+          840
+        ]
+      ],
+      "confidence": 0.7
+    }
+  }
+}

@@ -61,9 +61,10 @@ class PerformanceCollector:
                 result = request(prompt, paths, schema)
             except Exception as exc:
                 audit = getattr(exc, "response_audit", {}) or {}
+                telemetry_paths = audit.get("upload_paths") or paths
                 self.record(
                     stage=stage, provider=provider, operation=operation,
-                    duration_seconds=time.monotonic() - started, paths=paths,
+                    duration_seconds=time.monotonic() - started, paths=telemetry_paths,
                     attempts=audit.get("attempts", 1),
                     retry_reasons=audit.get("retry_reasons", ()),
                     usage=audit.get("usage"), status="FAILED",
@@ -71,9 +72,10 @@ class PerformanceCollector:
                 )
                 raise
             audit = getattr(result, "response_audit", {}) or {}
+            telemetry_paths = audit.get("upload_paths") or paths
             self.record(
                 stage=stage, provider=provider, operation=operation,
-                duration_seconds=time.monotonic() - started, paths=paths,
+                duration_seconds=time.monotonic() - started, paths=telemetry_paths,
                 attempts=audit.get("attempts", 1),
                 retry_reasons=audit.get("retry_reasons", ()),
                 usage=audit.get("usage"), status="SUCCESS",

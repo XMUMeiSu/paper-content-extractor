@@ -12,6 +12,7 @@ import os
 import re
 import shlex
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -93,11 +94,25 @@ DOUBAO_API_KEY = os.getenv("DOUBAO_API_KEY", "").strip()
 DOUBAO_BASE_URL = os.getenv(
     "DOUBAO_BASE_URL", "https://ark.cn-beijing.volces.com/api/plan/v3"
 ).rstrip("/")
-DOUBAO_MODEL = os.getenv("DOUBAO_MODEL", "doubao-seed-2.0-lite")
+DOUBAO_MODEL = os.getenv("DOUBAO_MODEL", "doubao-seed-2.1-turbo")
 DOUBAO_RESPONSES_ENDPOINT = os.getenv(
     "DOUBAO_RESPONSES_ENDPOINT", DOUBAO_BASE_URL.rstrip("/") + "/responses"
 )
 EXAM_REQUEST_TIMEOUT = int(os.getenv("EXAM_REQUEST_TIMEOUT", "180"))
+
+
+def _safe_int_env(name: str, default: int) -> int:
+    try:
+        return int(os.getenv(name, str(default)))
+    except (TypeError, ValueError):
+        return default
+
+
+# Upload-only image settings. Coordinates stay normalized to the original page
+# frame, so preserving the aspect ratio keeps downstream geometry compatible.
+UPLOAD_MAX_LONG_EDGE = max(0, _safe_int_env("EXAM_UPLOAD_MAX_LONG_EDGE", 2300))
+UPLOAD_JPEG_QUALITY = min(100, max(1, _safe_int_env("EXAM_UPLOAD_JPEG_QUALITY", 85)))
+UPLOAD_CACHE_DIR = os.getenv("EXAM_UPLOAD_CACHE_DIR", "").strip()
 
 
 OCRBlock = ModularOCRBlock
@@ -326,6 +341,70 @@ def _data_url(path: Path) -> str:
     return f"data:{mime};base64,{encoded}"
 
 
+def _upload_cache_root() -> Path:
+    configured = Path(UPLOAD_CACHE_DIR).expanduser() if UPLOAD_CACHE_DIR else (
+        Path(__file__).resolve().parent / ".exam_pipeline_cache" / "upload_images"
+    )
+    configured.mkdir(parents=True, exist_ok=True)
+    return configured
+
+
+def _compressed_upload_path(source: Path) -> Path:
+    """Return a cached, aspect-preserving JPEG used only for VLM upload."""
+    source = Path(source)
+    if UPLOAD_MAX_LONG_EDGE <= 0:
+        return source
+    try:
+        stat = source.stat()
+        cache_key = hashlib.sha256(
+            "{}:{}:{}:{}:{}".format(
+                source.resolve(), stat.st_size, stat.st_mtime_ns,
+                UPLOAD_MAX_LONG_EDGE, UPLOAD_JPEG_QUALITY,
+            ).encode("utf-8")
+        ).hexdigest()[:32]
+        target = _upload_cache_root() / (cache_key + ".jpg")
+        if target.is_file() and target.stat().st_size > 0:
+            return target if target.stat().st_size < stat.st_size else source
+
+        from PIL import Image
+        with Image.open(source) as image:
+            width, height = image.size
+            scale = min(1.0, UPLOAD_MAX_LONG_EDGE / max(width, height))
+            resized = image
+            if scale < 1.0:
+                resized = image.resize(
+                    (max(1, round(width * scale)), max(1, round(height * scale))),
+                    Image.Resampling.LANCZOS,
+                )
+            if resized.mode not in {"RGB", "L"}:
+                resized = resized.convert("RGB")
+            elif resized.mode == "L":
+                resized = resized.convert("RGB")
+            temporary = tempfile.NamedTemporaryFile(
+                dir=str(target.parent), prefix=target.stem + ".", suffix=".tmp", delete=False,
+            )
+            temporary_path = Path(temporary.name)
+            temporary.close()
+            try:
+                resized.save(
+                    temporary_path, format="JPEG", quality=UPLOAD_JPEG_QUALITY,
+                    optimize=True, progressive=True,
+                )
+                os.replace(temporary_path, target)
+            finally:
+                temporary_path.unlink(missing_ok=True)
+            if resized is not image:
+                resized.close()
+        return target if target.stat().st_size < stat.st_size else source
+    except Exception as exc:
+        LOGGER.warning("upload_image_compression_failed path=%s error=%s", source, exc)
+        return source
+
+
+def _prepare_upload_paths(paths: Sequence[Path]) -> List[Path]:
+    return [_compressed_upload_path(Path(path)) for path in paths]
+
+
 TEACHER_SCHEMA: Dict[str, Any] = {
     "type": "object", "additionalProperties": False,
     "required": ["document_type", "subject", "questions", "pages", "warnings"],
@@ -483,8 +562,18 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
         raise ValueError("timeout 必须大于 0")
     if max_attempts < 1:
         raise ValueError("max_attempts 必须大于 0")
+    upload_paths = _prepare_upload_paths(paths)
+    upload_audit = {
+        "upload_paths": [str(path) for path in upload_paths],
+        "upload_image_count": len(upload_paths),
+        "upload_image_bytes": sum(
+            path.stat().st_size for path in upload_paths if path.is_file()
+        ),
+        "upload_max_long_edge": UPLOAD_MAX_LONG_EDGE,
+        "upload_jpeg_quality": UPLOAD_JPEG_QUALITY,
+    }
     content: List[Dict[str, Any]] = [{"type": "input_text", "text": prompt}]
-    content.extend({"type": "input_image", "image_url": _data_url(path), "detail": "high"} for path in paths)
+    content.extend({"type": "input_image", "image_url": _data_url(path), "detail": "high"} for path in upload_paths)
     payload = {
         "model": model,
         "input": [{"role": "user", "content": content}],
@@ -507,21 +596,28 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
             retryable = exc.code == 429 or 500 <= exc.code < 600
             if not retryable or attempt == max_attempts:
                 error = RuntimeError(f"视觉模型 HTTP {exc.code}: {body[:500]}")
-                error.response_audit = {"attempts": attempts_used,
-                                        "retry_reasons": retry_reasons + [f"http_{exc.code}"]}
+                error.response_audit = {
+                    **upload_audit,
+                    "attempts": attempts_used,
+                    "retry_reasons": retry_reasons + [f"http_{exc.code}"],
+                }
                 raise error from exc
             retry_reasons.append(f"http_{exc.code}")
             LOGGER.warning("vlm_retry attempt=%d status=%d", attempt, exc.code)
         except (urllib.error.URLError, TimeoutError) as exc:
             if attempt == max_attempts:
                 error = RuntimeError(f"视觉模型网络请求失败: {exc}")
-                error.response_audit = {"attempts": attempts_used,
-                                        "retry_reasons": retry_reasons + ["network"]}
+                error.response_audit = {
+                    **upload_audit,
+                    "attempts": attempts_used,
+                    "retry_reasons": retry_reasons + ["network"],
+                }
                 raise error from exc
             retry_reasons.append("network")
             LOGGER.warning("vlm_retry attempt=%d reason=network", attempt)
         time.sleep(min(4.0, 0.5 * (2 ** (attempt - 1))))
     response_audit = {
+        **upload_audit,
         "response_id": raw.get("id"),
         "status": raw.get("status"),
         "incomplete_details": raw.get("incomplete_details"),
@@ -1297,6 +1393,13 @@ def _process_serial(
                 "authority": "vlm_final_question_region",
                 "coordinate_authority": "vlm_original_page_pixels",
                 "fallback": "page_local_vlm_retry",
+            },
+            "upload_image": {
+                "enabled": UPLOAD_MAX_LONG_EDGE > 0,
+                "max_long_edge": UPLOAD_MAX_LONG_EDGE,
+                "jpeg_quality": UPLOAD_JPEG_QUALITY,
+                "coordinate_frame": "normalized_0_1000_original_page",
+                "cache_root": str(_upload_cache_root()),
             },
             "dry_run": dry_run,
             "concurrency": {"page_workers": int(_page_workers or 1)},

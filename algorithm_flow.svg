@@ -1,4 +1,4 @@
-<svg width="1000" height="1080" viewBox="0 0 1000 1080" xmlns="http://www.w3.org/2000/svg">
+<svg width="1000" height="1180" viewBox="0 0 1000 1180" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
       .bg { fill:#f8fafc }
@@ -29,7 +29,7 @@
     </marker>
   </defs>
 
-  <rect class="bg" width="1000" height="1080" rx="20"/>
+  <rect class="bg" width="1000" height="1180" rx="20"/>
   <text x="500" y="42" text-anchor="middle" class="title">Paper Content Extractor · 当前豆包 VLM 流程</text>
   <rect class="badge" x="402" y="58" width="196" height="28" rx="14"/>
   <text x="500" y="77" text-anchor="middle" class="badge-text">Doubao Responses API</text>
@@ -43,46 +43,53 @@
   <text x="500" y="262" text-anchor="middle" class="heading">2. 图片预处理</text>
   <text x="500" y="287" text-anchor="middle" class="text">方向校正 · 透视矫正 · 光照归一 · 文件指纹</text>
   <text x="500" y="307" text-anchor="middle" class="small">证据始终绑定当前文档原页</text>
-  <path class="arrow" d="M500 318 V352"/>
+  <path class="arrow" d="M500 318 V342"/>
 
-  <rect class="teacher" x="220" y="356" width="560" height="108" rx="12"/>
-  <text x="500" y="388" text-anchor="middle" class="heading">3. 教师卷全卷视觉构树</text>
-  <text x="500" y="414" text-anchor="middle" class="text">豆包联合读取全部页面，生成章节、题目、小问和页归属</text>
-  <text x="500" y="438" text-anchor="middle" class="small">Schema 校验 · 页覆盖校验 · 本地确定性 ID</text>
-  <text x="500" y="457" text-anchor="middle" class="small">有效 ExamTree 按教师图片指纹缓存</text>
+  <rect class="card" x="220" y="346" width="560" height="92" rx="12"/>
+  <text x="500" y="378" text-anchor="middle" class="heading">3. VLM 上传副本准备</text>
+  <text x="500" y="404" text-anchor="middle" class="text">按比例缩放长边 ≤ 2300 · JPEG quality=85</text>
+  <text x="500" y="425" text-anchor="middle" class="small">缓存压缩副本 · 原图和原页坐标保持不变</text>
+  <path class="arrow" d="M500 438 V458"/>
 
-  <path class="teacher-arrow" d="M390 464 V506"/>
-  <path class="student-arrow" d="M610 464 V506"/>
+  <rect class="teacher" x="220" y="462" width="560" height="108" rx="12"/>
+  <text x="500" y="494" text-anchor="middle" class="heading">4. 教师卷全卷视觉构树</text>
+  <text x="500" y="520" text-anchor="middle" class="text">豆包联合读取全部页面，生成章节、题目、小问和页归属</text>
+  <text x="500" y="544" text-anchor="middle" class="small">Schema 校验 · 页覆盖校验 · 本地确定性 ID</text>
+  <text x="500" y="563" text-anchor="middle" class="small">有效 ExamTree 按教师图片指纹缓存</text>
 
-  <rect class="teacher" x="80" y="510" width="400" height="98" rx="12"/>
-  <text x="280" y="542" text-anchor="middle" class="heading">4A. 教师卷保留题目拓扑</text>
-  <text x="280" y="568" text-anchor="middle" class="text">提取教师答案和标准槽位</text>
-  <text x="280" y="591" text-anchor="middle" class="small">写入可复用 ExamTree</text>
+  <path class="teacher-arrow" d="M390 570 V612"/>
+  <path class="student-arrow" d="M610 570 V612"/>
 
-  <rect class="student" x="520" y="510" width="400" height="98" rx="12"/>
-  <text x="720" y="542" text-anchor="middle" class="heading">4B. 学生卷继承逻辑题目树</text>
-  <text x="720" y="568" text-anchor="middle" class="text">仅复用题目身份和槽位拓扑</text>
-  <text x="720" y="591" text-anchor="middle" class="small">清除教师坐标、答案区域和识别证据</text>
+  <rect class="teacher" x="80" y="616" width="400" height="98" rx="12"/>
+  <text x="280" y="648" text-anchor="middle" class="heading">5A. 教师卷保留题目拓扑</text>
+  <text x="280" y="674" text-anchor="middle" class="text">提取教师答案和标准槽位</text>
+  <text x="280" y="697" text-anchor="middle" class="small">写入可复用 ExamTree</text>
 
-  <path class="teacher-arrow" d="M280 608 V648 H500"/>
-  <path class="student-arrow" d="M720 608 V648 H500"/>
+  <rect class="student" x="520" y="616" width="400" height="98" rx="12"/>
+  <text x="720" y="648" text-anchor="middle" class="heading">5B. 学生卷继承逻辑题目树</text>
+  <text x="720" y="674" text-anchor="middle" class="text">教师完成后，学生卷按 worker 并发</text>
+  <text x="720" y="697" text-anchor="middle" class="small">复用题目身份，清除教师坐标和答案证据</text>
 
-  <rect class="card" x="190" y="652" width="620" height="112" rx="12"/>
-  <text x="500" y="685" text-anchor="middle" class="heading">5. 当前试卷原页联合视觉提取</text>
-  <text x="500" y="712" text-anchor="middle" class="text">题目区域 · 逻辑槽位 · 最终像素坐标 · 答案文本 · 图示区域</text>
-  <text x="500" y="738" text-anchor="middle" class="small">教师卷和每份学生卷都从各自页面独立提取</text>
-  <path class="arrow" d="M500 764 V798"/>
+  <path class="teacher-arrow" d="M280 714 V750 H500"/>
+  <path class="student-arrow" d="M720 714 V750 H500"/>
 
-  <rect class="check" x="190" y="802" width="620" height="102" rx="12"/>
-  <text x="500" y="834" text-anchor="middle" class="heading">6. 有界重试与质量门</text>
-  <text x="500" y="860" text-anchor="middle" class="text">缺失页/题重试 · 坐标边界 · 区域冲突 · 槽位完整性</text>
-  <text x="500" y="884" text-anchor="middle" class="small">未解决内容进入 NEED_REVIEW，不使用其他识别后端降级</text>
-  <path class="arrow dash" d="M810 850 H870 V708 H814"/>
-  <text x="881" y="782" text-anchor="middle" class="small" transform="rotate(90 881 782)">最多限定次数</text>
-  <path class="arrow" d="M500 904 V938"/>
+  <rect class="card" x="190" y="754" width="620" height="130" rx="12"/>
+  <text x="500" y="787" text-anchor="middle" class="heading">6. 当前试卷页面视觉提取</text>
+  <text x="500" y="814" text-anchor="middle" class="text">题目区域 · 逻辑槽位 · 最终像素坐标 · 答案文本 · 图示区域</text>
+  <text x="500" y="838" text-anchor="middle" class="small">单份试卷页面可并发，请求结果按页序写回</text>
+  <text x="500" y="860" text-anchor="middle" class="small">跨页片段按 semantic_id 合并，坐标仍回写到原页</text>
+  <path class="arrow" d="M500 884 V918"/>
 
-  <rect class="output" x="150" y="942" width="700" height="100" rx="12"/>
-  <text x="500" y="974" text-anchor="middle" class="heading">7. 结果收敛与导出</text>
-  <text x="500" y="1000" text-anchor="middle" class="text">文档 JSON · manifest · ExamTree · ROI · 图示资源 · 槽位可视化</text>
-  <text x="500" y="1025" text-anchor="middle" class="small">recognition_mode=vlm_only · ocr_used=false · 坐标来自原页 VLM</text>
+  <rect class="check" x="190" y="922" width="620" height="102" rx="12"/>
+  <text x="500" y="954" text-anchor="middle" class="heading">7. 有界重试与质量门</text>
+  <text x="500" y="980" text-anchor="middle" class="text">缺失页/题重试 · 坐标边界 · 区域冲突 · 槽位完整性</text>
+  <text x="500" y="1004" text-anchor="middle" class="small">未解决内容进入 NEED_REVIEW，不使用其他识别后端降级</text>
+  <path class="arrow dash" d="M810 970 H870 V828 H814"/>
+  <text x="881" y="902" text-anchor="middle" class="small" transform="rotate(90 881 902)">最多限定次数</text>
+  <path class="arrow" d="M500 1024 V1058"/>
+
+  <rect class="output" x="150" y="1062" width="700" height="100" rx="12"/>
+  <text x="500" y="1094" text-anchor="middle" class="heading">8. 结果收敛与导出</text>
+  <text x="500" y="1120" text-anchor="middle" class="text">文档 JSON · manifest · ExamTree · ROI · 图示资源 · 槽位可视化</text>
+  <text x="500" y="1145" text-anchor="middle" class="small">recognition_mode=vlm_only · ocr_used=false · 坐标来自原页 VLM</text>
 </svg>

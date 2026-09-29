@@ -1,0 +1,1118 @@
+{
+  "schema_version": "exam_manifest.v4",
+  "status": "COMPLETED",
+  "started_at": "2026-09-23T17:08:25+08:00",
+  "dataset": "dataset",
+  "documents": [
+    {
+      "id": "math_01__teacher__teacher",
+      "role": "teacher",
+      "subject": "math_01",
+      "student_id": null,
+      "output": "reports/math_01_seed21/math_01__teacher__teacher.json",
+      "structured_file": "reports/math_01_seed21/math_01__teacher__teacher.json",
+      "normalized_pages": [
+        "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_01.jpg",
+        "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": true,
+      "golden_source": "teacher_cache:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:67480b52ec2245ff1ed35b7873f1786566a18b3c6187c163cae12bf0c4445aac",
+      "strategy": "teacher_exam_tree_fingerprint_cache_valid_draft",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 9,
+      "slot_visualization": "reports/math_01_seed21/visualizations/teacher_slots.jpg",
+      "slot_count": 26,
+      "answer_verification": null,
+      "input_fingerprint": "sha256:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "source_pages": [
+        "dataset/math_01/teacher/page_01.jpg",
+        "dataset/math_01/teacher/page_02.jpg"
+      ],
+      "duration_seconds": 320.071,
+      "performance": {
+        "request_count": 3,
+        "cumulative_operation_seconds": 494.8977,
+        "failures": 1,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 3,
+            "duration_seconds": 494.8977,
+            "image_count": 3,
+            "image_bytes": 1274565,
+            "attempts": 3,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:08:25+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/teacher/page_01.jpg",
+            "dataset/math_01/teacher/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-23T17:08:25+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:08:29+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/teacher/page_01.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_01.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_01.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/teacher/page_02.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_02.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_02.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/teacher/teacher/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 4.082
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:08:29+08:00",
+          "source": "fingerprint_cache",
+          "fingerprint": "da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+          "state": "DRAFT"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-23T17:08:29+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:44+08:00",
+          "summary": {
+            "page_calls": 3,
+            "page_retries": 1,
+            "failed_pages": 0,
+            "partial_pages": 0,
+            "items": 20,
+            "slots": 26,
+            "regions": 26,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false,
+            "accepted_items": 20,
+            "partial_items": 0
+          },
+          "duration_seconds": 315.042
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:44+08:00",
+          "retries": 1,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:44+08:00",
+          "role": "teacher"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:44+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 23,
+            "blank_slots": 0,
+            "unresolved_slots": 1,
+            "physical_regions": 26,
+            "geometry": {
+              "ALIGNED": 25,
+              "ALIGNED_WITH_WARNING": 1
+            },
+            "content": {
+              "RECOGNIZED": 25,
+              "VLM_UNCERTAIN": 1
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "assets": 9,
+          "items": 6,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "contact_sheet": "reports/math_01_seed21/visualizations/teacher_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student001",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student001",
+      "output": "reports/math_01_seed21/math_01__student__student001.json",
+      "structured_file": "reports/math_01_seed21/math_01__student__student001.json",
+      "normalized_pages": [
+        "reports/math_01_seed21/normalized/math_01/student/student001/page_01.jpg",
+        "reports/math_01_seed21/normalized/math_01/student/student001/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher_cache:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:67480b52ec2245ff1ed35b7873f1786566a18b3c6187c163cae12bf0c4445aac",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 10,
+      "slot_visualization": "reports/math_01_seed21/visualizations/student001_slots.jpg",
+      "slot_count": 28,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 19,
+        "blank_slots": 4,
+        "unresolved_slots": 1,
+        "physical_regions": 28,
+        "geometry": {
+          "ALIGNED": 27,
+          "ALIGNED_WITH_WARNING": 1
+        },
+        "content": {
+          "RECOGNIZED": 23,
+          "VLM_UNCERTAIN": 1,
+          "BLANK": 4
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:071b3ce416daac495d450999708df9256610fbbcddf39adc8fab658b1c2e9389",
+      "source_pages": [
+        "dataset/math_01/student001/page_01.jpg",
+        "dataset/math_01/student001/page_02.jpg"
+      ],
+      "duration_seconds": 507.441,
+      "performance": {
+        "request_count": 6,
+        "cumulative_operation_seconds": 635.4102,
+        "failures": 1,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 6,
+            "duration_seconds": 635.4102,
+            "image_count": 9,
+            "image_bytes": 2121405,
+            "attempts": 6,
+            "failures": 1,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student001/page_01.jpg",
+            "dataset/math_01/student001/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:45+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:51+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student001/page_01.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student001/page_01.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student001/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student001/page_01.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student001/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student001/page_02.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student001/page_02.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student001/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student001/page_02.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student001/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 5.695
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:51+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:51+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "summary": {
+            "page_calls": 6,
+            "page_retries": 4,
+            "failed_pages": 0,
+            "partial_pages": 0,
+            "items": 20,
+            "slots": 28,
+            "regions": 28,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false,
+            "accepted_items": 20,
+            "partial_items": 0
+          },
+          "duration_seconds": 501.136
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "retries": 4,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 19,
+            "blank_slots": 4,
+            "unresolved_slots": 1,
+            "physical_regions": 28,
+            "geometry": {
+              "ALIGNED": 27,
+              "ALIGNED_WITH_WARNING": 1
+            },
+            "content": {
+              "RECOGNIZED": 23,
+              "VLM_UNCERTAIN": 1,
+              "BLANK": 4
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "assets": 10,
+          "items": 7,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "contact_sheet": "reports/math_01_seed21/visualizations/student001_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:22:12+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student002",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student002",
+      "output": "reports/math_01_seed21/math_01__student__student002.json",
+      "structured_file": "reports/math_01_seed21/math_01__student__student002.json",
+      "normalized_pages": [
+        "reports/math_01_seed21/normalized/math_01/student/student002/page_01.jpg",
+        "reports/math_01_seed21/normalized/math_01/student/student002/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher_cache:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:67480b52ec2245ff1ed35b7873f1786566a18b3c6187c163cae12bf0c4445aac",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "NEED_REVIEW",
+      "roi_patch_count": 14,
+      "diagram_asset_count": 9,
+      "slot_visualization": "reports/math_01_seed21/visualizations/student002_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 16,
+        "blank_slots": 6,
+        "unresolved_slots": 2,
+        "physical_regions": 21,
+        "geometry": {
+          "ALIGNED": 20,
+          "ALIGNED_WITH_WARNING": 1,
+          "MISSING": 3
+        },
+        "content": {
+          "RECOGNIZED": 16,
+          "BLANK": 6,
+          "VLM_UNCERTAIN": 2
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:f408b1e096c278985d70511d65a3826c9ae6d3467a24b9075a4942d700772920",
+      "source_pages": [
+        "dataset/math_01/student002/page_01.jpg",
+        "dataset/math_01/student002/page_02.jpg"
+      ],
+      "duration_seconds": 347.152,
+      "performance": {
+        "request_count": 8,
+        "cumulative_operation_seconds": 605.5379,
+        "failures": 0,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 8,
+            "duration_seconds": 605.5379,
+            "image_count": 14,
+            "image_bytes": 2075548,
+            "attempts": 8,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student002/page_01.jpg",
+            "dataset/math_01/student002/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:45+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:50+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student002/page_01.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student002/page_01.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student002/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student002/page_01.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student002/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student002/page_02.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student002/page_02.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student002/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student002/page_02.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student002/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 5.46
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:50+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:50+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "summary": {
+            "page_calls": 8,
+            "page_retries": 6,
+            "failed_pages": 0,
+            "partial_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 21,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false,
+            "accepted_items": 20,
+            "partial_items": 0
+          },
+          "duration_seconds": 341.18
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "retries": 6,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 16,
+            "blank_slots": 6,
+            "unresolved_slots": 2,
+            "physical_regions": 21,
+            "geometry": {
+              "ALIGNED": 20,
+              "ALIGNED_WITH_WARNING": 1,
+              "MISSING": 3
+            },
+            "content": {
+              "RECOGNIZED": 16,
+              "BLANK": 6,
+              "VLM_UNCERTAIN": 2
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "assets": 9,
+          "items": 6,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "contact_sheet": "reports/math_01_seed21/visualizations/student002_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:19:32+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    },
+    {
+      "id": "math_01__student__student003",
+      "role": "student",
+      "subject": "math_01",
+      "student_id": "student003",
+      "output": "reports/math_01_seed21/math_01__student__student003.json",
+      "structured_file": "reports/math_01_seed21/math_01__student__student003.json",
+      "normalized_pages": [
+        "reports/math_01_seed21/normalized/math_01/student/student003/page_01.jpg",
+        "reports/math_01_seed21/normalized/math_01/student/student003/page_02.jpg"
+      ],
+      "pages": 2,
+      "total_score": null,
+      "is_teacher_golden": false,
+      "golden_source": "teacher_cache:da8b073fb7d683459a80ad748d8db9e34d209e3258a8700cd656f3c18b8ec122",
+      "topology_locked": true,
+      "exam_tree_id": "math_01:exam_tree",
+      "exam_tree_revision": 1,
+      "exam_tree_fingerprint": "sha256:67480b52ec2245ff1ed35b7873f1786566a18b3c6187c163cae12bf0c4445aac",
+      "strategy": "inherited_teacher_topology+student_vlm_evidence",
+      "quality_status": "OK",
+      "roi_patch_count": 15,
+      "diagram_asset_count": 9,
+      "slot_visualization": "reports/math_01_seed21/visualizations/student003_slots.jpg",
+      "slot_count": 24,
+      "answer_verification": {
+        "total_logical_slots": 24,
+        "answers_extracted": 24,
+        "blank_slots": 0,
+        "unresolved_slots": 0,
+        "physical_regions": 24,
+        "geometry": {
+          "ALIGNED": 24
+        },
+        "content": {
+          "RECOGNIZED": 24
+        },
+        "coordinate_authority": "vlm_original_page_pixels",
+        "answer_authority": "vlm_original_page",
+        "ocr_used": false
+      },
+      "input_fingerprint": "sha256:7702619e206ec462a6aa764eb99ae2c2908504080f8eef3f19c7da2f1787ed46",
+      "source_pages": [
+        "dataset/math_01/student003/page_01.jpg",
+        "dataset/math_01/student003/page_02.jpg"
+      ],
+      "duration_seconds": 135.813,
+      "performance": {
+        "request_count": 2,
+        "cumulative_operation_seconds": 246.154,
+        "failures": 0,
+        "operations": {
+          "page_joint_extraction": {
+            "request_count": 2,
+            "duration_seconds": 246.154,
+            "image_count": 2,
+            "image_bytes": 562349,
+            "attempts": 2,
+            "failures": 0,
+            "cache_hits": 0,
+            "cache_hit_rate": 0.0
+          }
+        }
+      },
+      "phase_trace": [
+        {
+          "phase": "document_discovery",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:45+08:00",
+          "pages": 2,
+          "source_files": [
+            "dataset/math_01/student003/page_01.jpg",
+            "dataset/math_01/student003/page_02.jpg"
+          ]
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:45+08:00"
+        },
+        {
+          "phase": "image_preprocessing",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:52+08:00",
+          "pages": 2,
+          "artifacts": [
+            {
+              "original_filename": "page_01.jpg",
+              "source_path": "dataset/math_01/student003/page_01.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student003/page_01.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student003/page_01_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student003/page_01.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student003/page_01_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            },
+            {
+              "original_filename": "page_02.jpg",
+              "source_path": "dataset/math_01/student003/page_02.jpg",
+              "normalized_path": "reports/math_01_seed21/normalized/math_01/student/student003/page_02.jpg",
+              "geometry_mask_path": "reports/math_01_seed21/normalized/math_01/student/student003/page_02_mask.png",
+              "original_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "normalized_size": {
+                "width": 1654,
+                "height": 2338
+              },
+              "scale_x": 1.0,
+              "scale_y": 1.0,
+              "dual_track": {
+                "recognition": "reports/math_01_seed21/normalized/math_01/student/student003/page_02.jpg",
+                "geometry": "reports/math_01_seed21/normalized/math_01/student/student003/page_02_mask.png",
+                "geometry_values": [
+                  0,
+                  255
+                ]
+              },
+              "status": "NORMALIZED"
+            }
+          ],
+          "duration_seconds": 6.752
+        },
+        {
+          "phase": "question_tree_generation",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:13:52+08:00",
+          "source": "inherited_teacher_tree"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "STARTED",
+          "at": "2026-09-23T17:13:52+08:00",
+          "provider": "doubao",
+          "evidence": "current_document_original_pages"
+        },
+        {
+          "phase": "visual_page_extraction",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:00+08:00",
+          "summary": {
+            "page_calls": 2,
+            "page_retries": 0,
+            "failed_pages": 0,
+            "partial_pages": 0,
+            "items": 20,
+            "slots": 24,
+            "regions": 24,
+            "coordinate_authority": "vlm_original_page_pixels",
+            "ocr_used": false,
+            "accepted_items": 20,
+            "partial_items": 0
+          },
+          "duration_seconds": 128.55
+        },
+        {
+          "phase": "visual_page_retry",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:00+08:00",
+          "retries": 0,
+          "failed_pages": 0
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "STARTED",
+          "at": "2026-09-23T17:16:00+08:00",
+          "role": "student"
+        },
+        {
+          "phase": "answer_recognition",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:00+08:00",
+          "summary": {
+            "total_logical_slots": 24,
+            "answers_extracted": 24,
+            "blank_slots": 0,
+            "unresolved_slots": 0,
+            "physical_regions": 24,
+            "geometry": {
+              "ALIGNED": 24
+            },
+            "content": {
+              "RECOGNIZED": 24
+            },
+            "coordinate_authority": "vlm_original_page_pixels",
+            "answer_authority": "vlm_original_page",
+            "ocr_used": false
+          },
+          "authority": "vlm_original_page",
+          "duration_seconds": 0.0
+        },
+        {
+          "phase": "diagram_asset_export",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:01+08:00",
+          "assets": 9,
+          "items": 6,
+          "errors": 0
+        },
+        {
+          "phase": "slot_visualization",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:01+08:00",
+          "contact_sheet": "reports/math_01_seed21/visualizations/student003_slots.jpg",
+          "pages": 2
+        },
+        {
+          "phase": "result_output",
+          "status": "COMPLETED",
+          "at": "2026-09-23T17:16:01+08:00",
+          "artifact": "document_json_pending"
+        }
+      ],
+      "pipeline_order": [
+        "document_discovery",
+        "image_preprocessing",
+        "question_tree_generation",
+        "visual_page_extraction",
+        "answer_recognition",
+        "visual_page_retry",
+        "diagram_asset_export",
+        "slot_visualization",
+        "result_output"
+      ]
+    }
+  ],
+  "errors": [],
+  "generated_goldens": {
+    "math_01": "reports/math_01_seed21/generated_golden/math_01.json"
+  },
+  "exam_trees": {
+    "math_01": {
+      "path": "reports/math_01_seed21/exam_trees/math_01.json",
+      "tree_id": "math_01:exam_tree",
+      "revision": 1,
+      "fingerprint": "sha256:67480b52ec2245ff1ed35b7873f1786566a18b3c6187c163cae12bf0c4445aac",
+      "validation": {
+        "ready_to_lock": true,
+        "readiness_issues": [],
+        "status": "VALID",
+        "production_strict": false,
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "sections": 3,
+          "questions": 15,
+          "items": 20,
+          "slot_blueprints": 24
+        },
+        "validated_at": "2026-09-23T17:13:44+08:00"
+      }
+    }
+  },
+  "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, diagrams, page_files)",
+  "canonical_canvas": {
+    "width": 1654,
+    "height": 2338
+  },
+  "runtime": {
+    "pipeline_version": "2.12.0",
+    "pipeline_order": [
+      "document_discovery",
+      "image_preprocessing",
+      "question_tree_generation",
+      "visual_page_extraction",
+      "answer_recognition",
+      "visual_page_retry",
+      "diagram_asset_export",
+      "slot_visualization",
+      "result_output"
+    ],
+    "recognition_mode": "vlm_only",
+    "production_mode": false,
+    "model": "doubao-seed-2.1-lite",
+    "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+    "ocr_used": false,
+    "structure_vlm": {
+      "active": "doubao",
+      "model": "doubao-seed-2.1-lite",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/plan/v3/responses",
+      "scope": "lightweight_whole_document_topology_then_page_text_enrichment",
+      "primary_evidence": "all_original_pages",
+      "proposal_stage": "original_images",
+      "validation": "vlm_schema_page_coverage",
+      "max_semantic_attempts": 2,
+      "page_fallback": "bounded_per_page_topology_and_text_recovery",
+      "id_authority": "local_deterministic",
+      "response_diagnostics": "status_incomplete_details_usage_parse_position_raw_artifact",
+      "geometry_authority": "vlm_original_page_pixels",
+      "model_geometry_policy": "final"
+    },
+    "slot_semantics": {
+      "provider": "doubao",
+      "enabled": true,
+      "authority": "question_slots_coordinates_and_answers",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "max_semantic_attempts_per_item": 2,
+      "batch_size": "one_physical_page_all_items",
+      "batch_policy": "one_page_batch_then_item_retry",
+      "candidate_visual_review": false,
+      "answer_visual_transcription": true,
+      "answer_authority": "vlm_original_page",
+      "fallback": "page_local_vlm_retry_then_unresolved",
+      "ocr_used": false
+    },
+    "question_localization": {
+      "enabled": true,
+      "provider": "doubao",
+      "stage": "visual_page_extraction",
+      "authority": "vlm_final_question_region",
+      "coordinate_authority": "vlm_original_page_pixels",
+      "fallback": "page_local_vlm_retry"
+    },
+    "upload_image": {
+      "enabled": true,
+      "max_long_edge": 2300,
+      "jpeg_quality": 85,
+      "coordinate_frame": "normalized_0_1000_original_page",
+      "cache_root": "/home/hzh/paper-content-extractor/.exam_pipeline_cache/upload_images"
+    },
+    "dry_run": false,
+    "concurrency": {
+      "page_workers": 2,
+      "student_workers": 3
+    },
+    "cache_policy": {
+      "root": "/home/hzh/paper-content-extractor/.exam_pipeline_cache/datasets/8c96d303318125a1",
+      "dataset_cache_id": "8c96d303318125a1",
+      "exam_tree": "teacher_fingerprint_locked_vlm_only_v1",
+      "roi": "question_topology_fingerprint",
+      "retry_scope": "failed_slot_or_item_only"
+    },
+    "input_filter": {
+      "subject": "math_01",
+      "student_id": null
+    },
+    "exam_tree_overrides": null
+  },
+  "visual_extraction_summary": {
+    "documents": 4,
+    "page_calls": 19,
+    "page_retries": 11,
+    "failed_pages": 0,
+    "ocr_used": false
+  },
+  "completed_at": "2026-09-23T17:22:12+08:00",
+  "duration_seconds": 827.623,
+  "performance": {
+    "request_count": 19,
+    "cumulative_operation_seconds": 1981.9998,
+    "failures": 2,
+    "operations": {
+      "page_joint_extraction": {
+        "request_count": 19,
+        "duration_seconds": 1981.9998,
+        "image_count": 28,
+        "image_bytes": 6033867,
+        "attempts": 19,
+        "failures": 2,
+        "cache_hits": 0,
+        "cache_hit_rate": 0.0
+      }
+    }
+  },
+  "summary": {
+    "documents_succeeded": 4,
+    "documents_failed": 0,
+    "documents_needing_review": 3
+  }
+}

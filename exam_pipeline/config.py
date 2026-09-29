@@ -7,7 +7,7 @@ from typing import List
 @dataclass
 class PipelineSettings:
     api_key: str = field(default_factory=lambda: os.getenv("DOUBAO_API_KEY", ""), repr=False)
-    model: str = field(default_factory=lambda: os.getenv("DOUBAO_MODEL", "doubao-seed-2.0-lite"))
+    model: str = field(default_factory=lambda: os.getenv("DOUBAO_MODEL", "doubao-seed-2.1-turbo"))
     endpoint: str = field(default_factory=lambda: os.getenv(
         "DOUBAO_RESPONSES_ENDPOINT",
         os.getenv("DOUBAO_BASE_URL", "https://ark.cn-beijing.volces.com/api/plan/v3").rstrip("/") + "/responses"))

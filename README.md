@@ -27,12 +27,12 @@
 
 ## 模型配置
 
-当前流程固定使用豆包视觉模型：
+当前流程默认使用豆包 Seed 2.1 Turbo 视觉模型，通过火山方舟订阅接口调用：
 
 ```bash
 export DOUBAO_API_KEY='your-api-key'
 export DOUBAO_BASE_URL='https://ark.cn-beijing.volces.com/api/plan/v3'
-export DOUBAO_MODEL='doubao-seed-2.0-lite'
+export DOUBAO_MODEL='doubao-seed-2.1-turbo'
 ```
 
 正式识别时如果未配置 `DOUBAO_API_KEY`，程序会直接报错。
@@ -100,6 +100,8 @@ python3 homework_extractor.py dataset \
 ```
 
 将 `--student-workers 1` 设为 1 可关闭学生卷并发；`--page-workers 1` 可关闭页面并发。并发请求只影响调度，教师题目树、页面校验和最终产物写回顺序不变。
+
+VLM 请求默认使用上传压缩副本，原始图片和输出坐标不变。默认将图片按比例缩放到长边不超过 2300 像素，并以 JPEG 质量 85 上传；副本缓存在 `.exam_pipeline_cache/upload_images/`。可通过 `EXAM_UPLOAD_MAX_LONG_EDGE=0` 关闭缩放压缩，或调整 `EXAM_UPLOAD_JPEG_QUALITY`。
 
 只处理一个学生时，程序仍会先加载对应教师卷：
 

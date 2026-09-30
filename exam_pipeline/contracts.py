@@ -233,7 +233,7 @@ class ExamPackage:
         # additions are additive and are advertised through contract_revision.
         data["schema_version"] = "exam_package.v5"
         data["contract_revision"] = "6"
-        data["pipeline_version"] = "2.12.0"
+        data["pipeline_version"] = "2.15.0"
         data["bbox_format"] = "xyxy"
         data["slot_bbox_format"] = "xyxy"
         data["canonical_canvas"] = {"width": 1654, "height": 2338}

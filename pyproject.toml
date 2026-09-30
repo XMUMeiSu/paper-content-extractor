@@ -28,6 +28,9 @@ py-modules = ["homework_extractor"]
 include = ["exam_pipeline*"]
 exclude = ["paper_exam_structuring_full_delivery*"]
 
+[tool.setuptools.package-data]
+exam_pipeline = ["prompts/*.md"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

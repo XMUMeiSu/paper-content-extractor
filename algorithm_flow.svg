@@ -76,8 +76,8 @@
   <rect class="card" x="190" y="754" width="620" height="130" rx="12"/>
   <text x="500" y="787" text-anchor="middle" class="heading">6. 当前试卷页面视觉提取</text>
   <text x="500" y="814" text-anchor="middle" class="text">题目区域 · 逻辑槽位 · 最终像素坐标 · 答案文本 · 图示区域</text>
-  <text x="500" y="838" text-anchor="middle" class="small">单份试卷页面可并发，请求结果按页序写回</text>
-  <text x="500" y="860" text-anchor="middle" class="small">跨页片段按 semantic_id 合并，坐标仍回写到原页</text>
+  <text x="500" y="838" text-anchor="middle" class="small">页面可并发 · 整页纯定位后转写 · 仅 token 超限后分批转写</text>
+  <text x="500" y="860" text-anchor="middle" class="small">教师/学生单应性配准通过后才允许模板坐标校正</text>
   <path class="arrow" d="M500 884 V918"/>
 
   <rect class="check" x="190" y="922" width="620" height="102" rx="12"/>

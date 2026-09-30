@@ -22,7 +22,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from exam_pipeline.contracts import (
-    OCRBlock as ModularOCRBlock,
     Page as ModularPage,
     PageRegion as ModularPageRegion,
     ExamItem as ModularExamItem,
@@ -113,9 +112,12 @@ def _safe_int_env(name: str, default: int) -> int:
 UPLOAD_MAX_LONG_EDGE = max(0, _safe_int_env("EXAM_UPLOAD_MAX_LONG_EDGE", 2300))
 UPLOAD_JPEG_QUALITY = min(100, max(1, _safe_int_env("EXAM_UPLOAD_JPEG_QUALITY", 85)))
 UPLOAD_CACHE_DIR = os.getenv("EXAM_UPLOAD_CACHE_DIR", "").strip()
+VISUAL_BATCH_ITEMS = min(20, max(1, _safe_int_env("EXAM_VISUAL_BATCH_ITEMS", 4)))
+MAX_OUTPUT_TOKENS = min(
+    131072, max(1024, _safe_int_env("EXAM_MAX_OUTPUT_TOKENS", 32768))
+)
 
 
-OCRBlock = ModularOCRBlock
 Page = ModularPage
 PageRegion = ModularPageRegion
 ExamItem = ModularExamItem
@@ -175,102 +177,6 @@ def image_size(path: Path) -> Tuple[Optional[int], Optional[int]]:
 
 
 CANONICAL_PAGE_SIZE = (1654, 2338)  # Production canonical canvas: width, height
-
-
-def classify_image_medium(path: Path, image: Any) -> bool:
-    """Return True for likely phone photos using filename and corner evidence."""
-    name = path.name.lower()
-    if any(token in name for token in ("phone", "mobile", "cam", "photo", "img_", "wx")):
-        return True
-    if image is None:
-        return False
-    import cv2
-    height, width = image.shape[:2]
-    mh, mw = max(10, int(height * 0.05)), max(10, int(width * 0.05))
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    corners = (gray[:mh, :mw], gray[:mh, -mw:], gray[-mh:, :mw], gray[-mh:, -mw:])
-    return any(float(c.mean()) < 160 for c in corners if c.size)
-
-
-def _rectify_image(image: Any, phone_photo: bool) -> Tuple[Any, Dict[str, Any]]:
-    """Rectify a page with OpenCV; failures return the original image with metadata."""
-    import cv2
-    import numpy as np
-
-    height, width = image.shape[:2]
-    target_w, target_h = CANONICAL_PAGE_SIZE
-    meta: Dict[str, Any] = {
-        "original_size": [int(width), int(height)],
-        "original_shape": [int(height), int(width)],
-        "method": "resize",
-        "rectification_type": "none",
-    }
-    working = image
-    if phone_photo:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        edged = cv2.Canny(cv2.GaussianBlur(gray, (5, 5), 0), 50, 150)
-        closed = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
-        contours, _ = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        for contour in sorted(contours, key=cv2.contourArea, reverse=True):
-            if cv2.contourArea(contour) < height * width * 0.25:
-                break
-            perimeter = cv2.arcLength(contour, True)
-            polygon = cv2.approxPolyDP(contour, 0.02 * perimeter, True)
-            if len(polygon) != 4:
-                continue
-            points = polygon.reshape(4, 2).astype("float32")
-            sums, diffs = points.sum(axis=1), np.diff(points, axis=1).ravel()
-            ordered = np.array([
-                points[np.argmin(sums)], points[np.argmin(diffs)],
-                points[np.argmax(sums)], points[np.argmax(diffs)]
-            ], dtype="float32")
-            destination = np.array([[0, 0], [target_w - 1, 0], [target_w - 1, target_h - 1], [0, target_h - 1]], dtype="float32")
-            working = cv2.warpPerspective(
-                image, cv2.getPerspectiveTransform(ordered, destination),
-                (target_w, target_h), flags=cv2.INTER_LANCZOS4)
-            meta.update({
-                "method": "perspective_4point",
-                "rectification_type": "perspective_4pt",
-                "detected_corners": ordered.tolist(),
-                "detected_pts": ordered.tolist(),
-            })
-            break
-    if meta["method"] == "resize":
-        gray = cv2.cvtColor(working, cv2.COLOR_BGR2GRAY)
-        binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        coordinates = np.column_stack(np.where(binary > 0))
-        angle = 0.0
-        if len(coordinates) >= 100:
-            angle = float(cv2.minAreaRect(coordinates)[-1])
-            if angle < -45:
-                angle = -(90 + angle)
-            elif angle > 45:
-                angle = 90 - angle
-            else:
-                angle = -angle
-        if 0.2 <= abs(angle) <= 20:
-            matrix = cv2.getRotationMatrix2D((width // 2, height // 2), angle, 1.0)
-            working = cv2.warpAffine(working, matrix, (width, height), borderMode=cv2.BORDER_REPLICATE)
-        working = cv2.resize(working, (target_w, target_h), interpolation=cv2.INTER_AREA)
-        meta.update({
-            "rectification_type": "deskew_resize",
-            "deskew_angle": round(angle, 3),
-        })
-    return working, meta
-
-
-def _flatten_illumination(image: Any, kernel_size: int = 51) -> Any:
-    """Remove low-frequency shadows while preserving color ink channels."""
-    import cv2
-    import numpy as np
-    size = kernel_size if kernel_size % 2 else kernel_size + 1
-    ycrcb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
-    y, cr, cb = cv2.split(ycrcb)
-    background = cv2.dilate(y, cv2.getStructuringElement(cv2.MORPH_RECT, (size, size)))
-    background = cv2.medianBlur(background, 21)
-    normalized = np.clip((y.astype("float32") / np.maximum(background, 1)) * 255, 0, 255).astype("uint8")
-    normalized = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(8, 8)).apply(normalized)
-    return cv2.cvtColor(cv2.merge([normalized, cr, cb]), cv2.COLOR_YCrCb2BGR)
 
 
 def preprocess_page(path: Path, output_path: Path) -> Dict[str, Any]:
@@ -405,96 +311,6 @@ def _prepare_upload_paths(paths: Sequence[Path]) -> List[Path]:
     return [_compressed_upload_path(Path(path)) for path in paths]
 
 
-TEACHER_SCHEMA: Dict[str, Any] = {
-    "type": "object", "additionalProperties": False,
-    "required": ["document_type", "subject", "questions", "pages", "warnings"],
-    "properties": {
-        "document_type": {"const": "teacher"}, "subject": {"type": "string"},
-        "student_id": {"type": ["string", "null"]},
-        "pages": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["page", "image"], "properties": {"page": {"type": "integer"}, "image": {"type": "string"}}}},
-        "questions": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["id", "type", "prompt", "standard_answer", "score", "confidence"], "properties": {"id": {"type": "string"}, "type": {"type": "string"}, "prompt": {"type": "string"}, "options": {"type": "array", "items": {"type": "string"}}, "standard_answer": {}, "slot_count": {"type": ["integer", "null"], "minimum": 1, "maximum": 100}, "rubric": {"type": ["string", "null"]}, "score": {"type": ["number", "null"]}, "bbox": {"type": ["array", "null"]}, "confidence": {"type": "number"}}}},
-        "warnings": {"type": "array", "items": {"type": "string"}},
-    },
-}
-
-STUDENT_SCHEMA: Dict[str, Any] = json.loads(json.dumps(TEACHER_SCHEMA).replace('"teacher"', '"student"'))
-STUDENT_SCHEMA["properties"]["student_id"] = {"type": ["string", "null"]}
-# Extraction is deliberately grading-free: the student model reports physical
-# answer evidence only. Scoring and correctness belong to a downstream stage.
-STUDENT_SCHEMA["properties"]["questions"]["items"]["required"] = [
-    "id", "type", "prompt", "answer", "score", "confidence"
-]
-STUDENT_SCHEMA["properties"]["questions"]["items"]["properties"].update({
-    "answer": {},
-    "feedback": {"type": ["string", "null"]},
-})
-
-
-def _teacher_topology(teacher: Dict[str, Any]) -> Dict[str, Any]:
-    """Return the stable teacher-owned hierarchy used to constrain students."""
-    sections = []
-    for section in teacher.get("sections", []) if isinstance(teacher.get("sections"), list) else []:
-        if not isinstance(section, dict):
-            continue
-        questions = []
-        for question in section.get("questions", []) if isinstance(section.get("questions"), list) else []:
-            if not isinstance(question, dict):
-                continue
-            items = []
-            for item in question.get("items", []) if isinstance(question.get("items"), list) else []:
-                if not isinstance(item, dict):
-                    continue
-                items.append({
-                    "item_id": item.get("item_id"),
-                    "item_name": item.get("item_name"),
-                    "question_text": item.get("question_text"),
-                    "item_score": item.get("item_score"),
-                    "standard_answer": item.get("standard_answer"),
-                    "expected_slot_count": item.get("expected_slot_count"),
-                    "slot_count_source": item.get("slot_count_source"),
-                    "rubric": item.get("rubric"),
-                })
-            questions.append({
-                "question_id": question.get("question_id"),
-                "question_num": question.get("question_num"),
-                "question_title": question.get("question_title"),
-                "items": items,
-            })
-        sections.append({"section_id": section.get("section_id"), "section_title": section.get("section_title"), "questions": questions})
-    return {"exam_title": teacher.get("exam_title", ""), "sections": sections}
-
-
-def _prompt(role: str, subject: str, pages: Sequence[Page], teacher: Optional[Dict[str, Any]],
-            roi_records: Optional[Sequence[Dict[str, Any]]] = None,
-            knowledge_context: str = "") -> str:
-    schema = TEACHER_SCHEMA if role == "teacher" else STUDENT_SCHEMA
-    context = ""
-    if teacher:
-        context = (
-            "\n教师卷 Golden 拓扑（题号、题干、小题和分值由教师卷唯一决定）：\n"
-            + json.dumps(_teacher_topology(teacher), ensure_ascii=False)
-            + "\n学生卷只能识别上述题目的 answer、feedback 和 bbox；"
-              "不得创建、删除、合并或改写题号、题干及小题。未作答请保留 null。"
-        )
-    roi_context = ""
-    if roi_records:
-        roi_context = (
-            "\n本次图像全部是已按题目切分的 RoI Patch，不是整页图。"
-            "请按输入顺序逐块提取，不得改写学生作答语序。\nRoI 清单："
-            + json.dumps(list(roi_records), ensure_ascii=False)
-        )
-    return (
-        f"你是教育文档结构化专家。请从给定的{role}作业照片中提取题目级 JSON。\n"
-        "必须只输出一个合法 JSON，不要 Markdown，不要解释。印刷题干、选项、手写内容、红笔批注要区分；看不清时填 null 并在 warnings 说明。\n"
-        "每个带（1）（2）或 (1)(2) 的小题必须分别输出为独立 questions 元素，ID 使用 q<大题号>_<小题号>，禁止把多个小题拼进一个 prompt。\n"
-        "题号应跨页保持一致；数学公式用 LaTeX 字符串，中文保持原文。教师卷的 standard_answer 是红笔/参考答案；学生卷只提取学生作答，教师批语放 feedback，禁止判断正误或计算分数。\n"
-        "每个 questions 元素应输出语义作答点数量 slot_count：多行简答仍计 1，多空填空按独立答案点计数；无法确定时填 null。\n"
-        f"学科目录名: {subject}\nOCR 坐标文本:\n{ocr_text(pages)}{context}{roi_context}"
-        + (f"\n{knowledge_context}" if knowledge_context else "") + "\n"
-        f"JSON Schema:\n{json.dumps(schema, ensure_ascii=False)}"
-    )
-
-
 class StructuredModelResult(dict):
     """Parsed structured output with transport metadata outside JSON keys."""
 
@@ -578,7 +394,7 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
         "model": model,
         "input": [{"role": "user", "content": content}],
         "temperature": 0,
-        "max_output_tokens": 12000,
+        "max_output_tokens": MAX_OUTPUT_TOKENS,
         "text": {"format": {"type": "json_schema", "name": "homework_extraction", "strict": True, "schema": schema}},
     }
     req = urllib.request.Request(endpoint, data=json.dumps(payload).encode(), headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}, method="POST")
@@ -652,43 +468,8 @@ def call_doubao(model: str, api_key: str, prompt: str, paths: Sequence[Path], en
     return StructuredModelResult(parsed, response_audit)
 
 
-def validate_result(result: Dict[str, Any], role: str) -> List[str]:
-    errors = []
-    if result.get("document_type") != role:
-        errors.append(f"document_type 应为 {role}")
-    questions = result.get("questions")
-    if not isinstance(questions, list) and isinstance(result.get("sections"), list):
-        questions = [question for section in result["sections"] if isinstance(section, dict)
-                     for question in section.get("questions", []) if isinstance(question, dict)]
-    if not isinstance(questions, list):
-        errors.append("questions 必须为数组")
-        questions = []
-    for i, q in enumerate(questions):
-        if not q.get("id") and not q.get("question_id"):
-            errors.append(f"questions[{i}].id 缺失")
-        required = "standard_answer" if role == "teacher" else "answer"
-        items = q.get("items") if isinstance(q.get("items"), list) else [q]
-        for item_index, item in enumerate(items):
-            if required not in item and required not in q:
-                errors.append(f"questions[{i}].items[{item_index}].{required} 缺失")
-    return errors
-
-
 def fallback_result(role: str, subject: str, pages: Sequence[Page], warning: str) -> Dict[str, Any]:
     return {"document_type": role, "subject": subject, "student_id": None, "pages": [{"page": p.index, "image": p.path} for p in pages], "questions": [], "warnings": [warning]}
-
-
-def load_golden_template(path: Optional[Path]) -> Optional[Dict[str, Any]]:
-    """Load a Golden page template without coupling this project to the prototype tree."""
-    if not path:
-        return None
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ValueError(f"Golden 模板无法读取: {path}: {exc}") from exc
-    if not isinstance(data, dict) or not isinstance(data.get("pages"), list):
-        raise ValueError("Golden 模板必须是包含 pages 数组的 JSON 对象")
-    return data
 
 
 def _number_from_text(value: Any) -> Optional[int]:
@@ -762,250 +543,6 @@ def _new_sections() -> Dict[str, ExamSection]:
     return {key: ExamSection(f"sec_{key}", title, []) for key, title in (
         ("choice", "一、选择题"), ("fill", "二、填空题"),
         ("solve", "三、解答题"), ("other", "试题"))}
-
-
-def package_from_golden(template: Optional[Dict[str, Any]], pages: Sequence[Page],
-                        role: str, subject: str,
-                        student_id: Optional[str] = None) -> Optional[ExamPackage]:
-    """Build structure from page/item coordinates and answers in a Golden asset."""
-    if not template:
-        return None
-    template_pages = {int(p.get("page_index", i + 1)): p for i, p in enumerate(template.get("pages", [])) if isinstance(p, dict)}
-    sections = _new_sections()
-    matched = 0
-    for page in pages:
-        source = template_pages.get(page.index)
-        if not source:
-            continue
-        for raw in source.get("items", []):
-            if not isinstance(raw, dict):
-                continue
-            item_id = str(raw.get("id", raw.get("item_id", "")))
-            q_num = _number_from_id(item_id) or _number_from_text(raw.get("stem_full_text"))
-            if not q_num:
-                continue
-            item_type = str(raw.get("type", ""))
-            sec_key, sec_title = _section_for_type(item_type)
-            sec = sections[sec_key]
-            sec.section_title = sec_title
-            q_id = f"q{q_num}"
-            question = next((q for q in sec.questions if q.question_id == q_id), None)
-            if question is None:
-                question = ExamQuestion(q_id, q_num, str(raw.get("stem_full_text", "")).split("\n", 1)[0], [])
-                sec.questions.append(question)
-            source_w = float(source.get("width", CANONICAL_PAGE_SIZE[0]) or CANONICAL_PAGE_SIZE[0])
-            source_h = float(source.get("height", CANONICAL_PAGE_SIZE[1]) or CANONICAL_PAGE_SIZE[1])
-            region = _page_region(page, raw.get("bbox"), str(raw.get("stem_full_text", "")), 0.98,
-                                  golden_order=True, source_size=(source_w, source_h))
-            answer = raw.get("ans") if role == "teacher" else raw.get("student_answer_full_text", raw.get("student_answer"))
-            # Typed Golden zones are optional for backward compatibility.  If a
-            # zone is absent, derive a conservative partition from the item box;
-            # the student page later inherits these coordinates after homography.
-            def raw_region(*keys: str) -> Optional[PageRegion]:
-                for key in keys:
-                    if raw.get(key) is not None:
-                        candidate = _page_region(page, raw.get(key), str(raw.get("stem_full_text", "")),
-                                                  raw.get("confidence", 0.98), golden_order=True,
-                                                  source_size=(source_w, source_h))
-                        if candidate:
-                            return candidate
-                return None
-
-            typed_stem = raw_region("stem_bbox", "stem_box", "question_bbox") or copy.deepcopy(region)
-            option_boxes = raw.get("option_bboxes", raw.get("option_boxes", raw.get("options", [])))
-            blank_boxes = raw.get("blank_bboxes", raw.get("blank_boxes", raw.get("blanks", [])))
-            writing_boxes = raw.get("writing_bboxes", raw.get("writing_boxes", raw.get("writing_box")))
-            def raw_regions(value: Any) -> List[PageRegion]:
-                values = value if isinstance(value, list) else [value]
-                # A single bbox is a flat numeric list, not a list of bboxes.
-                if values and all(isinstance(x, (int, float)) for x in values):
-                    values = [values]
-                values = [box.get("bbox", box.get("box", [])) if isinstance(box, dict) else box for box in values]
-                return [candidate for box in values
-                        if (candidate := _page_region(page, box, "", raw.get("confidence", 0.98),
-                                                      golden_order=True, source_size=(source_w, source_h)))]
-            option_regions = raw_regions(option_boxes)
-            blank_regions = raw_regions(blank_boxes)
-            writing_regions = raw_regions(writing_boxes)
-            if region and not any((option_regions, blank_regions, writing_regions)):
-                # Golden files that only carry an item bbox still get typed zones.
-                left, top, right, bottom = region.bbox
-                item_kind = sec_key
-                if item_kind == "choice":
-                    option_regions = [PageRegion(region.page_index, region.page_file,
-                                                  [left, top + (bottom-top)*0.55, right, bottom], region.confidence)]
-                elif item_kind == "fill":
-                    blank_regions = [PageRegion(region.page_index, region.page_file,
-                                                [left, top + (bottom-top)*0.60, right, bottom], region.confidence)]
-                else:
-                    writing_regions = [PageRegion(region.page_index, region.page_file,
-                                                  [left, top + (bottom-top)*0.42, right, bottom], region.confidence)]
-            item = ExamItem(
-                item_id=item_id or f"{q_id}_1", item_name=str(raw.get("title", item_id or f"第{q_num}题")),
-                question_text=str(raw.get("stem_full_text", "")),
-                standard_answer=raw.get("ans", raw.get("standard_answer")) if role == "teacher" else None,
-                expected_slot_count=_positive_int_or_none(
-                    raw.get("slot_count", raw.get("expected_slot_count"))
-                ),
-                slot_count_source=("golden" if _positive_int_or_none(
-                    raw.get("slot_count", raw.get("expected_slot_count"))) else ""),
-                item_score=_float_or_none(raw.get("score", raw.get("full_score"))),
-                # A Golden file is a reference layout, not a source of truth for
-                # an arbitrary student's handwriting. Student answers must come
-                # from VLM/OCR extraction for the current page.
-                student_answer=answer if role == "teacher" else None,
-                answer_regions=[region] if region else [], student_regions=[region] if region and role == "student" else [],
-                    eval_status="pending", eval_feedback="", confidence=_float_or_none(raw.get("confidence")) or 1.0,
-                    item_type=item_type or "other",
-                    rubric=(str(raw.get("rubric")) if raw.get("rubric") is not None else None),
-                    stem_region=typed_stem,
-                    option_regions=option_regions,
-                    blank_regions=blank_regions,
-                    writing_regions=writing_regions,
-                )
-            diagram_values = raw.get("diagram_bboxes", raw.get("diagram_boxes", raw.get("diagrams", [])))
-            if isinstance(diagram_values, dict):
-                diagram_values = [diagram_values.get("bbox", [])]
-            if isinstance(diagram_values, list) and diagram_values and all(isinstance(x, (int, float)) for x in diagram_values):
-                diagram_values = [diagram_values]
-            item.diagrams = [DiagramRef(title=f"{item.item_name} 图形 {idx}", bbox=diagram.bbox)
-                             for idx, box in enumerate(diagram_values or [], 1)
-                             if (diagram := _page_region(page, box, "", 0.98, golden_order=True,
-                                                         source_size=(source_w, source_h)))]
-            item.is_cross_page = bool(raw.get("is_cross_page", False))
-            question.items.append(item)
-            matched += 1
-    if not matched:
-        return None
-    sections_list = [s for s in sections.values() if s.questions]
-    return ExamPackage(
-        exam_id="golden_exam", exam_title=str(template.get("title", "")), subject=subject,
-        document_type=role, student_id=student_id, total_pages=len(pages),
-        page_files=[p.path for p in pages], sections=sections_list,
-        total_score=sum((it.item_score or 0) for s in sections_list for q in s.questions for it in q.items) or None,
-        warnings=[f"Golden 模板命中 {matched} 个结构化项"],
-    )
-
-
-def _blocks_in_span(blocks: Sequence[OCRBlock], top: float, bottom: float, width: float) -> Tuple[str, List[float], Optional[float]]:
-    selected = [b for b in blocks if b.bbox and b.bbox[1] >= top - 8 and b.bbox[1] < bottom]
-    selected.sort(key=lambda b: (b.bbox[1], b.bbox[0]))
-    text = " ".join(b.text.strip() for b in selected if b.text.strip())
-    confidence = min((b.confidence for b in selected if b.confidence is not None), default=None)
-    return text, [0.0, top, width, bottom], confidence
-
-
-def _page_exit_text(value: Any) -> str:
-    """Convert schema-permitted scalar or structured answers into stable text."""
-    if value is None:
-        return ""
-    if isinstance(value, str):
-        return value.strip()
-    if isinstance(value, (dict, list, tuple)):
-        try:
-            return json.dumps(value, ensure_ascii=False, separators=(",", ":")).strip()
-        except (TypeError, ValueError):
-            pass
-    return str(value).strip()
-
-
-def analyze_page_exit(page: Page, sections: Sequence[ExamSection]) -> PageExitContext:
-    """Capture question text, sub-question counts and physical page-end state."""
-    questions = _ordered_questions(sections)
-    if not questions:
-        return PageExitContext(page.index)
-    question = questions[-1]
-    item = question.items[-1] if question.items else None
-    text_candidates = (
-        item.student_answer if item else None,
-        item.standard_answer if item else None,
-        item.question_text if item else None,
-        question.question_title,
-    )
-    text = next((candidate for value in text_candidates
-                 if (candidate := _page_exit_text(value))), "")
-    incomplete_punctuation = set("，,:：；;、—-")
-    incomplete_connectives = ("且", "而", "又", "并且", "由于", "若", "因为", "所以", "如图", "可知", "即", "则", "求", "试求", "解得", "证明", "满足")
-    incomplete_math = set("=+-×÷<≥≤/\\")
-    declared = re.findall(r"(?:\(|（)(\d+)(?:\)|）)", question.question_title or "")
-    declared_count = max((int(value) for value in declared), default=0)
-    actual_count = len(question.items)
-    last_region_bottom = 0.0
-    if item:
-        regions = item.student_regions or item.answer_regions
-        if regions and len(regions[-1].bbox) >= 4:
-            last_region_bottom = float(regions[-1].bbox[3])
-    is_incomplete = bool(text and (text[-1] in incomplete_punctuation or text[-1] in incomplete_math or any(text.endswith(c) for c in incomplete_connectives)))
-    if declared_count > actual_count:
-        is_incomplete = True
-    return PageExitContext(
-        page_index=page.index, page_file=page.path, last_question_id=question.question_id,
-        last_question_num=question.question_num,
-        last_question_title=question.question_title, last_text_tail=text[-80:],
-        is_semantically_incomplete=is_incomplete,
-        last_item_id=item.item_id if item else "", last_item_name=item.item_name if item else "",
-        declared_sub_count=declared_count, actual_sub_count=actual_count,
-        last_region_bottom=last_region_bottom,
-    )
-
-
-def _ordered_questions(sections: Sequence[ExamSection]) -> List[ExamQuestion]:
-    """Flatten sections in physical reading order for cross-page decisions."""
-    questions = [q for section in sections for q in section.questions]
-    def key(question: ExamQuestion) -> Tuple[float, int]:
-        regions = [r for item in question.items for r in (item.student_regions or item.answer_regions) if len(r.bbox) >= 4]
-        top = min((float(r.bbox[1]) for r in regions), default=float("inf"))
-        return top, question.question_num
-    return sorted(questions, key=key)
-
-
-def should_stitch_page(exit_ctx: PageExitContext, next_sections: Sequence[ExamSection]) -> bool:
-    """Apply explicit same-number, sub-question and continuation-starter rules."""
-    questions = _ordered_questions(next_sections)
-    if not exit_ctx.last_question_num or not questions:
-        return False
-    first = questions[0]
-    if first.question_num == exit_ctx.last_question_num:
-        return True
-    text = first.question_title.strip()
-    sub_match = re.match(r"^[（(](\d+)[）)]", text)
-    if sub_match and (int(sub_match.group(1)) > 1 or exit_ctx.is_semantically_incomplete):
-        return True
-    starters = ("解得", "综上所述", "综上", "故：", "故", "证明：", "证明", "如图", "代入得", "又因为", "所以")
-    if exit_ctx.is_semantically_incomplete and text.startswith(starters):
-        return True
-    return exit_ctx.is_semantically_incomplete and not re.search(r"(?:^|[^0-9])\d{1,3}[.、．:：)]", text)
-
-
-def stitch_page_sections(package: ExamPackage, next_sections: List[ExamSection], exit_ctx: PageExitContext) -> bool:
-    """Attach the first continuation item to the previous logical question."""
-    previous = _ordered_questions(package.sections)
-    incoming = _ordered_questions(next_sections)
-    if not previous or not incoming:
-        return False
-    last = previous[-1]
-    if not should_stitch_page(exit_ctx, next_sections):
-        return False
-    first = incoming.pop(0)
-    for item in first.items:
-        item.is_cross_page = True
-        last.items.append(item)
-        if item.answer_regions and item.student_regions:
-            # Keep both physical coordinate streams, as in the prototype's
-            # multi-region Item contract.
-            for region in item.student_regions:
-                if region not in item.answer_regions:
-                    item.answer_regions.append(region)
-    last_title = first.question_title.strip()
-    if last_title and last_title not in last.question_title:
-        last.question_title = f"{last.question_title}\n{last_title}".strip()
-    # Remove the consumed first question from its source section. Empty source
-    # sections are discarded before final serialization.
-    for section in next_sections:
-        if first in section.questions:
-            section.questions.remove(first)
-            break
-    return True
 
 
 def package_from_result(result: Dict[str, Any], pages: Sequence[Page], role: str, subject: str,
@@ -1126,77 +663,6 @@ def package_from_result(result: Dict[str, Any], pages: Sequence[Page], role: str
     )
 
 
-def reconcile_exam_package(package: ExamPackage) -> List[str]:
-    """Merge duplicate cross-page questions and validate sequence and score conservation."""
-    warnings: List[str] = []
-    by_num: Dict[str, ExamQuestion] = {}
-    last_seen_num = 0
-    for section in package.sections:
-        repaired: List[ExamQuestion] = []
-        for question in section.questions:
-            if question.question_num <= 0 or not question.question_title.strip():
-                if by_num:
-                    target = list(by_num.values())[-1]
-                    target.items.extend(question.items)
-                    for item in question.items:
-                        item.is_cross_page = True
-                    warnings.append("发现无题号的跨页小题，已挂接到上一道大题")
-                continue
-            if question.question_id in by_num:
-                target = by_num[question.question_id]
-                existing = {item.item_id: item for item in target.items}
-                for item in question.items:
-                    if item.item_id in existing:
-                        for region in item.answer_regions:
-                            if region not in existing[item.item_id].answer_regions:
-                                existing[item.item_id].answer_regions.append(region)
-                        for region in item.student_regions:
-                            if region not in existing[item.item_id].student_regions:
-                                existing[item.item_id].student_regions.append(region)
-                        if item.student_answer and item.student_answer != existing[item.item_id].student_answer:
-                            existing[item.item_id].student_answer = f"{existing[item.item_id].student_answer or ''}\n{item.student_answer}".strip()
-                    else:
-                        target.items.append(item)
-                    item.is_cross_page = True
-                for item in target.items:
-                    item.is_cross_page = True if len(item.answer_regions) > 1 else item.is_cross_page
-                warnings.append(f"题号 Q{question.question_num} 在多页出现，已合并为一个逻辑题目")
-                continue
-            if last_seen_num and question.question_num < last_seen_num:
-                warnings.append(
-                    f"题号非单调递增：Q{last_seen_num} 后出现 Q{question.question_num}，请记录未解决状态 核对"
-                )
-            by_num[question.question_id] = question
-            last_seen_num = question.question_num
-            for index, item in enumerate(question.items, 1):
-                if not item.item_id:
-                    item.item_id = f"{question.question_id}_{index}"
-                if not item.item_name:
-                    item.item_name = f"{question.question_num}.({index})"
-            repaired.append(question)
-        section.questions = repaired
-    nums = sorted({q.question_num for q in by_num.values()})
-    if nums and nums != list(range(nums[0], nums[-1] + 1)):
-        warnings.append(f"题号序列存在缺口: {nums}")
-    # Page-local extraction appends sections on every page. Consolidate same
-    # section IDs so the final tree is one stable section stream, as in the
-    # prototype's assembled package; discard containers emptied by merges.
-    merged_sections: Dict[str, ExamSection] = {}
-    for section in package.sections:
-        if not section.questions:
-            continue
-        existing = merged_sections.get(section.section_id)
-        if existing is None:
-            merged_sections[section.section_id] = section
-        else:
-            existing.questions.extend(section.questions)
-    package.sections = list(merged_sections.values())
-    from exam_pipeline.scoring import balance_score_tree
-    warnings.extend(balance_score_tree(package))
-    package.warnings.extend(warnings)
-    return warnings
-
-
 def _prepare_paths(paths: Sequence[Path], output: Path, subject: str, role: str) -> Tuple[List[Path], List[Dict[str, Any]], List[str]]:
     normalized: List[Path] = []
     metadata: List[Dict[str, Any]] = []
@@ -1271,6 +737,7 @@ def _process_serial(
     visual_extraction_service = VisualExamExtractionService(
         visual_extraction_request, visual_extraction_provider,
         page_workers=max(1, int(_page_workers or 1)),
+        batch_items=VISUAL_BATCH_ITEMS,
     )
     vlm_only = True
 
@@ -1350,7 +817,7 @@ def _process_serial(
         "output_contract": "ExamPackage(metadata, sections, roi_patches, slots, diagrams, page_files)",
         "canonical_canvas": {"width": 1654, "height": 2338},
         "runtime": {
-            "pipeline_version": "2.12.0",
+            "pipeline_version": "2.15.0",
             "pipeline_order": runtime_pipeline_order,
             "recognition_mode": "vlm_only",
             "production_mode": bool(production_mode),
@@ -1378,8 +845,10 @@ def _process_serial(
                 "authority": "question_slots_coordinates_and_answers",
                 "coordinate_authority": "vlm_original_page_pixels",
                 "max_semantic_attempts_per_item": 2,
-                "batch_size": "one_physical_page_all_items",
-                "batch_policy": "one_page_batch_then_item_retry",
+                "batch_size": VISUAL_BATCH_ITEMS,
+                "batch_policy": "whole_page_geometry_then_whole_page_transcription_and_batches_on_token_limit",
+                "max_output_tokens": MAX_OUTPUT_TOKENS,
+                "registration_policy": "teacher_to_student_homography_before_template_correction",
                 "candidate_visual_review": False,
                 "answer_visual_transcription": bool(semantic_request),
                 "answer_authority": "vlm_original_page",
@@ -1480,14 +949,15 @@ def _process_serial(
                 visual_tree = role == "teacher"
                 cached_tree = None
                 if role == "teacher":
-                    tree_cache_name = "exam_tree_vlm_only_v1"
+                    tree_cache_name = "exam_tree_vlm_only_v2"
                     cache_path = cache_root / tree_cache_name / subject / f"{fingerprint}.json"
                     if cache_path.is_file():
                         try:
                             cached_tree = ExamTreeService.load(
                                 cache_path, expected_subject=subject,
                                 require_valid=True, require_production=False,
-                                allow_valid_draft=True)
+                                allow_valid_draft=True,
+                                reject_failed_draft=True)
                         except Exception as exc:
                             LOGGER.warning("exam_tree_cache_invalid path=%s error=%s", cache_path, exc)
                             cached_tree = None
@@ -1681,7 +1151,7 @@ def _process_serial(
                     else:
                         tree = ExamTreeService.save(tree, tree_path, lock=True)
                         ExamTreeService.apply_to_package(tree, package)
-                        tree_cache_name = "exam_tree_vlm_only_v1"
+                        tree_cache_name = "exam_tree_vlm_only_v2"
                         cache_path = cache_root / tree_cache_name / subject / f"{fingerprint}.json"
                         cache_path.parent.mkdir(parents=True, exist_ok=True)
                         try:

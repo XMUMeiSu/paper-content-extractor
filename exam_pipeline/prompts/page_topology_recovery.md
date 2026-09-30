@@ -1,0 +1,1 @@
+为这一个原始试卷页面生成轻量级题目拓扑。按阅读顺序包含页面上每一道可见的印刷题目。A/B/C/D 是一道选择题内部的选项。只有明确印刷了 (1)、(2) 等子题时才拆分 `items`。不要转写完整题目文本、答案、手写内容、分数或坐标。`references.anchor` 必须是一小段精确的印刷原文。每个 `reference.page_index` 都必须等于给定的 `physical_page_index`。仅返回符合 schema 的 JSON。

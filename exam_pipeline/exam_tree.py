@@ -493,10 +493,32 @@ class ExamTreeService:
         return result
 
     @staticmethod
+    def structure_failure_records(tree: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Return failures retained by the structure-building audit."""
+        coverage = (tree.get("provenance") or {}).get("structure_coverage") or {}
+        failures: List[Dict[str, Any]] = []
+        for failure in coverage.get("failures") or []:
+            if isinstance(failure, dict):
+                failures.append(copy.deepcopy(failure))
+        for key in ("attempts", "page_recovery_attempts"):
+            for attempt in coverage.get(key) or []:
+                if not isinstance(attempt, dict):
+                    continue
+                for failure in attempt.get("failures") or []:
+                    if isinstance(failure, dict):
+                        failures.append(copy.deepcopy(failure))
+                enrichment = attempt.get("text_enrichment") or {}
+                for failure in enrichment.get("failures") or []:
+                    if isinstance(failure, dict):
+                        failures.append(copy.deepcopy(failure))
+        return failures
+
+    @staticmethod
     def load(path: Path, expected_subject: Optional[str] = None,
              require_valid: bool = True,
              require_production: bool = False,
-             allow_valid_draft: bool = False) -> Dict[str, Any]:
+             allow_valid_draft: bool = False,
+             reject_failed_draft: bool = False) -> Dict[str, Any]:
         tree = json.loads(Path(path).read_text(encoding="utf-8"))
         if expected_subject and str(tree.get("subject")) != str(expected_subject):
             raise ValueError(
@@ -504,6 +526,9 @@ class ExamTreeService:
             )
         if require_valid and tree.get("state") != "LOCKED" and not allow_valid_draft:
             raise ValueError("生产 ExamTree 必须先使用 exam_tree_tool.py lock 锁定")
+        if (reject_failed_draft and tree.get("state") == "DRAFT"
+                and ExamTreeService.structure_failure_records(tree)):
+            raise ValueError("DRAFT ExamTree 含有构树失败记录，禁止作为缓存复用")
         declared_fingerprint = str(tree.get("fingerprint") or "")
         actual_fingerprint = tree_fingerprint(tree)
         if (require_valid and declared_fingerprint

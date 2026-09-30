@@ -10,6 +10,7 @@ from pathlib import Path
 
 from .contracts import ExamItem, ExamQuestion, ExamSection, PageRegion
 from .io_utils import atomic_write_json
+from .prompt_loader import load_prompt
 
 LOGGER = logging.getLogger(__name__)
 
@@ -220,6 +221,29 @@ class DocumentStructureService:
         return topology
 
     @staticmethod
+    def _merge_child_pages_into_questions(structure):
+        """Make parent page ownership include every physical child page.
+
+        A printed question number commonly appears at the bottom of one page
+        while later numbered subquestions continue at the top of the next.
+        The child's short anchor is the best available parent anchor on that
+        continuation page.
+        """
+        structure = copy.deepcopy(structure)
+        for section in structure.get('sections') or []:
+            for question in section.get('questions') or []:
+                references = question.get('references') or []
+                known_pages = {ref.get('page_index') for ref in references}
+                for item in question.get('items') or []:
+                    for ref in item.get('references') or []:
+                        page_index = ref.get('page_index')
+                        if page_index not in known_pages:
+                            references.append(copy.deepcopy(ref))
+                            known_pages.add(page_index)
+                question['references'] = references
+        return structure
+
+    @staticmethod
     def _local_ids(topology):
         counts = {}
         for section in topology['sections']:
@@ -256,6 +280,7 @@ class DocumentStructureService:
     @classmethod
     def _topology_to_full(cls, topology, pages):
         check_schema(topology, DOCUMENT_TOPOLOGY_SCHEMA)
+        topology = cls._merge_child_pages_into_questions(topology)
         page_ids = {page.index for page in pages}
         identifiers = cls._local_ids(topology)
         sections = []
@@ -278,9 +303,6 @@ class DocumentStructureService:
                     refs = copy.deepcopy(source_item['references'])
                     if any(ref['page_index'] not in page_ids for ref in refs):
                         raise ValueError('INVALID_PAGE_REFERENCES:' + item_id)
-                    if not {ref['page_index'] for ref in refs}.issubset(
-                            {ref['page_index'] for ref in qrefs}):
-                        raise ValueError('ITEM_OUTSIDE_QUESTION_PAGES:' + item_id)
                     anchor = next((ref['anchor'].strip() for ref in refs
                                    if ref['anchor'].strip()), qanchor)
                     question['items'].append({
@@ -349,14 +371,7 @@ class DocumentStructureService:
             page_failure = None
             accepted = None
             for attempt_index in range(1, self.max_attempts + 1):
-                prompt = (
-                    'Transcribe printed question text from this ONE original exam page. The supplied IDs were '
-                    'generated locally; echo them exactly. Return each question and item listed in expected_nodes. '
-                    'question.text is the printed shared stem on this page. item.text is the complete printed item '
-                    'prompt and all choice options on this page. anchor is a short exact printed phrase visible on '
-                    'this page. Exclude handwriting, answers, corrections, scores and geometry. Do not infer or solve. '
-                    'On retry fix the reported contract error. Return only schema JSON.\n'
-                )
+                prompt = load_prompt('page_text_enrichment')
                 context = {'page_index': page_index, 'expected_nodes': expected,
                            'previous_failure': page_failure, 'schema': PAGE_TEXT_SCHEMA}
                 record = {'phase': 'page_text_enrichment', 'page_index': page_index,
@@ -474,14 +489,7 @@ class DocumentStructureService:
             accepted = None
             page_failure = None
             for attempt_index in range(1, self.max_attempts + 1):
-                prompt = (
-                    'Generate the lightweight question topology for this ONE original exam page. Include every '
-                    'printed question visible on the page in reading order. A/B/C/D are options inside one choice '
-                    'item. Split items only for explicitly printed subquestions such as (1), (2). Do not transcribe '
-                    'full question text, answers, handwriting, scores or geometry. references.anchor is a short exact '
-                    'printed phrase. Every reference.page_index must equal the supplied physical page_index. '
-                    'Return only schema JSON.\n'
-                )
+                prompt = load_prompt('page_topology_recovery')
                 context = {'subject': package.subject, 'physical_page_index': page.index,
                            'whole_document_failures': list(prior_failures),
                            'previous_failure': page_failure,
@@ -536,6 +544,7 @@ class DocumentStructureService:
         for record in raw.get('non_question_pages', []):
             record.setdefault('source', 'original')
         check_schema(raw, DOCUMENT_STRUCTURE_SCHEMA)
+        raw = self._merge_child_pages_into_questions(raw)
         page_map = {p.index: p for p in pages}
         template_map = {p.index: p for p in templates}
 
@@ -564,8 +573,6 @@ class DocumentStructureService:
                         ipages = [ref['page_index'] for ref in child['references']]
                         if not ipages or any(index not in page_map for index in ipages):
                             raise ValueError('INVALID_PAGE_REFERENCES:' + child['item_id'])
-                        if not set(ipages).issubset(qpages):
-                            raise ValueError('ITEM_OUTSIDE_QUESTION_PAGES:' + child['item_id'])
                         item = ExamItem(child['item_id'], child['label'], child['text'],
                                         item_type=child['type'], confidence=0.0,
                                         is_cross_page=len(ipages) > 1)
@@ -663,8 +670,6 @@ class DocumentStructureService:
                     identity('item', iid)
                     ipages = references(child['references'], iid)
                     item_pages.update(ipages)
-                    if not set(ipages).issubset(qpages):
-                        raise ValueError('ITEM_OUTSIDE_QUESTION_PAGES:' + iid)
                     item = ExamItem(iid, child['label'], child['text'], item_type=child['type'],
                                     confidence=0.0, is_cross_page=len(ipages) > 1)
                     item.quality['structure_references'] = copy.deepcopy(child['references'])
@@ -817,15 +822,7 @@ class DocumentStructureService:
         }
         for attempt_index in range(1, self.max_attempts + 1 if self.request else 1):
             retry_topology = True
-            prompt = (
-                'Read ALL original exam pages jointly and return only a LIGHTWEIGHT question topology in reading '
-                'order. Do not transcribe full stems or options in this pass. Preserve sections, printed question '
-                'numbers, explicit (1)(2) subquestions, page ownership and cross-page continuation. A/B/C/D are '
-                'options inside one choice item, never child items. Multiple blanks in one printed subquestion remain '
-                'one item. references.anchor is a short exact printed phrase on that physical page. Do not return IDs, '
-                'answers, handwriting, corrections, scores or coordinates. Explain non-question pages. On retry use '
-                'validation_failures to correct only the topology. Return only schema JSON.\n'
-            )
+            prompt = load_prompt('document_topology')
             context = {'subject': package.subject, 'image_order': views,
                        'validation_failures': failures, 'schema': DOCUMENT_TOPOLOGY_SCHEMA}
             if failures:
@@ -1019,12 +1016,7 @@ class DocumentStructureService:
             views = [{'page_index': page.index, 'source': 'original', 'path': page.path}
                      for page in original_pages]
             paths = [Path(page.path) for page in original_pages]
-            prompt = (
-                'Correct this LIGHTWEIGHT whole-document topology from the original pages and exact validation '
-                'failures. Preserve correct sections, numbering, reading order, subquestions and page ownership. '
-                'Add missing printed questions and fix only conflicting topology. A/B/C/D remain options, not items. '
-                'Return short printed anchors only; do not return full text, IDs, answers or geometry.\n'
-            )
+            prompt = load_prompt('topology_correction')
             record = {'attempt': len(audit.get('attempts', [])) + 1,
                       'kind': 'post_ocr_topology_correction'}
             context = {

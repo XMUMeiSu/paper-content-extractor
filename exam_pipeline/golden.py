@@ -89,6 +89,15 @@ class GoldenTemplateService:
                         "coordinate_format": "normalized_xyxy_0_1000",
                         "question_regions": template_questions,
                         "slots": template_slots,
+                        "registration_sources": [
+                            {
+                                "page_index": page.index,
+                                "page_path": page.path,
+                                "width": int(page.width or 0),
+                                "height": int(page.height or 0),
+                            }
+                            for page in teacher_pages
+                        ],
                     }
                     item.student_answer = None
                     item.student_score = None

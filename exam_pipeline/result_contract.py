@@ -178,7 +178,15 @@ def finalize_answers(package, pages):
                     else:
                         prior = grouped[key]
                         prior["fragments"].extend(part["fragments"])
-                        if prior["text"] is not None and part["text"] is not None:
+                        if (prior["status"] == "BLANK"
+                                and part["status"] == "BLANK"):
+                            # Several physical blank boxes may belong to one
+                            # logical response.  Keeping that logical response
+                            # blank is complete evidence, not an unresolved
+                            # merge merely because both texts are ``None``.
+                            prior["text"] = None
+                            prior["status"] = "BLANK"
+                        elif prior["text"] is not None and part["text"] is not None:
                             prior["text"] += "\n" + part["text"]
                         else:
                             prior["text"] = None
